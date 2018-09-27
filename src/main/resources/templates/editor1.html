@@ -13,17 +13,17 @@
             margin: 1px;
             position: absolute;
             top: 0;
-            bottom:50px;
-            left: 100px;
-            right: 600px;
+            bottom:8%;
+            left: 15%;
+            right: 0%;
         }
         #sub{
             margin: 1px;
             position: absolute;
-            top: 540px;
-            bottom:300px;
-            left: 700px;
-            right: 800px;
+            top: 94%;
+            bottom:4%;
+            left: 90%;
+            right: 5%;
             width: 86px;/*按钮控件的宽度*/
             text-align: center;/*按钮控件中文本居中显示*/
             line-height: 100%;/*用百分比设置行高*/
@@ -98,9 +98,8 @@
     <input id="sub" type="submit" name="sub" value="提交" onclick="copyText()"/>
 </form>
 <select name="themeName" id="themeId" onchange="changeTheme()">
-    <option value="tomorrow">tomorrow</option>
-    <option value="monokai">monokai</option>
-    <option value="twilight">twilight</option>
+    <optgroup label="Bright"><option value="chrome">Chrome</option><option value="clouds">Clouds</option><option value="crimson_editor">Crimson Editor</option><option value="dawn">Dawn</option><option value="dreamweaver">Dreamweaver</option><option value="eclipse">Eclipse</option><option value="github">GitHub</option><option value="iplastic">IPlastic</option><option value="solarized_light">Solarized Light</option><option value="textmate">TextMate</option><option value="tomorrow">Tomorrow</option><option value="xcode">XCode</option><option value="kuroir">Kuroir</option><option value="katzenmilch">KatzenMilch</option><option value="sqlserver">SQL Server</option></optgroup>
+    <optgroup label="Dark"><option value="ambiance">Ambiance</option><option value="chaos">Chaos</option><option value="clouds_midnight">Clouds Midnight</option><option value="dracula">Dracula</option><option value="cobalt">Cobalt</option><option value="gruvbox">Gruvbox</option><option value="gob">Green on Black</option><option value="idle_fingers">idle Fingers</option><option value="kr_theme">krTheme</option><option value="merbivore">Merbivore</option><option value="merbivore_soft">Merbivore Soft</option><option value="mono_industrial">Mono Industrial</option><option value="monokai">Monokai</option><option value="pastel_on_dark">Pastel on dark</option><option value="solarized_dark">Solarized Dark</option><option value="terminal">Terminal</option><option value="tomorrow_night">Tomorrow Night</option><option value="tomorrow_night_blue">Tomorrow Night Blue</option><option value="tomorrow_night_bright">Tomorrow Night Bright</option><option value="tomorrow_night_eighties">Tomorrow Night 80s</option><option value="twilight">Twilight</option><option value="vibrant_ink">Vibrant Ink</option></optgroup>
 </select>
 <script type="text/javascript">
     function copyText(){
