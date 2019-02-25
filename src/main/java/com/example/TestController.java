@@ -54,6 +54,11 @@ public class TestController {
         return "zero";
     }
 
+    @RequestMapping("differentPath")
+    public String differentPath(){
+        return "differentDir";
+    }
+
     @RequestMapping("submit/text")
     @ResponseBody
     public String subText(String subTxt) throws Exception {
