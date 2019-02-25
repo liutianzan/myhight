@@ -1,0 +1,44 @@
+        0x96, 0x3c, 0x88, 0x5a, 0xbe, 0xdf, 0x4a, 0x35, 0x47, 0xb0, 0xb6, 0x4e, 0xc0, 0xd5, 0xec, 0x71, 
+        0x62, 0x1f, 0x7a, 0x4d, 0x1d, 0x55, 0x74, 0x82, 0x7b, 0x12, 0xaa, 0x32, 0xcf, 0x5e, 0x5d, 0x36];
+
+/* The permutation corresponding to the ShifRow 5-4-3-2 */
+SR = Permutation: [20, 17, 14, 11, 24, 21, 18, 15, 28, 25, 22, 19,  0, 29, 26, 23, 4, 1, 30, 27, 8, 5, 2, 31, 12, 9, 6, 3, 16, 13, 10, 7];
+
+/* Parallel application of a sequence of S-boxes*/
+SLayer = SboxSequence:
+[S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S, S];
+
+/* Linear layer: in WordOriented model, the binary representation of the matrix is not important */
+M = Matrix :
+[[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1], [1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]] with BranchNumber 5;
+
+
+/* Whitening key addition */
+p[1]<0:31> = p[0]<0:31> XOR sk[0]<0:31>;
+
+/* Key Schedule */
+for j in [0:1] do
+    sk[j+1]<0:31> = sk[j]<0:31>  <<< 5;
+end for;
+
+/* Cipher */
+for i in [1:2] do
+    q[i]<0:31> = SLayer(p[i]<0:31>);  // Sbox Layer
+    u[i]<0:31> = SR(q[i]<0:31>);       // ShiftRow
+
+    /* Mix Columns */
+    v[i]<0:3> = M(u[i]<0:3>);
+    v[i]<4:7> = M(u[i]<4:7>);
+    v[i]<8:11> = M(u[i]<8:11>);
+    v[i]<12:15> = M(u[i]<12:15>);
+    v[i]<16:19> = M(u[i]<16:19>);
+    v[i]<20:23> = M(u[i]<20:23>);
+    v[i]<24:27> = M(u[i]<24:27>);
+    v[i]<28:31> = M(u[i]<28:31>);
+
+
+    p[i+1]<0:31> = v[i]<0:31> XOR sk[i]<0:31>;
+end for;
+
+
+sk[0]<0:31> >= 1; // The difference of the master key is nonzero.

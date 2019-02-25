@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Text</title>
+</head>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<body>
+
+<input type="text" id="txt">
+<input value="加法" type="button" id="but1" onclick="copyText1()">
+<input value="乘法" type="submit" id="but2" name="" onclick="copyText2()">
+<input type="text" id="wen">
+
+<script type="text/javascript">
+
+    $(function(){
+
+        $('#but1').click(function(){
+
+            $.ajax({
+
+                type: "GET",
+
+                url: "/testA?subText="+$('#txt').val(),
+
+                success: function(data){
+                    $('#wen').empty();   //清空resText里面的所有内容
+
+                    var html = data.toString();
+
+                    var input=document.getElementById("wen");
+                    input.value = html.valueOf();
+                    return true;
+                },
+                error: function(err) {
+                    alert(err);
+                }
+
+            });
+
+        });
+        $('#but2').click(function(){
+
+            $.ajax({
+
+                type: "GET",
+
+                url: "/testB?subText="+$('#txt').val(),
+
+                success: function(data){
+                    $('#wen').empty();   //清空resText里面的所有内容
+
+                    var html = data.toString();
+
+                    var input=document.getElementById("wen");
+                    input.value = html.valueOf();
+                    return true;
+                },
+                error: function(err) {
+                    alert(err);
+                }
+
+            });
+
+        });
+    });
+
+</script>
+
+
+<script type="text/javascript">
+    function copyText1(){
+        var a=document.getElementById("txt")//通过ByTagName,ByClassName,ById获取a元素
+        var input=document.getElementById("hid1");
+        input.value=a.value;
+        return ture;
+    }
+    function copyText2(){
+        var a=document.getElementById("txt")//通过ByTagName,ByClassName,ById获取a元素
+        var input=document.getElementById("hid2");
+        input.value=a.value;
+        return ture;
+    }
+</script>
+
+</body>
+</html>
