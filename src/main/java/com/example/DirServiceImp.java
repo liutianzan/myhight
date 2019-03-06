@@ -2,72 +2,90 @@ package com.example;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
-import java.io.File;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class DirServiceImp implements DirService {
 
-    @Value("${different.path}")
-    private String differentPath;
+    @Value("${sol.file.path}")
+    private String solFilePath;
+    @Value("${remove.sol.file}")
+    private String removeFile;
 
     @Override
-    public String getDir() {
-        List<String> filenameList =  getFiles(differentPath);
-        String res = "<ul>";
+    public String getDir(String projectName) {
+        List<String> filenameList =  getFileName(solFilePath);
 
+        String res = "<table id =\"fileDirectory\" >";
+        int count = 0;
         for(String filename:filenameList){
-            res = "<li>"+filename+"</li>";
+            if(count%7==0){
+                res+="<tr style=\"height: 150px\">";
+            }
+            res+= "<td style=\"height: 110px;width: 130px\" align=\"center\" valign =\"middle\"><div id=\"pic\"><a href=\""+projectName+"/getFile/"+filename+"\"><img src=\"myPicture/fileImj.jpg\" id=\"filePic\"/></a>\n<div id=\"picLian\"><span>"+filename+"</span></div></div></td>";
+            if(count%7==6){
+                res+="</tr>";
+            }
+            count++;
         }
-        res+="</ul>";
+        if(count%7!=0){
+            res+="</tr>";
+        }
+        res+="</table>";
         return res;
     }
 
-    public List<String> getFiles(String path) {
+    @Override
+    public String getContent(String fileName) throws Exception {
+        String filePath = solFilePath+fileName;
+        String result = "";
+        File file = new File(filePath);
+        FileReader fr = new FileReader(file);
+        BufferedReader br = new BufferedReader(new FileReader(file));//构造一个BufferedReader类来读取文件
+        String s = null;
+        while((s = br.readLine())!=null){//使用readLine方法，一次读一行
+            result+=System.lineSeparator()+s;
 
-        List<String> filenameList = new ArrayList<>();
-        File file = new File(path);
-
-        // 如果这个路径是文件夹
-
-        if (file.isDirectory()) {
-
-
-            // 获取路径下的所有文件
-
-            File[] files = file.listFiles();
-
-            for (int i = 0; i < files.length; i++) {
-                filenameList.add(file.getName());
-            }
         }
+        br.close();
+        return result;
+    }
+    @Override
+    public List<String> getFileName(String path)
+    {
+        Pattern pat=Pattern.compile("\\S+\\.sol");
+        File file = new File(path);
+        List<String> result = new ArrayList<String>();
+        String [] fileName = file.list();
 
-        // 如果还是文件夹 递归获取里面的文件 文件夹
-
-//                if (files[i].isDirectory()) {
-//
-//                    System.out.println("目录：" + files[i].getPath());
-//
-////                    getFiles(files[i].getPath());
-//
-////                } else {
-////
-////                    System.out.println("文件：" + files[i].getPath());
-////
-////                }
-//                }
-//            }
-//
-//        } else {
-//
-//            System.out.println("文件：" + file.getPath());
-//
-//        }
-        return filenameList;
-
+        for(String s:fileName){
+            Matcher mat=pat.matcher(s);
+            if(mat.matches())
+            result.add(s);
+        }
+        return result;
     }
 
+    @Override
+    public void removeSolFile() throws InterruptedException, IOException {
+        String pathName = removeFile;
 
+        Process process = null;
+
+        String command1 = "chmod 777 " + pathName;
+        process = Runtime.getRuntime().exec(command1);
+        process.waitFor();
+
+        String command2 = "/bin/sh " + pathName;
+        Runtime.getRuntime().exec(command2).waitFor();
+
+    }
 }

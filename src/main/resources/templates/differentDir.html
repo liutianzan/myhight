@@ -7,7 +7,7 @@
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
 <body>
-<textarea class="area"></textarea>
+<div class= "externalHtml"></div>
 <script type="application/javascript">
     function reloadView(){
         $.ajax({
@@ -15,7 +15,8 @@
             type:'GET',
             async:true,    //或false,是否异步
             success:function(result){
-                $('.area').html(result);
+                $('.externalHtml').html(result);
+
 
             },
             error: function (XMLHttpRequest, txtStatus, errorThrown)

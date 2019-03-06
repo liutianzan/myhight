@@ -44,4 +44,10 @@ public class Message {
         fail.code = code;
         return fail;
     }
+    public static Message customize(String code,Object date){
+        Message customized = new Message();
+        customized.code = code;
+        customized.date = date;
+        return customized;
+    }
 }

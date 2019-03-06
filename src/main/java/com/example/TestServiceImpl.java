@@ -17,11 +17,28 @@ import java.util.regex.Pattern;
 
 @Service
 public class TestServiceImpl implements TestService {
-    public static String pathName1 = "/Users/yueliu/Desktop/CryptoMIP/";
+
+    @Value("${python.file.path}")
+    public String pythonFilePath;
+
     @Value("${test.path.name}")
     private String filepath;
 
-    public void test(){
+    @Value("${run.program.script}")
+    private String runScriptPath;
+
+    @Value("${tomporary.file.path}")
+    private String temporaryFilePath;
+
+    @Value("${delete.file.script}")
+    private String deleteFileScript;
+
+    @Value("${compile.file.path}")
+    private String compileFilePath;
+    @Value("${comile.result.path}")
+    private String compileResult;
+
+    public void test() {
         String text = "<div class=\"ace_line\" style=\"height: 16px; top: 0px;\"><span class=\"ace_storage ace_type\">function</span> <span class=\"ace_entity ace_name ace_function\">foo</span><span class=\"ace_paren ace_lparen\">(</span><span class=\"ace_variable ace_parameter\">items</span><span class=\"ace_paren ace_rparen\">)</span> <span class=\"ace_paren ace_lparen\">{</span></div>\n" +
                 "<div class=\"ace_line\" style=\"height: 16px; top: 16px;\">    <span class=\"ace_identifier\">var</span> <span class=\"ace_identifier\">i</span><span class=\"ace_punctuation ace_operator\">;</span></div>\n" +
                 "<div class=\"ace_line\" style=\"height: 16px; top: 32px;\">    <span class=\"ace_keyword\">for</span> <span class=\"ace_paren ace_lparen\">(</span><span class=\"ace_identifier\">i</span> <span class=\"ace_keyword ace_operator\">=</span> <span class=\"ace_constant ace_numeric\">0</span><span class=\"ace_punctuation ace_operator\">;</span> <span class=\"ace_identifier\">i</span> <span class=\"ace_keyword ace_operator\">&lt;</span> <span class=\"ace_identifier\">items</span><span class=\"ace_punctuation ace_operator\">.</span><span class=\"ace_support ace_constant\">length</span><span class=\"ace_punctuation ace_operator\">;</span> <span class=\"ace_identifier\">i</span><span class=\"ace_keyword ace_operator\">++</span><span class=\"ace_paren ace_rparen\">)</span> <span class=\"ace_paren ace_lparen\">{</span></div>\n" +
@@ -32,18 +49,19 @@ public class TestServiceImpl implements TestService {
         Pattern r = Pattern.compile(pat);
         Matcher m = r.matcher(text);
         String res = "";
-        while(m.find()) {
+        while (m.find()) {
             String data = m.group(0);
             if (!"".equals(data))
 
-                res+=data.substring(1,data.length()-1);
+                res += data.substring(1, data.length() - 1);
         }
         System.out.println(res);
     }
+
     @Override
-    public String saveText(String subText) throws Exception{
-        System.out.println(subText+"1");
-        if(subText==null||subText.equals(""))return null;
+    public String saveText(String subText) throws Exception {
+        System.out.println(subText + "1");
+        if (subText == null || subText.equals("")) return null;
         FileWriter fw = null;
 
 //        String pattern = "<div class=\"ace_line\" style=\".*\">(.*)</span></div>";
@@ -74,10 +92,10 @@ public class TestServiceImpl implements TestService {
         String filename = testUUidUtil.getUUID32();
 //        resStr = resStr.replace("&gt;",">");
 //        resStr = resStr.replace("&lt;","<");
-        File f = new File("/Users/yueliu/Desktop/ttttttt.txt");
-        if(!resStr.equals("")){
+        File f = new File(temporaryFilePath);
+        if (!resStr.equals("")) {
             try {
-                if(!f.exists()){
+                if (!f.exists()) {
                     f.createNewFile();
                 }
                 System.out.println(4);
@@ -91,16 +109,22 @@ public class TestServiceImpl implements TestService {
                 e.printStackTrace();
             }
         }
-        Map<String,String> res = new HashMap<>();
-        res.put("成功",resStr);
+        Map<String, String> res = new HashMap<>();
+        res.put("成功", resStr);
         String result = savePython();
         deletePython();
         return result;
     }
 
     @Override
+    public String complieProject() throws Exception {
+        String res = compilePython();
+        return res;
+    }
+
+    @Override
     public String buttonA(String sub) throws IOException, InterruptedException {
-        String [] args = sub.split(",");
+        String[] args = sub.split(",");
         PythonInterpreter interpreter = new PythonInterpreter();
         interpreter.execfile("/Users/yueliu/Desktop/cal.py");
 
@@ -113,7 +137,7 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public Object buttonB(String sub) throws IOException, InterruptedException {
-        String [] args = sub.split(",");
+        String[] args = sub.split(",");
         PythonInterpreter interpreter = new PythonInterpreter();
         interpreter.execfile("/Users/yueliu/Desktop/cal.py");
 
@@ -126,9 +150,9 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public String savePython() throws InterruptedException, IOException {
-        String pathName = "/Users/yueliu/Desktop/CryptoMIP/test.sh";
+        String pathName = runScriptPath;
 
-        Process process =null;
+        Process process = null;
 
         String command1 = "chmod 777 " + pathName;
         process = Runtime.getRuntime().exec(command1);
@@ -136,16 +160,16 @@ public class TestServiceImpl implements TestService {
 
         String command2 = "/bin/sh " + pathName;
         Runtime.getRuntime().exec(command2).waitFor();
-        File file = new File(pathName1+"result.txt");
+        File file = new File(pythonFilePath + "result.txt");
         StringBuilder result = new StringBuilder();
-        try{
+        try {
             BufferedReader br = new BufferedReader(new FileReader(file));//构造一个BufferedReader类来读取文件
             String s = null;
-            while((s = br.readLine())!=null){//使用readLine方法，一次读一行
-                result.append(System.lineSeparator()+s);
+            while ((s = br.readLine()) != null) {//使用readLine方法，一次读一行
+                result.append(System.lineSeparator() + s);
             }
             br.close();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         System.out.println(result.toString());
@@ -154,9 +178,9 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public void deletePython() throws InterruptedException, IOException {
-        String pathName = "/Users/yueliu/Desktop/CryptoMIP/delete.sh";
+        String pathName = deleteFileScript;
 
-        Process process =null;
+        Process process = null;
 
         String command1 = "chmod 777 " + pathName;
         process = Runtime.getRuntime().exec(command1);
@@ -164,5 +188,50 @@ public class TestServiceImpl implements TestService {
 
         String command2 = "/bin/sh " + pathName;
         Runtime.getRuntime().exec(command2).waitFor();
+    }
+
+    @Override
+    public String compilePython() throws InterruptedException, IOException {
+        ProcessBuilder pb = new ProcessBuilder("./" + "compile.sh");
+        pb.directory(new File(compileFilePath));
+        int runningStatus = 0;
+        String stt = null;
+        try {
+            Process p = pb.start();
+            BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+            while ((stt = stdInput.readLine()) != null) {
+                System.out.println(stt);
+            }
+            while ((stt = stdError.readLine()) != null) {
+                System.out.println(stt);
+            }
+            try {
+                runningStatus = p.waitFor();
+            } catch (InterruptedException e) {
+                System.out.println(e);
+                e.printStackTrace();
+            }
+        } catch (IOException e) {
+            System.out.println(e);
+            e.printStackTrace();
+        }
+        String result = getCompileContent();
+        return result;
+    }
+    public String getCompileContent(){
+        File file = new File(compileResult);
+        StringBuilder result = new StringBuilder();
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));//构造一个BufferedReader类来读取文件
+            String s = null;
+            while ((s = br.readLine()) != null) {//使用readLine方法，一次读一行
+                result.append(System.lineSeparator() + s);
+            }
+            br.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result.toString();
     }
 }

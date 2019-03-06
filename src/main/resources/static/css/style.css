@@ -50,17 +50,32 @@ body{
  #sub3{
 	 position: relative;
 	 left: 0%;
-	 top:10%;
+	 top:20%;
  }
  #sub4{
 	 position: relative;
 	 left: 10%;
-	 top:10%;
+	 top:20%;
  }
  #sub5{
 	 position: relative;
-	 left: 25%;
-	 top:20%;
+	 left: 0%;
+	 top:40%;
+ }
+ #middle{
+	 position: relative;
+	 left: 10%;
+	 top:40%;
+ }
+ #bitDif{
+	 position: relative;
+	 left: 0%;
+	 top: 15%;
+ }
+ #trunckDif{
+	 position: relative;
+	 left: 10%;
+	 top:15%;
  }
 .message.warning  {
 	background: rgba(255, 255, 255, 0.33);

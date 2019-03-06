@@ -14,8 +14,8 @@ body {
 #sub{
     margin: 1px;
     position: relative;
-    top: 40%;
-    bottom:3%;
+    top: 20%;
+    bottom:60%;
     left: 65%;
     right: 30%;
     width: 86px;/*按钮控件的宽度*/
@@ -80,8 +80,18 @@ body {
     position: relative;
     left: 1%;
     top: 30%;
-    height: 400px;
+    height: 80px;
     right: 20%;
+    bottom: 10%;
+}
+#subfanhui1{
+    position: relative;
+    left: 1%;
+    top: 48%;
+    height: 800px;
+    right: 20%;
+    bottom: 10%;
+
 }
 #beijing{
     position: absolute;
@@ -190,6 +200,14 @@ input{
     height: 80px;
     width: 650px;
 }
+#sub9{
+    position: relative;
+    top: 5%;
+    left: 12%;
+    right: 10%;
+    height: 80px;
+    width: 650px;
+}
 @media (max-width:320px){
     .message.warning  {
         margin:8% auto 0;
@@ -278,17 +296,22 @@ input[type="submit"]:hover {
 }
 .bianyi{
     left: 3%;
-    width: 130px;
+    width: 80px;
     height: 50px;
 }
 .bianyi1{
     left: 3%;
-    width: 130px;
+    width: 100px;
     height: 50px;
 }
 .bianyi2{
     left: 3%;
-    width: 130px;
+    width: 100px;
+    height: 50px;
+}
+.bianyi3{
+    left: 3%;
+    width: 100px;
     height: 50px;
 }
 .fontSize{
@@ -361,4 +384,52 @@ input[type="submit"]:hover {
     position:relative;
     z-index:1;
     z-index:1;
+}
+.externalHtml{
+    position: relative;
+    left: 20%;
+    width: 1200px;
+    height: 770px;
+    background-color: #f6f6f6;
+}
+.externalHtml3{
+    position: relative;
+    top: 10%;
+    width: 1200px;
+    height: 700px;
+    background-color: #f6f6f6;
+}
+.rightTrace{
+    position: relative;
+    width: 1200px;
+    height: 1000px;
+    left: 20%;
+}
+#dirPath{
+    position: relative;
+    left: -30%;
+}
+#nameFile{
+    position: absolute;
+    left: 80%;
+    top: 2%;
+    width: 200px;
+}
+#filePic{
+    width: 60px;
+    height: 70px;
+}
+#picLian{
+    position: relative;
+    top: 1%;
+}
+.solver{
+    position: relative;
+    top:10%;
+    left: 40%;
+}
+#htmlTrace{
+    position: relative;
+    top:10%;
+    left: 20%;
 }
