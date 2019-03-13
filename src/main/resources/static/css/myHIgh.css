@@ -433,3 +433,8 @@ input[type="submit"]:hover {
     top:10%;
     left: 20%;
 }
+#htmlTraceBit{
+    position: relative;
+    top:10%;
+    left: 1%;
+}

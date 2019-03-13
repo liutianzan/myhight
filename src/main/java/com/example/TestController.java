@@ -120,6 +120,7 @@ public class TestController {
             if("".equals(subTxt))return "";
             String s = testService.saveText(subTxt);
             html = subTxt;
+            if(cookie!=null)
             session.setAttribute(cookie.getName(),html);
             model.addAttribute("html",subTxt);
 //            model.addAttribute("htmlCode",html);

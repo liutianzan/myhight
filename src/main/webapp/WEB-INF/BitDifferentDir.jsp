@@ -29,7 +29,7 @@
         <input type="submit" value="删除文件" class="bianyi" id="removeFile">
     </div>
     <div id="subfanhui1">
-        <input id="sub" type="submit" name="sub" value="返回" onclick='location.href=("${pageContext.request.contextPath}/dif/Truncated")'/>
+        <input id="sub" type="submit" name="sub" value="返回" onclick='location.href=("${pageContext.request.contextPath}/dif/bit")'/>
     </div>
 </div>
 
@@ -41,7 +41,7 @@
     function reloadView(){
 
         $.ajax({
-            url:'${pageContext.request.contextPath}/diffDir',
+            url:'${pageContext.request.contextPath}/bitDiffDir',
             type:'GET',
             async:true,    //或false,是否异步
             success:function(result){
@@ -87,22 +87,22 @@
         },
 
         doLogin:function() {
-        $.get("/removeSol",function(data){
+            $.get("/removeBitSol",function(data){
 
-        });
-    },
-    login:function() {
-        $.get("${pageContext.request.contextPath}/removeSol",function(data){
-            if(data=="无可删除文件"){
+            });
+        },
+        login:function() {
+            $.get("${pageContext.request.contextPath}/removeBitSol",function(data){
+                if(data=="无可删除文件"){
 
-                swal("无可删除文件"," ","error");
-            }else{
+                    swal("无可删除文件"," ","error");
+                }else{
 
-                location.reload(true);
-            }
+                    location.reload(true);
+                }
 
-        });
-    }
+            });
+        }
 
     };
     $(function(){
