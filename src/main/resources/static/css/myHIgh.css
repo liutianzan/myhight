@@ -391,6 +391,9 @@ input[type="submit"]:hover {
     width: 1200px;
     height: 770px;
     background-color: #f6f6f6;
+    overflow:auto; /*需要的时候会出现滚动条*/
+    overflow-x:auto; /*控制X方向的滚动条*/
+    overflow-y:auto; /*控制Y方向的滚动条*/
 }
 .externalHtml3{
     position: relative;
