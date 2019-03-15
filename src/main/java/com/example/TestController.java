@@ -28,7 +28,11 @@ public class TestController {
         return "login";
     }
     @RequestMapping("middle")
-    public String middle(){
+    public String middle(Model model,HttpServletRequest request){
+        HttpSession session = request.getSession();
+        Cookie cookie = CookieUtil.getToken(request);
+        if(cookie!=null)
+            model.addAttribute("html",session.getAttribute(cookie.getName()));
         return "middle";
     }
 
@@ -82,22 +86,38 @@ public class TestController {
     }
 
     @RequestMapping("impossible")
-    public String impossible() {
+    public String impossible(Model model,HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Cookie cookie = CookieUtil.getToken(request);
+        if(cookie!=null)
+            model.addAttribute("html",session.getAttribute(cookie.getName()));
         return "impossible";
     }
 
     @RequestMapping("liner")
-    public String liner() {
+    public String liner(Model model,HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Cookie cookie = CookieUtil.getToken(request);
+        if(cookie!=null)
+            model.addAttribute("html",session.getAttribute(cookie.getName()));
         return "liner";
     }
 
     @RequestMapping("base")
-    public String base() {
+    public String base(Model model,HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Cookie cookie = CookieUtil.getToken(request);
+        if(cookie!=null)
+            model.addAttribute("html",session.getAttribute(cookie.getName()));
         return "base";
     }
 
     @RequestMapping("zero")
-    public String zero() {
+    public String zero(Model model,HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Cookie cookie = CookieUtil.getToken(request);
+        if(cookie!=null)
+            model.addAttribute("html",session.getAttribute(cookie.getName()));
         return "zero";
     }
 

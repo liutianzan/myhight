@@ -1,5 +1,6 @@
 package com.example.linerTrunk;
 
+import com.com.test.pojo.Message;
 import com.example.Bit.BitDifferentService;
 import com.example.ComplieControll;
 import com.example.CookieUtil;
@@ -83,5 +84,11 @@ public class LinerTrunkControll {
             return "分析失败";
         }
 
+    }
+    @RequestMapping("/getLinerTrunkCompileStatus")
+    @ResponseBody
+    public Message getComplieStatus(){
+        String result = linerTrunkService.getCompileContent();
+        return Message.customize(finsishComplie+"",result);
     }
 }

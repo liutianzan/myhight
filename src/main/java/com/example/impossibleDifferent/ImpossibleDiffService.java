@@ -1,10 +1,8 @@
-package com.example.linerTrunk;
-
-import com.com.test.pojo.Message;
+package com.example.impossibleDifferent;
 
 import java.io.IOException;
 
-public interface linerTrunkService {
+public interface ImpossibleDiffService {
     String saveText(String subText) throws Exception;
     String savePython() throws InterruptedException, IOException;
     void deletePython() throws InterruptedException, IOException;

@@ -1,4 +1,4 @@
-package com.example.linerTrunk;
+package com.example.divsion;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -6,28 +6,27 @@ import org.springframework.stereotype.Service;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
-
 @Service
-public class linerTrunkServiceImpl implements linerTrunkService {
-    @Value("${liner.python.path}")
+public class DivsionServiceImpl implements DivsionService {
+    @Value("${div.python.path}")
     private String pythonFilePath;
 
-    @Value("${run.linerTrunk.script}")
+    @Value("${run.div.script}")
     private String runScriptPath;
 
-    @Value("${delete.linerTrunk.file.script}")
+    @Value("${delete.div.file.script}")
     private String deleteFileScript;
 
-    @Value("${temporary.linerTrank.file.path}")
+    @Value("${temporary.div.file.path}")
     private String temporaryFilePath;
 
-    @Value("${remove.linerTrunk.solFile}")
+    @Value("${remove.div.solFile}")
     private String removeFile;
 
-    @Value("${compile.linerTrunk.fenxi.path}")
+    @Value("${compile.div.fenxi.path}")
     private String compileFilePath;
 
-    @Value("${compile.linerTrunl.result.path}")
+    @Value("${compile.div.result.path}")
     private String compileResult;
 
     @Override
@@ -70,7 +69,7 @@ public class linerTrunkServiceImpl implements linerTrunkService {
 
         String command2 = "/bin/sh " + pathName;
         Runtime.getRuntime().exec(command2).waitFor();
-        File file = new File(pythonFilePath + "resultLinerTrunk.txt");
+        File file = new File(pythonFilePath + "resultDiv.txt");
         StringBuilder result = new StringBuilder();
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));//构造一个BufferedReader类来读取文件
@@ -121,7 +120,7 @@ public class linerTrunkServiceImpl implements linerTrunkService {
     }
     @Override
     public String compilePython() throws InterruptedException, IOException {
-        ProcessBuilder pb = new ProcessBuilder("./" + "compileLiner.sh");
+        ProcessBuilder pb = new ProcessBuilder("./" + "compileDiv.sh");
         pb.directory(new File(compileFilePath));
         int runningStatus = 0;
         String stt = null;

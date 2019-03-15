@@ -1,5 +1,6 @@
 package com.example.ZeroRelated.Trunk;
 
+import com.com.test.pojo.Message;
 import com.example.ComplieControll;
 import com.example.CookieUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,5 +83,11 @@ public class ZcTrunkControll {
             return "分析失败";
         }
 
+    }
+    @RequestMapping("/getZcTrunkCompileStatus")
+    @ResponseBody
+    public Message getComplieStatus(){
+        String result = zcTrunkService.getCompileContent();
+        return Message.customize(finsishComplie+"",result);
     }
 }

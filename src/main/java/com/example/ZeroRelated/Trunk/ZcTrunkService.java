@@ -9,4 +9,5 @@ public interface ZcTrunkService {
     void removeSolFile() throws InterruptedException, IOException;
     String complieProject() throws Exception;
     String compilePython() throws InterruptedException, IOException;
+    String getCompileContent();
 }

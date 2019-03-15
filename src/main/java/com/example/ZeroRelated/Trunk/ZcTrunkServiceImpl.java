@@ -148,6 +148,7 @@ public class ZcTrunkServiceImpl implements ZcTrunkService {
         String result = getCompileContent();
         return result;
     }
+    @Override
     public String getCompileContent(){
         File file = new File(compileResult);
         StringBuilder result = new StringBuilder();

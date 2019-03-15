@@ -1,9 +1,8 @@
-package com.example.Bit;
+package com.example.impossibleDifferent;
 
 import com.com.test.pojo.Message;
 import com.example.ComplieControll;
 import com.example.CookieUtil;
-import com.example.TestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,15 +14,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
-public class BitDiffernetControll {
+public class ImpossibleDifControll {
     @Autowired
-    private BitDifferentService bitDifferentService;
+    private ImpossibleDiffService impossibleDiffService;
 
     public static boolean isCompile;
 
     public static int finsishComplie;
 
-    @RequestMapping("bit/submit/text")
+    @RequestMapping("ibTrunk/submit/text")
     @ResponseBody
     public String subText(String subTxt, Model model, HttpServletRequest request) throws Exception {
         try {
@@ -37,7 +36,7 @@ public class BitDiffernetControll {
                 return "已编译";
             }
             if("".equals(subTxt))return "";
-            String s = bitDifferentService.saveText(subTxt);
+            String s = impossibleDiffService.saveText(subTxt);
             html = subTxt;
             session.setAttribute(cookie.getName(),html);
             model.addAttribute("html",subTxt);
@@ -56,7 +55,7 @@ public class BitDiffernetControll {
         return "错误";
     }
 
-    @RequestMapping("bit/complie")
+    @RequestMapping("ibTrunk/complie")
     @ResponseBody
     public String compile(String subTxt, HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -70,9 +69,9 @@ public class BitDiffernetControll {
             isCompile = false;
         if(isCompile==false)return "编译未成功";
         try {
-            bitDifferentService.removeSolFile();
+            impossibleDiffService.removeSolFile();
             finsishComplie = 1;
-            String result = bitDifferentService.complieProject();
+            String result = impossibleDiffService.complieProject();
             finsishComplie = 2;
             if("".equals(result))return "分析失败";
             if(cookie!=null){
@@ -85,10 +84,10 @@ public class BitDiffernetControll {
         }
 
     }
-    @RequestMapping("/getBiteDifferentCompileStatus")
+    @RequestMapping("/getIbComplieStatus")
     @ResponseBody
     public Message getComplieStatus(){
-        String result = bitDifferentService.getCompileContent();
+        String result = impossibleDiffService.getCompileContent();
         return Message.customize(finsishComplie+"",result);
     }
 }

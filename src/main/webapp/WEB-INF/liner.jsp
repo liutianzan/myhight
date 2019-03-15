@@ -212,7 +212,7 @@
         %>
 
         function reloadView() {
-            $.get("${pageContext.request.contextPath}/getComplieStatus", function (result) {
+            $.get("${pageContext.request.contextPath}/getLinerTrunkCompileStatus", function (result) {
                 if (result.code == "0") {
                     $('.area').html("(compiler output will display here)");
                 } else if(result.code =="1"){
