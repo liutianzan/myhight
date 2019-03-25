@@ -29,6 +29,9 @@ public class DivsionServiceImpl implements DivsionService {
     @Value("${compile.div.result.path}")
     private String compileResult;
 
+    @Value("${compile.script.divsion.name}")
+    private String compileName;
+
     @Override
     public String saveText(String subText) throws Exception {
 
@@ -120,7 +123,7 @@ public class DivsionServiceImpl implements DivsionService {
     }
     @Override
     public String compilePython() throws InterruptedException, IOException {
-        ProcessBuilder pb = new ProcessBuilder("./" + "compileDiv.sh");
+        ProcessBuilder pb = new ProcessBuilder("./" + compileName);
         pb.directory(new File(compileFilePath));
         int runningStatus = 0;
         String stt = null;

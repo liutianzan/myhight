@@ -148,6 +148,7 @@ input{
     height: 250px;
 }
 #tex{
+    background: #ffffff;
     position: absolute;
     top:78%;
     right:0.5%;

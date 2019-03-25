@@ -216,7 +216,6 @@
                 if (result.code == "0") {
                     $('.area').html("(compiler output will display here)");
                 } else if(result.code =="1"){
-                    alert(result);
 
                     $('.area').html("求解中");
 

@@ -29,6 +29,9 @@ public class ImpossibleDifServiceImple implements ImpossibleDiffService {
     @Value("${compile.trunkId.result.path}")
     private String compileResult;
 
+    @Value("${compile.script.impossibleDif.name}")
+    private String compileName;
+
     @Override
     public String saveText(String subText) throws Exception {
 
@@ -120,7 +123,7 @@ public class ImpossibleDifServiceImple implements ImpossibleDiffService {
     }
     @Override
     public String compilePython() throws InterruptedException, IOException {
-        ProcessBuilder pb = new ProcessBuilder("./" + "compileTrunkId.sh");
+        ProcessBuilder pb = new ProcessBuilder("./" + compileName);
         pb.directory(new File(compileFilePath));
         int runningStatus = 0;
         String stt = null;

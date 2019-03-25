@@ -38,6 +38,9 @@ public class TestServiceImpl implements TestService {
     @Value("${comile.result.path}")
     private String compileResult;
 
+    @Value("${compile.script.trunkDiff.name}")
+    private String compileName;
+
     public void test() {
         String text = "<div class=\"ace_line\" style=\"height: 16px; top: 0px;\"><span class=\"ace_storage ace_type\">function</span> <span class=\"ace_entity ace_name ace_function\">foo</span><span class=\"ace_paren ace_lparen\">(</span><span class=\"ace_variable ace_parameter\">items</span><span class=\"ace_paren ace_rparen\">)</span> <span class=\"ace_paren ace_lparen\">{</span></div>\n" +
                 "<div class=\"ace_line\" style=\"height: 16px; top: 16px;\">    <span class=\"ace_identifier\">var</span> <span class=\"ace_identifier\">i</span><span class=\"ace_punctuation ace_operator\">;</span></div>\n" +
@@ -117,9 +120,10 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-    public String complieProject() throws Exception {
-        String res = compilePython();
-        return res;
+    public void complieProject() throws Exception {
+//        String res = compilePython();
+//        return res;
+        compilePython();
     }
 
     @Override
@@ -191,8 +195,9 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-    public String compilePython() throws InterruptedException, IOException {
-        ProcessBuilder pb = new ProcessBuilder("./" + "compile.sh");
+    public void compilePython() throws InterruptedException, IOException {
+
+        ProcessBuilder pb = new ProcessBuilder("./" + compileName);
         pb.directory(new File(compileFilePath));
         int runningStatus = 0;
         String stt = null;
@@ -216,8 +221,8 @@ public class TestServiceImpl implements TestService {
             System.out.println(e);
             e.printStackTrace();
         }
-        String result = getCompileContent();
-        return result;
+//        String result = getCompileContent();
+//        return result;
     }
     public String getCompileContent(){
         File file = new File(compileResult);

@@ -72,8 +72,11 @@ public class TestController {
                 cookie = cookies[i];
             }
         }
-        if(cookie!=null)
-        model.addAttribute("html",session.getAttribute(cookie.getName()));
+        if(cookie!=null){
+
+            model.addAttribute("html",session.getAttribute(cookie.getName()));
+            model.addAttribute("compileRes",session.getAttribute(cookie.getName()+"Res"));
+        }
         return "different";
     }
     @RequestMapping("dif/bit")

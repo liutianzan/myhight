@@ -29,11 +29,12 @@ public class TraceControll {
     public static int traceInt = 0;
 
     @RequestMapping("different/differentTrace")
-    public String differentTrace(String subTxt, Model model, HttpServletRequest request) {
+    public String differentTrace(String subTxt, String compileRes, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
         if (subTxt != null && cookie != null)
             session.setAttribute(cookie.getName(), subTxt);
+        session.setAttribute(cookie.getName()+"Res",compileRes);
         if (cookie != null && session.getAttribute(cookie.getName()) != null)
             model.addAttribute("html", session.getAttribute(cookie.getName()));
         return "differentialTrace";
@@ -52,7 +53,7 @@ public class TraceControll {
         }
 
         HashMap<String, String> trace = traceService.getTrace(fileList);
-        if(trace==null){
+        if (trace == null) {
             return Message.fail("410");
         }
         traceInt = 0;

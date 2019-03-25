@@ -32,6 +32,9 @@ public class BitDiffernetServiceImpl implements BitDifferentService {
     @Value("${compile.bit.path}")
     private String compileResult;
 
+    @Value("${compile.script.bitDiff.name}")
+    private String compileName;
+
     @Override
     public String saveText(String subText) throws Exception {
 
@@ -123,7 +126,7 @@ public class BitDiffernetServiceImpl implements BitDifferentService {
     }
     @Override
     public String compilePython() throws InterruptedException, IOException {
-        ProcessBuilder pb = new ProcessBuilder("./" + "compile.sh");
+        ProcessBuilder pb = new ProcessBuilder("./" + compileName);
         pb.directory(new File(compileFilePath));
         int runningStatus = 0;
         String stt = null;

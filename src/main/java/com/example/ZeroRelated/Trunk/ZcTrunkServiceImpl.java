@@ -30,6 +30,9 @@ public class ZcTrunkServiceImpl implements ZcTrunkService {
     @Value("${compile.trunkzc.result.path}")
     private String compileResult;
 
+    @Value("${compile.script.TrunkZc.name}")
+    private String compileName;
+
     @Override
     public String saveText(String subText) throws Exception {
 
@@ -121,7 +124,7 @@ public class ZcTrunkServiceImpl implements ZcTrunkService {
     }
     @Override
     public String compilePython() throws InterruptedException, IOException {
-        ProcessBuilder pb = new ProcessBuilder("./" + "compileTrunckZc.sh");
+        ProcessBuilder pb = new ProcessBuilder("./" + compileName);
         pb.directory(new File(compileFilePath));
         int runningStatus = 0;
         String stt = null;

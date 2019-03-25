@@ -21,7 +21,7 @@ public class BitDiffernetControll {
 
     public static boolean isCompile;
 
-    public static int finsishComplie;
+    public static int finsishComplie = 0;
 
     @RequestMapping("bit/submit/text")
     @ResponseBody

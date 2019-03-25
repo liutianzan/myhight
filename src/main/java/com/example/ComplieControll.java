@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -35,16 +36,19 @@ public class ComplieControll {
                 !html.toString().replace("\r","").equals(subTxt)))
             TestController.isCompile = false;
         if(TestController.isCompile==false)return "编译未成功";
+        // TODO
         try {
-            dirService.removeSolFile();
-            finsishComplie = 1;
-            String result = testService.complieProject();
-            finsishComplie = 2;
-            if("".equals(result))return "分析失败";
-            if(cookie!=null){
-                session.setAttribute(cookie.getName()+"com",result);
-            }
-            return result;
+        testService.complieProject();
+//            dirService.removeSolFile();
+//            finsishComplie = 1;
+//            String result = testService.complieProject();
+//            finsishComplie = 2;
+//            if("".equals(result))return "分析失败";
+//            if(cookie!=null){
+//                session.setAttribute(cookie.getName()+"com",result);
+//            }
+//            return result;
+            return "编译成功";
         } catch (Exception e) {
             e.printStackTrace();
             return "分析失败";
@@ -53,7 +57,8 @@ public class ComplieControll {
     }
     @RequestMapping("/getComplieStatus")
     @ResponseBody
-    public Message getComplieStatus(){
+    public Message getComplieStatus(String compileRes, HttpServletRequest request, HttpServletResponse response){
+
         String result = testService.getCompileContent();
         return Message.customize(finsishComplie+"",result);
     }

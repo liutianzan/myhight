@@ -1,30 +1,37 @@
 package com.my.test;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 public class Test {
-    public static void main(String [] args){
-        Scanner sc = new Scanner(System.in);
-        String input = sc.nextLine();
-        char[]  array = input.toCharArray();
-        int count = 0;
-        for(int i = 0,j=array.length-1;i<j; ++i,--j){
-            for(;i<j && array[i] =='D';)  ++i;
-            for(;i<j && array[j] =='C';) --j;
-            if(i<j) count++;
+    public static void main(String [] args) throws InterruptedException, IOException {
 
+        ProcessBuilder pb = new ProcessBuilder("./" + "compile.sh");
+        pb.directory(new File("/Users/yueliu/Desktop/myProject/cryptomip/truncdifferentialfrontend/"));
+        int runningStatus = 0;
+        String stt = null;
+        try {
+            Process p = pb.start();
+            BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+            while ((stt = stdInput.readLine()) != null) {
+                System.out.println(stt);
+            }
+            while ((stt = stdError.readLine()) != null) {
+                System.out.println(stt);
+            }
+            try {
+                runningStatus = p.waitFor();
+            } catch (InterruptedException e) {
+                System.out.println(e);
+                e.printStackTrace();
+            }
+        } catch (IOException e) {
+            System.out.println(e);
+            e.printStackTrace();
         }
-        count++;
-        char[]  array1 = input.toCharArray();
-        int count1 = 0;
-        for(int i = 0,j=array1.length-1;i<j; ++i,--j){
-            for(;i<j && array1[i] =='D';)  ++i;
-            for(;i<j && array1[j] =='C';) --j;
-            if(i<j) count1++;
-
-        }
-        count1++;
-        int max = Math.min(count,count1);
-        System.out.println(count);
     }
 }
