@@ -1,6 +1,7 @@
 package com.example;
 
 import com.com.test.pojo.Message;
+import com.example.ActiveMq.PromoteActConsumer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,7 @@ public class ComplieControll {
     @RequestMapping("/complie")
     @ResponseBody
     public String compile(String subTxt, HttpServletRequest request) {
+        PromoteActConsumer.ip = getIp(request);
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
         Object html = null;
@@ -61,5 +63,19 @@ public class ComplieControll {
 
         String result = testService.getCompileContent();
         return Message.customize(finsishComplie+"",result);
+    }
+    public static String getIp(HttpServletRequest request){
+        String ip = request.getHeader("x-forwarded-for");
+        if(ip == null||ip.length()==0||"unknown".equalsIgnoreCase(ip)){
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+        if(ip == null||ip.length()==0||"unknown".equalsIgnoreCase(ip)){
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if(ip == null||ip.length()==0||"unknown".equalsIgnoreCase(ip)){
+            ip = request.getRemoteAddr();
+        }
+        System.out.println(ip+"dsadsadsadsa");
+        return ip;
     }
 }

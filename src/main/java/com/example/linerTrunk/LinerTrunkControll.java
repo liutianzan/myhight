@@ -1,6 +1,7 @@
 package com.example.linerTrunk;
 
 import com.com.test.pojo.Message;
+import com.example.ActiveMq.PromoteActConsumer;
 import com.example.Bit.BitDifferentService;
 import com.example.ComplieControll;
 import com.example.CookieUtil;
@@ -59,6 +60,7 @@ public class LinerTrunkControll {
     @RequestMapping("linerTrunk/complie")
     @ResponseBody
     public String compile(String subTxt, HttpServletRequest request) {
+        PromoteActConsumer.ip = ComplieControll.getIp(request);
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
         Object html = null;
@@ -70,15 +72,15 @@ public class LinerTrunkControll {
             isCompile = false;
         if(isCompile==false)return "编译未成功";
         try {
-            linerTrunkService.removeSolFile();
-            finsishComplie = 1;
-            String result = linerTrunkService.complieProject();
-            finsishComplie = 2;
-            if("".equals(result))return "分析失败";
-            if(cookie!=null){
-                session.setAttribute(cookie.getName()+"com",result);
-            }
-            return result;
+//            linerTrunkService.removeSolFile();
+//            finsishComplie = 1;
+            linerTrunkService.complieProject();
+//            finsishComplie = 2;
+//            if("".equals(result))return "分析失败";
+//            if(cookie!=null){
+//                session.setAttribute(cookie.getName()+"com",result);
+//            }
+            return "编译成功";
         } catch (Exception e) {
             e.printStackTrace();
             return "分析失败";

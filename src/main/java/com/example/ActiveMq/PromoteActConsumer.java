@@ -1,12 +1,15 @@
 package com.example.ActiveMq;
 
+import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Component;
 
+import javax.jms.Destination;
 import javax.jms.Queue;
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -18,7 +21,8 @@ import java.io.UnsupportedEncodingException;
 @Component
 @EnableScheduling
 public class PromoteActConsumer {
-
+    public static String ip="";
+    public static String analysisType="";
     /**
      * 客户端消费
      *
@@ -38,7 +42,9 @@ public class PromoteActConsumer {
             res+=(char)Integer.parseInt(s[i]);
         }
         System.out.println(res);
-        this.jmsMessagingTemplate.convertAndSend(this.queue, res);
+        Destination destination = new ActiveMQQueue(ip);
+        this.jmsMessagingTemplate.convertAndSend(destination, res);
+//        this.jmsMessagingTemplate.convertAndSend(this.queue, res);
     }
 
     public static String getUTF8StringFromGBKString(String gbkStr) {

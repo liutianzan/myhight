@@ -118,12 +118,12 @@ public class linerTrunkServiceImpl implements linerTrunkService {
 
     }
     @Override
-    public String complieProject() throws Exception {
-        String res = compilePython();
-        return res;
+    public void complieProject() throws Exception {
+        compilePython();
+//        return res;
     }
     @Override
-    public String compilePython() throws InterruptedException, IOException {
+    public void compilePython() throws InterruptedException, IOException {
         ProcessBuilder pb = new ProcessBuilder("./" + compileName);
         pb.directory(new File(compileFilePath));
         int runningStatus = 0;
@@ -148,8 +148,6 @@ public class linerTrunkServiceImpl implements linerTrunkService {
             System.out.println(e);
             e.printStackTrace();
         }
-        String result = getCompileContent();
-        return result;
     }
     @Override
     public String getCompileContent(){

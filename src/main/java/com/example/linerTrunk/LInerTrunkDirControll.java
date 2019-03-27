@@ -35,11 +35,14 @@ public class LInerTrunkDirControll {
     }
 
     @RequestMapping("linerTrunkPath")
-    public String differentPath(String subTxt, Model model, HttpServletRequest request) {
+    public String differentPath(String subTxt, String compileRes,Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
-        if(subTxt!=null&&cookie!=null)
+        if(subTxt!=null&&cookie!=null){
+
             session.setAttribute(cookie.getName(), subTxt);
+            session.setAttribute(cookie.getName()+"Res",compileRes);
+        }
         if (cookie != null)
             model.addAttribute("html", session.getAttribute(cookie.getName()));
         return "linerTrunkPath";

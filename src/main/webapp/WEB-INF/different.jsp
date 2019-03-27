@@ -64,6 +64,19 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/myJs/jquery-1.4.2.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/myJs/amq_jquery_adapter.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/myJs/amq.js"></script>
+<%
+    String ip = request.getHeader("x-forwarded-for");
+    if(ip == null||ip.length()==0||"unknown".equalsIgnoreCase(ip)){
+        ip = request.getHeader("Proxy-Client-IP");
+    }
+    if(ip == null||ip.length()==0||"unknown".equalsIgnoreCase(ip)){
+        ip = request.getHeader("WL-Proxy-Client-IP");
+    }
+    if(ip == null||ip.length()==0||"unknown".equalsIgnoreCase(ip)){
+        ip = request.getRemoteAddr();
+    }
+    System.out.println(ip);
+%>
 <script>
     function showInfo(str) {
         var t = document.getElementById("show");
@@ -96,7 +109,7 @@
                 showInfo( message.textContent);
             }
         };
-    var destination = "channel://differentMq";
+    var destination = "channel://<%=ip%>";
     amq.addListener(1,destination,myHandler.rcvMessage);
 </script>
 
@@ -227,7 +240,6 @@
                 } else {
                     swal("编译成功", " ", "success");
                 }
-                $('.area').html(result);
 
             });
         });
