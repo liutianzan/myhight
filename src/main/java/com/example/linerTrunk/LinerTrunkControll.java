@@ -28,20 +28,21 @@ public class LinerTrunkControll {
     @ResponseBody
     public String subText(String subTxt, Model model, HttpServletRequest request) throws Exception {
         try {
+            PromoteActConsumer.analysisType = "linearTrunk";
             HttpSession session = request.getSession();
             Cookie cookie = CookieUtil.getToken(request);
             ComplieControll.finsishComplie = 0;
             String html = null;
             if (cookie != null)
-                html = session.getAttribute(cookie.getName())+"";
-            if(html!=null&&html.equals(subTxt)&&!html.equals("null")){
+                html = session.getAttribute(cookie.getName()) + "";
+            if (html != null && html.equals(subTxt) && !html.equals("null")) {
                 return "已编译";
             }
-            if("".equals(subTxt))return "";
+            if ("".equals(subTxt)) return "";
             String s = linerTrunkService.saveText(subTxt);
             html = subTxt;
-            session.setAttribute(cookie.getName(),html);
-            model.addAttribute("html",subTxt);
+            session.setAttribute(cookie.getName(), html);
+            model.addAttribute("html", subTxt);
 //            model.addAttribute("htmlCode",html);
             if ("".equals(s)) {
                 isCompile = false;
@@ -64,13 +65,13 @@ public class LinerTrunkControll {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
         Object html = null;
-        if(cookie!=null){
+        if (cookie != null) {
             html = session.getAttribute(cookie.getName());
         }
-        if(html==null||(!subTxt.equals(html)&&
-                !html.toString().replace("\r","").equals(subTxt)))
+        if (html == null || (!subTxt.equals(html) &&
+                !html.toString().replace("\r", "").equals(subTxt)))
             isCompile = false;
-        if(isCompile==false)return "编译未成功";
+        if (isCompile == false) return "编译未成功";
         try {
 //            linerTrunkService.removeSolFile();
 //            finsishComplie = 1;
@@ -87,10 +88,11 @@ public class LinerTrunkControll {
         }
 
     }
+
     @RequestMapping("/getLinerTrunkCompileStatus")
     @ResponseBody
-    public Message getComplieStatus(){
+    public Message getComplieStatus() {
         String result = linerTrunkService.getCompileContent();
-        return Message.customize(finsishComplie+"",result);
+        return Message.customize(finsishComplie + "", result);
     }
 }

@@ -42,7 +42,7 @@ public class PromoteActConsumer {
             res+=(char)Integer.parseInt(s[i]);
         }
         System.out.println(res);
-        Destination destination = new ActiveMQQueue(ip);
+        Destination destination = new ActiveMQQueue(ip+analysisType);
         this.jmsMessagingTemplate.convertAndSend(destination, res);
 //        this.jmsMessagingTemplate.convertAndSend(this.queue, res);
     }

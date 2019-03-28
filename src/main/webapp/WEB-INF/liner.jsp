@@ -97,13 +97,13 @@
     var myHandler =
         {
             rcvMessage: function(message)
-            {   alert(message.textContent);
+            {
                 console.log(message);
                 //chrome
                 showInfo( message.textContent);
             }
         };
-    var destination = "channel://<%=ip%>";
+    var destination = "channel://<%=ip%>linearTrunk";
     amq.addListener(1,destination,myHandler.rcvMessage);
 </script>
 
@@ -249,7 +249,6 @@
             var a = document.getElementById("editor");//通过ByTagName,ByClassName,ById获取a元素
             txt = editor.getValue();
             clearShow();
-            $('.area').html("正在分析请稍后");
             $.post("${pageContext.request.contextPath}/linerTrunk/complie", {subTxt: txt}, function (result) {
                 if (result == "编译未成功") {
 

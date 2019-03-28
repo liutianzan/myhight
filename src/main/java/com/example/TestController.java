@@ -1,6 +1,7 @@
 package com.example;
 
 import com.com.test.pojo.Message;
+import com.example.ActiveMq.PromoteActConsumer;
 import org.python.antlr.op.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -131,6 +132,7 @@ public class TestController {
     @ResponseBody
     public String subText(String subTxt, Model model,HttpServletRequest request) throws Exception {
         try {
+            PromoteActConsumer.analysisType="trunkDif";
             HttpSession session = request.getSession();
             Cookie cookie = CookieUtil.getToken(request);
             ComplieControll.finsishComplie = 0;

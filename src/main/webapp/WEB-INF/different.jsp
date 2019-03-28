@@ -109,7 +109,7 @@
                 showInfo( message.textContent);
             }
         };
-    var destination = "channel://<%=ip%>";
+    var destination = "channel://<%=ip%>trunkDif";
     amq.addListener(1,destination,myHandler.rcvMessage);
 </script>
 

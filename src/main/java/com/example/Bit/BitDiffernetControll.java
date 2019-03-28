@@ -1,6 +1,7 @@
 package com.example.Bit;
 
 import com.com.test.pojo.Message;
+import com.example.ActiveMq.PromoteActConsumer;
 import com.example.ComplieControll;
 import com.example.CookieUtil;
 import com.example.TestController;
@@ -27,6 +28,7 @@ public class BitDiffernetControll {
     @ResponseBody
     public String subText(String subTxt, Model model, HttpServletRequest request) throws Exception {
         try {
+            PromoteActConsumer.analysisType = "bitDif";
             HttpSession session = request.getSession();
             Cookie cookie = CookieUtil.getToken(request);
             ComplieControll.finsishComplie = 0;
@@ -39,6 +41,7 @@ public class BitDiffernetControll {
             if("".equals(subTxt))return "";
             String s = bitDifferentService.saveText(subTxt);
             html = subTxt;
+            if(cookie!=null)
             session.setAttribute(cookie.getName(),html);
             model.addAttribute("html",subTxt);
 //            model.addAttribute("htmlCode",html);
@@ -59,6 +62,7 @@ public class BitDiffernetControll {
     @RequestMapping("bit/complie")
     @ResponseBody
     public String compile(String subTxt, HttpServletRequest request) {
+        PromoteActConsumer.ip = ComplieControll.getIp(request);
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
         Object html = null;
@@ -70,15 +74,15 @@ public class BitDiffernetControll {
             isCompile = false;
         if(isCompile==false)return "编译未成功";
         try {
-            bitDifferentService.removeSolFile();
-            finsishComplie = 1;
-            String result = bitDifferentService.complieProject();
-            finsishComplie = 2;
-            if("".equals(result))return "分析失败";
-            if(cookie!=null){
-                session.setAttribute(cookie.getName()+"com",result);
-            }
-            return result;
+//            bitDifferentService.removeSolFile();
+//            finsishComplie = 1;
+            bitDifferentService.complieProject();
+//            finsishComplie = 2;
+//            if("".equals(result))return "分析失败";
+//            if(cookie!=null){
+//                session.setAttribute(cookie.getName()+"com",result);
+//            }
+            return "编译成功";
         } catch (Exception e) {
             e.printStackTrace();
             return "分析失败";
