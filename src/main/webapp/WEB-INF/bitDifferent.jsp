@@ -35,7 +35,7 @@
 //    System.out.println(html);
 //    System.out.println(request.getSession().getId());
     String html = request.getAttribute("html") + "";
-
+    System.out.println(html);
     if (html == null || html.equals("null") || html.equals("")) {
 %>
 <pre id="editor">function foo(items) {
@@ -76,7 +76,7 @@
     if(ip == null||ip.length()==0||"unknown".equalsIgnoreCase(ip)){
         ip = request.getRemoteAddr();
     }
-    System.out.println(ip);
+
 %>
 <script>
     function showInfo(str) {
@@ -218,8 +218,7 @@
     if (cookie != null) {
         token = URLDecoder.decode(cookie.getValue(), "UTF-8");
     }
-    String complieRes = request.getSession().getAttribute("tokenRes")+"";
-    System.out.println(complieRes);
+    String complieRes = request.getSession().getAttribute("tokenResDifBIt")+"";
 
 %>
 <input type="hidden" value="<%=complieRes%>" id="hidRes">

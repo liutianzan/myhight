@@ -24,9 +24,11 @@
 
 </div>
 <div id="nameFile">${fileName}</div>
+<div id="chooseFile"></div>
 <div id="dirPath">
     <pre id="textHuo" style="size: 1px">${text}</pre>
 </div>
+
 <c:if test="${text != null}">
 
 

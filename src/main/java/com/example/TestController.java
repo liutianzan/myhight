@@ -28,26 +28,28 @@ public class TestController {
 
         return "login";
     }
+
     @RequestMapping("middle")
-    public String middle(Model model,HttpServletRequest request){
+    public String middle(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
-        if(cookie!=null)
-            model.addAttribute("html",session.getAttribute(cookie.getName()));
+        if (cookie != null)
+            model.addAttribute("html", session.getAttribute(cookie.getName()));
         return "middle";
     }
 
     @RequestMapping("choose")
-    public String choose(Model model,HttpServletResponse response,HttpServletRequest request) {
+    public String choose(Model model, HttpServletResponse response, HttpServletRequest request) {
         String token = UUID.randomUUID().toString().replace("-", "");
-        Cookie cookie = new Cookie("token",token);
-        cookie.setMaxAge(1000); //存活期为10秒
+        Cookie cookie = new Cookie("token", token);
+        cookie.setMaxAge(10000000); //存活期为100000秒
         response.addCookie(cookie);
 
         return "choose";
     }
+
     @RequestMapping("isLogin")
-    public String login(String username,String password,Model model){
+    public String login(String username, String password, Model model) {
 
         return "1";
     }
@@ -58,70 +60,76 @@ public class TestController {
     }
 
     @RequestMapping("differentChoose")
-    public String diffChoose(){
+    public String diffChoose() {
         return "differentChoose";
     }
 
     @RequestMapping("dif/Truncated")
     public String different(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        System.out.println(session.getId());
         Cookie[] cookies = request.getCookies();
         Cookie cookie = null;
-        for(int i = 0;i<cookies.length;i++){
-            if(cookies[i].getName().equals("token")){
+        for (int i = 0; i < cookies.length; i++) {
+            if (cookies[i].getName().equals("token")) {
                 cookie = cookies[i];
             }
         }
-        if(cookie!=null){
+        if (cookie != null) {
 
-            model.addAttribute("html",session.getAttribute(cookie.getName()));
-            model.addAttribute("compileRes",session.getAttribute(cookie.getName()+"Res"));
+            model.addAttribute("html", session.getAttribute(cookie.getName() + "trunkDiff"));
+            model.addAttribute("compileRes", session.getAttribute(cookie.getName() + "Res"));
         }
         return "different";
     }
+
     @RequestMapping("dif/bit")
-    public String bitDifferrnt(Model model,HttpServletRequest request){
+    public String bitDifferrnt(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
-        if(cookie!=null)
-        model.addAttribute("html",session.getAttribute(cookie.getName()));
+        if (cookie != null) {
+
+            model.addAttribute("html", session.getAttribute(cookie.getName() + "DifBIt"));
+            model.addAttribute("compileResDifBIt", session.getAttribute(cookie.getName() + "ResDifBIt"));
+        }
         return "bitDifferent";
     }
 
     @RequestMapping("impossible")
-    public String impossible(Model model,HttpServletRequest request) {
+    public String impossible(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
-        if(cookie!=null)
-            model.addAttribute("html",session.getAttribute(cookie.getName()));
+        if (cookie != null)
+            model.addAttribute("html", session.getAttribute(cookie.getName()));
         return "impossible";
     }
 
     @RequestMapping("liner")
-    public String liner(Model model,HttpServletRequest request) {
+    public String liner(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
-        if(cookie!=null)
-            model.addAttribute("html",session.getAttribute(cookie.getName()));
+        if (cookie != null){
+
+            model.addAttribute("html", session.getAttribute(cookie.getName()+"TrunkLinear"));
+            model.addAttribute("compileResTrunkLinear", session.getAttribute(cookie.getName() + "ResTrunkLinear"));
+        }
         return "liner";
     }
 
     @RequestMapping("base")
-    public String base(Model model,HttpServletRequest request) {
+    public String base(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
-        if(cookie!=null)
-            model.addAttribute("html",session.getAttribute(cookie.getName()));
+        if (cookie != null)
+            model.addAttribute("html", session.getAttribute(cookie.getName()));
         return "base";
     }
 
     @RequestMapping("zero")
-    public String zero(Model model,HttpServletRequest request) {
+    public String zero(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
-        if(cookie!=null)
-            model.addAttribute("html",session.getAttribute(cookie.getName()));
+        if (cookie != null)
+            model.addAttribute("html", session.getAttribute(cookie.getName()));
         return "zero";
     }
 
@@ -130,24 +138,24 @@ public class TestController {
 
     @RequestMapping("submit/text")
     @ResponseBody
-    public String subText(String subTxt, Model model,HttpServletRequest request) throws Exception {
+    public String subText(String subTxt, Model model, HttpServletRequest request) throws Exception {
         try {
-            PromoteActConsumer.analysisType="trunkDif";
+            PromoteActConsumer.analysisType = "trunkDif";
             HttpSession session = request.getSession();
             Cookie cookie = CookieUtil.getToken(request);
             ComplieControll.finsishComplie = 0;
             String html = null;
             if (cookie != null)
-                html = session.getAttribute(cookie.getName())+"";
-            if(html!=null&&html.equals(subTxt)&&!html.equals("null")){
+                html = session.getAttribute(cookie.getName() + "trunkDiff") + "";
+            if (html != null && html.equals(subTxt) && !html.equals("null")) {
                 return "已编译";
             }
-            if("".equals(subTxt))return "";
+            if ("".equals(subTxt)) return "";
             String s = testService.saveText(subTxt);
             html = subTxt;
-            if(cookie!=null)
-            session.setAttribute(cookie.getName(),html);
-            model.addAttribute("html",subTxt);
+            if (cookie != null)
+                session.setAttribute(cookie.getName() + "trunkDiff", html);
+            model.addAttribute("html", subTxt);
 //            model.addAttribute("htmlCode",html);
             if ("".equals(s)) {
                 isCompile = false;

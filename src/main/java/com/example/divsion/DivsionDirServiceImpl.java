@@ -87,4 +87,9 @@ public class DivsionDirServiceImpl implements DivsionDirService {
         Runtime.getRuntime().exec(command2).waitFor();
 
     }
+    @Override
+    public List<String> getFileChoose(String projectName) {
+        List<String> filenameList = getFileName(solFilePath);
+        return filenameList;
+    }
 }

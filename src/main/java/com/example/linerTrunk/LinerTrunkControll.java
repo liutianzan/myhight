@@ -34,14 +34,14 @@ public class LinerTrunkControll {
             ComplieControll.finsishComplie = 0;
             String html = null;
             if (cookie != null)
-                html = session.getAttribute(cookie.getName()) + "";
+                html = session.getAttribute(cookie.getName()+"TrunkLinear") + "";
             if (html != null && html.equals(subTxt) && !html.equals("null")) {
                 return "已编译";
             }
             if ("".equals(subTxt)) return "";
             String s = linerTrunkService.saveText(subTxt);
             html = subTxt;
-            session.setAttribute(cookie.getName(), html);
+            session.setAttribute(cookie.getName()+"TrunkLinear", html);
             model.addAttribute("html", subTxt);
 //            model.addAttribute("htmlCode",html);
             if ("".equals(s)) {
@@ -66,7 +66,7 @@ public class LinerTrunkControll {
         Cookie cookie = CookieUtil.getToken(request);
         Object html = null;
         if (cookie != null) {
-            html = session.getAttribute(cookie.getName());
+            html = session.getAttribute(cookie.getName()+"TrunkLinear");
         }
         if (html == null || (!subTxt.equals(html) &&
                 !html.toString().replace("\r", "").equals(subTxt)))

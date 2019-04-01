@@ -34,7 +34,7 @@ public class BitDiffernetControll {
             ComplieControll.finsishComplie = 0;
             String html = null;
             if (cookie != null)
-                html = session.getAttribute(cookie.getName())+"";
+                html = session.getAttribute(cookie.getName()+"DifBIt")+"";
             if(html!=null&&html.equals(subTxt)&&!html.equals("null")){
                 return "已编译";
             }
@@ -42,7 +42,7 @@ public class BitDiffernetControll {
             String s = bitDifferentService.saveText(subTxt);
             html = subTxt;
             if(cookie!=null)
-            session.setAttribute(cookie.getName(),html);
+            session.setAttribute(cookie.getName()+"DifBIt",html);
             model.addAttribute("html",subTxt);
 //            model.addAttribute("htmlCode",html);
             if ("".equals(s)) {
@@ -67,7 +67,7 @@ public class BitDiffernetControll {
         Cookie cookie = CookieUtil.getToken(request);
         Object html = null;
         if(cookie!=null){
-            html = session.getAttribute(cookie.getName());
+            html = session.getAttribute(cookie.getName()+"DifBIt");
         }
         if(html==null||(!subTxt.equals(html)&&
                 !html.toString().replace("\r","").equals(subTxt)))

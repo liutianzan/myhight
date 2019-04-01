@@ -32,7 +32,7 @@ public class ComplieControll {
         Cookie cookie = CookieUtil.getToken(request);
         Object html = null;
         if(cookie!=null){
-            html = session.getAttribute(cookie.getName());
+            html = session.getAttribute(cookie.getName()+"trunkDiff");
         }
         if(html==null||(!subTxt.equals(html)&&
                 !html.toString().replace("\r","").equals(subTxt)))

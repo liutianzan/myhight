@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface DirService {
     public String getDir(String projectName);
+    List<String> getFileChoose(String projectName);
     public String getContent(String fileName) throws Exception;
 
     List<String> getFileName(String path);

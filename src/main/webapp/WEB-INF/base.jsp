@@ -65,7 +65,7 @@
 
     <table id="tabId">
         <tr id="ziti">
-            <div id="wenzi"><font color="#fff" size="6px">基于可分析的积分分析</font></div>
+            <div id="wenzi"><font color="#fff" size="5px">基于可分析的积分分析</font></div>
         </tr>
         <tr id="trd">
 

@@ -33,10 +33,10 @@ public class TraceControll {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
         if (subTxt != null && cookie != null)
-            session.setAttribute(cookie.getName(), subTxt);
+            session.setAttribute(cookie.getName()+"trunkDiff", subTxt);
         session.setAttribute(cookie.getName()+"Res",compileRes);
         if (cookie != null && session.getAttribute(cookie.getName()) != null)
-            model.addAttribute("html", session.getAttribute(cookie.getName()));
+            model.addAttribute("html", session.getAttribute(cookie.getName()+"trunkDiff"));
         return "differentialTrace";
     }
 

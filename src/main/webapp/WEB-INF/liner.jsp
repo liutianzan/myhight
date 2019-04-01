@@ -69,7 +69,7 @@
     if(ip == null||ip.length()==0||"unknown".equalsIgnoreCase(ip)){
         ip = request.getRemoteAddr();
     }
-    System.out.println(ip);
+
 %>
 <script>
     function showInfo(str) {
@@ -218,8 +218,8 @@
     if (cookie != null) {
         token = URLDecoder.decode(cookie.getValue(), "UTF-8");
     }
-    String complieRes = request.getSession().getAttribute("tokenRes")+"";
-    System.out.println(complieRes);
+    String complieRes = request.getSession().getAttribute("tokenResTrunkLinear")+"";
+
 
 %>
 <input type="hidden" value="<%=complieRes%>" id="hidRes">

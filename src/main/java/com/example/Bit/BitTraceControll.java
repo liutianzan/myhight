@@ -34,10 +34,10 @@ public class BitTraceControll {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
         if (subTxt != null && cookie != null)
-            session.setAttribute(cookie.getName(), subTxt);
-        session.setAttribute(cookie.getName() + "Res", compileRes);
-        if (cookie != null && session.getAttribute(cookie.getName()) != null)
-            model.addAttribute("html", session.getAttribute(cookie.getName()));
+            session.setAttribute(cookie.getName()+"DifBIt", subTxt);
+        session.setAttribute(cookie.getName() + "ResDifBIt", compileRes);
+        if (cookie != null && session.getAttribute(cookie.getName()+"DifBIt") != null)
+            model.addAttribute("html", session.getAttribute(cookie.getName()+"DifBIt"));
         return "bitDifferentialTrace";
     }
 

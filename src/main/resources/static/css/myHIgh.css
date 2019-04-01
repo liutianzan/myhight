@@ -93,6 +93,15 @@ body {
     bottom: 10%;
 
 }
+#subfanhui2{
+    border: 1px solid #000000;
+    position: relative;
+    left: 1%;
+    top: 40%;
+    height: 80px;
+    right: 20%;
+    bottom: 10%;
+}
 #beijing{
     position: absolute;
     background: url(../myPicture/bg.jpg);

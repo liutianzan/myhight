@@ -39,6 +39,12 @@ body{
 	bottom: 30%;
 
 }
+#chooseFile{
+	border: 1px solid #000000;
+	position: relative;
+	height: 50px;
+	width: 50px;
+}
 #sub1{
 	position: relative;
 	left: 0%;
@@ -77,6 +83,7 @@ body{
 	 left: 10%;
 	 top:15%;
  }
+
 .message.warning  {
 	background: rgba(255, 255, 255, 0.33);
 	-moz-box-shadow: 0 0 0 3px rgba(56, 41, 32, 0.25);

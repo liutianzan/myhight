@@ -50,6 +50,8 @@ public class DivsionDirControll {
         String content = divsionDirService.getContent(filename);
         model.addAttribute("text", content);
         model.addAttribute("fileName", filename);
+        List<String> res = divsionDirService.getFileChoose("");
+        model.addAttribute("fileNameList",res);
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
         if (cookie != null)

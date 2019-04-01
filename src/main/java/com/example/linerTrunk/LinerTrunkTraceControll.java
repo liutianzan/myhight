@@ -35,10 +35,10 @@ public class LinerTrunkTraceControll {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
         if (subTxt != null && cookie != null)
-            session.setAttribute(cookie.getName(), subTxt);
-        session.setAttribute(cookie.getName()+"Res",compileRes);
-        if (cookie != null && session.getAttribute(cookie.getName()) != null)
-            model.addAttribute("html", session.getAttribute(cookie.getName()));
+            session.setAttribute(cookie.getName()+"TrunkLinear", subTxt);
+        session.setAttribute(cookie.getName()+"ResTrunkLinear",compileRes);
+        if (cookie != null && session.getAttribute(cookie.getName()+"TrunkLinear") != null)
+            model.addAttribute("html", session.getAttribute(cookie.getName()+"TrunkLinear"));
         return "linerTrunkTrace";
     }
 

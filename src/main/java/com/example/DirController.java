@@ -42,10 +42,12 @@ public class DirController {
         String content = dirServiceImp.getContent(filename);
         model.addAttribute("text", content);
         model.addAttribute("fileName", filename);
+        List<String> res = dirServiceImp.getFileChoose("");
+        model.addAttribute("fileNameList",res);
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
         if (cookie != null)
-            model.addAttribute("html", session.getAttribute(cookie.getName()));
+            model.addAttribute("html", session.getAttribute(cookie.getName()+"trunkDiff"));
         return "dirContent";
     }
 
@@ -54,7 +56,7 @@ public class DirController {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
         if (cookie != null)
-            model.addAttribute("html", session.getAttribute(cookie.getName()));
+            model.addAttribute("html", session.getAttribute(cookie.getName()+"trunkDiff"));
 
         return "dirContent";
     }
@@ -65,11 +67,11 @@ public class DirController {
         Cookie cookie = CookieUtil.getToken(request);
         if(subTxt!=null&&cookie!=null){
 
-            session.setAttribute(cookie.getName(), subTxt);
+            session.setAttribute(cookie.getName()+"trunkDiff", subTxt);
             session.setAttribute(cookie.getName()+"Res",compileRes);
         }
         if (cookie != null)
-            model.addAttribute("html", session.getAttribute(cookie.getName()));
+            model.addAttribute("html", session.getAttribute(cookie.getName()+"trunkDiff"));
         return "differentDir";
     }
 

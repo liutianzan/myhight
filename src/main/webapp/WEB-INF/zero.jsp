@@ -10,7 +10,7 @@
     <link type="text/css" href=${pageContext.request.contextPath}/css/myHIgh.css rel="stylesheet">
     <link href=${pageContext.request.contextPath}/css/style.css rel="stylesheet" type="text/css" media="all"/>
     <script src=${pageContext.request.contextPath}/myJs/sweetalert.min.js></script>
-    <title>差分分析</title>
+    <title>零相关线性分析</title>
 </head>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <body>

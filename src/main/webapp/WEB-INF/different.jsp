@@ -75,7 +75,6 @@
     if(ip == null||ip.length()==0||"unknown".equalsIgnoreCase(ip)){
         ip = request.getRemoteAddr();
     }
-    System.out.println(ip);
 %>
 <script>
     function showInfo(str) {
