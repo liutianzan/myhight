@@ -30,7 +30,7 @@
 <div id="beijing">
 
     <table id="tabId" >
-        <tr id="ziti" ><div id="wenzi"><font color="#fff" size="5px">中间相遇分析</font></div> </tr>
+        <tr id="ziti" ><div id="wenzi"><font color="#fff" size="6px">中间相遇分析</font></div> </tr>
         <tr id="trd" >
 
             <td class="tableFont" id="table1" width="28px"><div id="fontThe">&nbsp;Theme:</div></td>
