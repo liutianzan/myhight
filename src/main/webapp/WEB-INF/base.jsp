@@ -12,7 +12,7 @@
     <script src=${pageContext.request.contextPath}/myJs/sweetalert.min.js></script>
     <title>基于可分析的积分分析</title>
 </head>
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/myJs/jquery-3.2.1.min.js"></script>
 <body>
 <%
     //    Cookie[] cookies = request.getCookies();

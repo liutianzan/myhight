@@ -9,7 +9,7 @@
     <link type="text/css" href="${pageContext.request.contextPath}/css/myHIgh.css" rel="stylesheet">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/swalCss.css">
     <title>工作空间</title>
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/myJs/jquery-3.2.1.min.js"></script>
     <script src="${pageContext.request.contextPath}/myJs/sweetalert.min.js"></script>
     <script type="text/css">
         table{border-collapse:collapse;}

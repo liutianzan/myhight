@@ -404,7 +404,7 @@
         }
     </style>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/myJs/jquery-3.2.1.min.js"></script>
 </head>
 <body bgcolor="#f6f6f6">
 
