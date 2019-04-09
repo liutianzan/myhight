@@ -2,8 +2,7 @@ package com.example.linerTrunk;
 
 import com.com.test.pojo.Message;
 import com.example.ActiveMq.PromoteActConsumer;
-import com.example.Bit.BitDifferentService;
-import com.example.ComplieControll;
+import com.example.Differential.trunkDif.ComplieControll;
 import com.example.CookieUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,7 +34,7 @@ public class LinerTrunkControll {
             String html = null;
             if (cookie != null)
                 html = session.getAttribute(cookie.getName()+"TrunkLinear") + "";
-            if (html != null && html.equals(subTxt) && !html.equals("null")) {
+            if (html != null && html.equals(subTxt) && !html.equals("null")&&isCompile==true) {
                 return "已编译";
             }
             if ("".equals(subTxt)) return "";

@@ -1,4 +1,4 @@
-package com.example.linerTrunk;
+package com.example.Differential.Bit;
 
 import com.example.CookieUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,15 +17,15 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
-public class LInerTrunkDirControll {
+public class BitDirControll {
     @Autowired
-    private LInerTrunkDirService bitDirService;
+    private BitDirService bitDirService;
 
-    @Value("${liner.sol.trunk.path}")
+    @Value("${bit.sol,file.path}")
     private String solFilePath;
 
 
-    @RequestMapping("/linerTrunkDir")
+    @RequestMapping("/bitDiffDir")
     @ResponseBody
     public String getDiffDir(HttpServletRequest request) {
         String projectName = request.getContextPath();
@@ -33,21 +33,21 @@ public class LInerTrunkDirControll {
         return res;
     }
 
-    @RequestMapping("linerTrunkPath")
+    @RequestMapping("bitDifferentPath")
     public String differentPath(String subTxt, String compileRes,Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
         if(subTxt!=null&&cookie!=null){
 
-            session.setAttribute(cookie.getName()+"TrunkLinear", subTxt);
-            session.setAttribute(cookie.getName()+"ResTrunkLinear",compileRes);
+            session.setAttribute(cookie.getName()+"DifBIt", subTxt);
+            session.setAttribute(cookie.getName()+"ResDifBIt",compileRes);
         }
         if (cookie != null)
-            model.addAttribute("html", session.getAttribute(cookie.getName()+"TrunkLinear"));
-        return "linerTrunkPath";
+            model.addAttribute("html", session.getAttribute(cookie.getName()+"DifBIt"));
+        return "BitDifferentDir";
     }
 
-    @RequestMapping("/getLinerTrunkFile/{fileName}")
+    @RequestMapping("/getBitFile/{fileName}")
     public String getContent(@PathVariable("fileName") String filename, ModelMap model, HttpServletRequest request) throws Exception {
 
         String content = bitDirService.getContent(filename);
@@ -56,11 +56,11 @@ public class LInerTrunkDirControll {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
         if (cookie != null)
-            model.addAttribute("html", session.getAttribute(cookie.getName()+"TrunkLinear"));
-        return "linerTrunkContent";
+            model.addAttribute("html", session.getAttribute(cookie.getName()+"DifBIt"));
+        return "dirBitContent";
     }
 
-    @RequestMapping("removeLinerTrunkSol")
+    @RequestMapping("removeBitSol")
     @ResponseBody
     public String removeFile() {
         String res = null;

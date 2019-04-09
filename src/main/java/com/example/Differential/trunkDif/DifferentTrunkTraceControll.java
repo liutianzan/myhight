@@ -1,4 +1,4 @@
-package com.example.linerTrunk;
+package com.example.Differential.trunkDif;
 
 import com.com.test.pojo.Message;
 import com.example.CookieUtil;
@@ -16,34 +16,34 @@ import java.util.HashMap;
 import java.util.List;
 
 @Controller
-public class LinerTrunkTraceControll {
+public class DifferentTrunkTraceControll {
     @Autowired
-    private LInerTrunkDirService lInerTrunkDirService;
+    private DifferentTrunkTraceService traceService;
 
     @Autowired
-    private LinerTrunkTraceService linerTrunkTraceService;
+    private DifferentTrunkDirService dirService;
 
-    @Value("${liner.sol.trunk.path}")
+    @Value("${sol.file.path}")
     private String solFilePath;
 
-    public static int traceInt;
+    public static int traceInt = 0;
 
-    @RequestMapping("linerTrunk/trace")
+    @RequestMapping("different/differentTrace")
     public String differentTrace(String subTxt, String compileRes, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
         if (subTxt != null && cookie != null)
-            session.setAttribute(cookie.getName()+"TrunkLinear", subTxt);
-        session.setAttribute(cookie.getName()+"ResTrunkLinear",compileRes);
-        if (cookie != null && session.getAttribute(cookie.getName()+"TrunkLinear") != null)
-            model.addAttribute("html", session.getAttribute(cookie.getName()+"TrunkLinear"));
-        return "linerTrunkTrace";
+            session.setAttribute(cookie.getName()+"trunkDiff", subTxt);
+        session.setAttribute(cookie.getName()+"Res",compileRes);
+        if (cookie != null && session.getAttribute(cookie.getName()) != null)
+            model.addAttribute("html", session.getAttribute(cookie.getName()+"trunkDiff"));
+        return "differentialTrace";
     }
 
-    @RequestMapping("linerTrace/getTrace")
+    @RequestMapping("different/getTrace")
     @ResponseBody
     public Message getTrace() {
-        List<String> fileList = lInerTrunkDirService.getFileName(solFilePath);
+        List<String> fileList = dirService.getFileName(solFilePath);
         if (fileList.size() == 0 && traceInt == 0) {
             traceInt = 1;
             return Message.fail("405");
@@ -52,8 +52,8 @@ public class LinerTrunkTraceControll {
             return Message.fail("410");
         }
 
-        HashMap<String, String> trace = linerTrunkTraceService.getTrace(fileList,solFilePath);
-        if(trace==null){
+        HashMap<String, String> trace = traceService.getTrace(fileList);
+        if (trace == null) {
             return Message.fail("410");
         }
         traceInt = 0;

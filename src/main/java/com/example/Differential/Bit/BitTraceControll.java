@@ -1,4 +1,4 @@
-package com.example.linerTrunk;
+package com.example.Differential.Bit;
 
 import com.com.test.pojo.Message;
 import com.example.CookieUtil;
@@ -16,34 +16,35 @@ import java.util.HashMap;
 import java.util.List;
 
 @Controller
-public class LinerTrunkTraceControll {
-    @Autowired
-    private LInerTrunkDirService lInerTrunkDirService;
+public class BitTraceControll {
 
     @Autowired
-    private LinerTrunkTraceService linerTrunkTraceService;
+    private BitDirService bitDirService;
 
-    @Value("${liner.sol.trunk.path}")
+    @Autowired
+    private BitTraceService bitTraceService;
+
+    @Value("${bit.sol,file.path}")
     private String solFilePath;
 
     public static int traceInt;
 
-    @RequestMapping("linerTrunk/trace")
+    @RequestMapping("bitDiff/differentTrace")
     public String differentTrace(String subTxt, String compileRes, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
         if (subTxt != null && cookie != null)
-            session.setAttribute(cookie.getName()+"TrunkLinear", subTxt);
-        session.setAttribute(cookie.getName()+"ResTrunkLinear",compileRes);
-        if (cookie != null && session.getAttribute(cookie.getName()+"TrunkLinear") != null)
-            model.addAttribute("html", session.getAttribute(cookie.getName()+"TrunkLinear"));
-        return "linerTrunkTrace";
+            session.setAttribute(cookie.getName()+"DifBIt", subTxt);
+        session.setAttribute(cookie.getName() + "ResDifBIt", compileRes);
+        if (cookie != null && session.getAttribute(cookie.getName()+"DifBIt") != null)
+            model.addAttribute("html", session.getAttribute(cookie.getName()+"DifBIt"));
+        return "bitDifferentialTrace";
     }
 
-    @RequestMapping("linerTrace/getTrace")
+    @RequestMapping("bitDiff/getTrace")
     @ResponseBody
     public Message getTrace() {
-        List<String> fileList = lInerTrunkDirService.getFileName(solFilePath);
+        List<String> fileList = bitDirService.getFileName(solFilePath);
         if (fileList.size() == 0 && traceInt == 0) {
             traceInt = 1;
             return Message.fail("405");
@@ -52,8 +53,8 @@ public class LinerTrunkTraceControll {
             return Message.fail("410");
         }
 
-        HashMap<String, String> trace = linerTrunkTraceService.getTrace(fileList,solFilePath);
-        if(trace==null){
+        HashMap<String, String> trace = bitTraceService.getTrace(fileList, solFilePath);
+        if (trace == null) {
             return Message.fail("410");
         }
         traceInt = 0;

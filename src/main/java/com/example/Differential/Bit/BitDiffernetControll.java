@@ -1,6 +1,7 @@
-package com.example.ZeroRelated.Trunk;
+package com.example.Differential.Bit;
 
 import com.com.test.pojo.Message;
+import com.example.ActiveMq.PromoteActConsumer;
 import com.example.Differential.trunkDif.ComplieControll;
 import com.example.CookieUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,31 +15,33 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
-public class ZcTrunkControll {
+public class BitDiffernetControll {
     @Autowired
-    private ZcTrunkService zcTrunkService;
+    private BitDifferentService bitDifferentService;
 
     public static boolean isCompile;
 
-    public static int finsishComplie;
+    public static int finsishComplie = 0;
 
-    @RequestMapping("zcTrunk/submit/text")
+    @RequestMapping("bit/submit/text")
     @ResponseBody
     public String subText(String subTxt, Model model, HttpServletRequest request) throws Exception {
         try {
+            PromoteActConsumer.analysisType = "bitDif";
             HttpSession session = request.getSession();
             Cookie cookie = CookieUtil.getToken(request);
             ComplieControll.finsishComplie = 0;
             String html = null;
             if (cookie != null)
-                html = session.getAttribute(cookie.getName())+"";
+                html = session.getAttribute(cookie.getName()+"DifBIt")+"";
             if(html!=null&&html.equals(subTxt)&&!html.equals("null")){
                 return "已编译";
             }
             if("".equals(subTxt))return "";
-            String s = zcTrunkService.saveText(subTxt);
+            String s = bitDifferentService.saveText(subTxt);
             html = subTxt;
-            session.setAttribute(cookie.getName(),html);
+            if(cookie!=null)
+            session.setAttribute(cookie.getName()+"DifBIt",html);
             model.addAttribute("html",subTxt);
 //            model.addAttribute("htmlCode",html);
             if ("".equals(s)) {
@@ -55,39 +58,40 @@ public class ZcTrunkControll {
         return "错误";
     }
 
-    @RequestMapping("zcTrunk/complie")
+    @RequestMapping("bit/complie")
     @ResponseBody
     public String compile(String subTxt, HttpServletRequest request) {
+        PromoteActConsumer.ip = ComplieControll.getIp(request);
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
         Object html = null;
         if(cookie!=null){
-            html = session.getAttribute(cookie.getName());
+            html = session.getAttribute(cookie.getName()+"DifBIt");
         }
         if(html==null||(!subTxt.equals(html)&&
                 !html.toString().replace("\r","").equals(subTxt)))
             isCompile = false;
         if(isCompile==false)return "编译未成功";
         try {
-            zcTrunkService.removeSolFile();
-            finsishComplie = 1;
-            String result = zcTrunkService.complieProject();
-            finsishComplie = 2;
-            if("".equals(result))return "分析失败";
-            if(cookie!=null){
-                session.setAttribute(cookie.getName()+"com",result);
-            }
-            return result;
+//            bitDifferentService.removeSolFile();
+//            finsishComplie = 1;
+            bitDifferentService.complieProject();
+//            finsishComplie = 2;
+//            if("".equals(result))return "分析失败";
+//            if(cookie!=null){
+//                session.setAttribute(cookie.getName()+"com",result);
+//            }
+            return "编译成功";
         } catch (Exception e) {
             e.printStackTrace();
             return "分析失败";
         }
 
     }
-    @RequestMapping("/getZcTrunkCompileStatus")
+    @RequestMapping("/getBiteDifferentCompileStatus")
     @ResponseBody
     public Message getComplieStatus(){
-        String result = zcTrunkService.getCompileContent();
+        String result = bitDifferentService.getCompileContent();
         return Message.customize(finsishComplie+"",result);
     }
 }

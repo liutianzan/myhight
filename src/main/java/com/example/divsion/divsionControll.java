@@ -1,7 +1,7 @@
 package com.example.divsion;
 
 import com.com.test.pojo.Message;
-import com.example.ComplieControll;
+import com.example.Differential.trunkDif.ComplieControll;
 import com.example.CookieUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
