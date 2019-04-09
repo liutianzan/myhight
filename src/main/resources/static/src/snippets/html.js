@@ -156,9 +156,9 @@ snippet a.\n\
 snippet a#\n\
 	<a id=\"${1}\" href=\"${2:#}\">${3:$1}</a>\n\
 snippet a:ext\n\
-	<a href=\"http://${1:example.com}\">${2:$1}</a>\n\
+	<a href=\"http://${1:cryptomip.com}\">${2:$1}</a>\n\
 snippet a:mail\n\
-	<a href=\"mailto:${1:joe@example.com}?subject=${2:feedback}\">${3:email me}</a>\n\
+	<a href=\"mailto:${1:joe@cryptomip.com}?subject=${2:feedback}\">${3:email me}</a>\n\
 snippet abbr\n\
 	<abbr title=\"${1}\">${2}</abbr>\n\
 snippet address\n\

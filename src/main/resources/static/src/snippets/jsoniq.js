@@ -6,7 +6,7 @@ exports.snippetText = "snippet for\n\
 snippet return\n\
 	return ${1:expr}\n\
 snippet import\n\
-	import module namespace ${1:ns} = \"${2:http://www.example.com/}\";\n\
+	import module namespace ${1:ns} = \"${2:http://www.cryptomip.com/}\";\n\
 snippet some\n\
 	some $${1:varname} in ${2:expr} satisfies ${3:expr}\n\
 snippet every\n\
@@ -61,7 +61,7 @@ snippet fn\n\
 	${3:expr}\n\
 	};\n\
 snippet module\n\
-	module namespace ${1:ns} = \"${2:http://www.example.com}\";\n\
+	module namespace ${1:ns} = \"${2:http://www.cryptomip.com}\";\n\
 ";
 exports.scope = "jsoniq";
 
