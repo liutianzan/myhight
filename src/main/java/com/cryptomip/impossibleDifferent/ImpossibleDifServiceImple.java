@@ -11,7 +11,7 @@ public class ImpossibleDifServiceImple implements ImpossibleDiffService {
     @Value("${trunkId.python.path}")
     private String pythonFilePath;
 
-    @Value("${run.trunkId.script}")
+    @Value("${compile.trunkId.script}")
     private String runScriptPath;
 
     @Value("${delete.trunkId.file.path}")
@@ -23,13 +23,13 @@ public class ImpossibleDifServiceImple implements ImpossibleDiffService {
     @Value("${remove.trunkId.solFile}")
     private String removeFile;
 
-    @Value("${compile.trunkId.fenxi.path}")
+    @Value("${analysis.trunkId.fenxi.path}")
     private String compileFilePath;
 
-    @Value("${compile.trunkId.result.path}")
+    @Value("${analysis.trunkId.result.path}")
     private String compileResult;
 
-    @Value("${compile.script.impossibleDif.name}")
+    @Value("${analysis.script.impossibleDif.name}")
     private String compileName;
 
     @Override

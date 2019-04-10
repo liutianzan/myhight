@@ -2,7 +2,7 @@ package com.cryptomip.Differential.Bit;
 
 import com.baseTool.pojo.Message;
 import com.cryptomip.ActiveMq.PromoteActConsumer;
-import com.cryptomip.Differential.trunkDif.ComplieControll;
+import com.cryptomip.Differential.trunkDif.DifferentTrunkAnalysisControll;
 import com.baseTool.util.CookieUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,7 +30,7 @@ public class BitDiffernetControll {
             PromoteActConsumer.analysisType = "bitDif";
             HttpSession session = request.getSession();
             Cookie cookie = CookieUtil.getToken(request);
-            ComplieControll.finsishComplie = 0;
+            DifferentTrunkAnalysisControll.finsishComplie = 0;
             String html = null;
             if (cookie != null)
                 html = session.getAttribute(cookie.getName()+"DifBIt")+"";
@@ -61,7 +61,7 @@ public class BitDiffernetControll {
     @RequestMapping("bit/complie")
     @ResponseBody
     public String compile(String subTxt, HttpServletRequest request) {
-        PromoteActConsumer.ip = ComplieControll.getIp(request);
+        PromoteActConsumer.ip = DifferentTrunkAnalysisControll.getIp(request);
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
         Object html = null;

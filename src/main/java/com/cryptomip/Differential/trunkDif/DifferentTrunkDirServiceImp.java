@@ -12,11 +12,11 @@ import java.util.regex.Pattern;
 @Service
 public class DifferentTrunkDirServiceImp implements DifferentTrunkDirService {
 
-    @Value("${sol.file.path}")
+    @Value("${sol.trunkdif.file.path}")
     private String solFilePath;
-    @Value("${remove.sol.file}")
+    @Value("${remove.trunkdif.sol.file}")
     private String removeFile;
-
+    //得到文件夹中sol文件名称，并且相应对生成html
     @Override
     public String getDir(String projectName) {
         List<String> filenameList = getFileName(solFilePath);
@@ -39,7 +39,7 @@ public class DifferentTrunkDirServiceImp implements DifferentTrunkDirService {
         res += "</table>";
         return res;
     }
-
+    //得到文件名称
     @Override
     public List<String> getFileChoose(String projectName) {
         List<String> filenameList = getFileName(solFilePath);
@@ -60,7 +60,7 @@ public class DifferentTrunkDirServiceImp implements DifferentTrunkDirService {
 //        res += "</table>";
 //        return res;
     }
-
+    //得到sol文件内容
     @Override
     public String getContent(String fileName) throws Exception {
         String filePath = solFilePath + fileName;
@@ -91,7 +91,7 @@ public class DifferentTrunkDirServiceImp implements DifferentTrunkDirService {
         }
         return result;
     }
-
+    //调用删除文件脚本，将相应对sol文件进行删除
     @Override
     public void removeSolFile() throws InterruptedException, IOException {
         String pathName = removeFile;

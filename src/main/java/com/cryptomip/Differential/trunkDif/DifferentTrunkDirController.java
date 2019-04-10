@@ -25,7 +25,7 @@ public class DifferentTrunkDirController {
     @Autowired
     private DifferentTrunkDirService dirServiceImp;
 
-    @Value("${sol.file.path}")
+    @Value("${sol.trunkdif.file.path}")
     private String solFilePath;
 
     @RequestMapping("/diffDir")

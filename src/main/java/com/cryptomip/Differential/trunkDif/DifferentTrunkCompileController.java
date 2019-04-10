@@ -13,10 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
-public class DifferentTrunkController {
+public class DifferentTrunkCompileController {
 
     @Autowired
-    private DifferentTrunkService testService;
+    private DifferentTrunkCompileService testService;
 
 
 
@@ -30,7 +30,7 @@ public class DifferentTrunkController {
             PromoteActConsumer.analysisType = "trunkDif";
             HttpSession session = request.getSession();
             Cookie cookie = CookieUtil.getToken(request);
-            ComplieControll.finsishComplie = 0;
+            DifferentTrunkAnalysisControll.finsishComplie = 0;
             String html = null;
             if (cookie != null)
                 html = session.getAttribute(cookie.getName() + "trunkDiff") + "";

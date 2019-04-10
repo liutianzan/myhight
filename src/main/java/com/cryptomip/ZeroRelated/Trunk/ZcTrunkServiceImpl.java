@@ -12,7 +12,7 @@ public class ZcTrunkServiceImpl implements ZcTrunkService {
     @Value("${trunkzc.python.path}")
     private String pythonFilePath;
 
-    @Value("${run.trunkzc.script}")
+    @Value("${compile.trunkzc.script}")
     private String runScriptPath;
 
     @Value("${delete.trunkzc.file.script}")
@@ -24,13 +24,13 @@ public class ZcTrunkServiceImpl implements ZcTrunkService {
     @Value("${remove.trunkzc.solFile}")
     private String removeFile;
 
-    @Value("${compile.trunkzc.fenxi.path}")
+    @Value("${analysis.trunkzc.fenxi.path}")
     private String compileFilePath;
 
-    @Value("${compile.trunkzc.result.path}")
+    @Value("${analysis.trunkzc.result.path}")
     private String compileResult;
 
-    @Value("${compile.script.TrunkZc.name}")
+    @Value("${analysis.script.TrunkZc.name}")
     private String compileName;
 
     @Override

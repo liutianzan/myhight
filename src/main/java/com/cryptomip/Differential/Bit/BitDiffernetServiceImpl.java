@@ -13,7 +13,7 @@ public class BitDiffernetServiceImpl implements BitDifferentService {
     @Value("${python.file.path}")
     private String pythonFilePath;
 
-    @Value("${run.bit.progrem.script}")
+    @Value("${compile.bit.progrem.script}")
     private String runScriptPath;
 
     @Value("${delete.bit.file.script}")
@@ -25,13 +25,13 @@ public class BitDiffernetServiceImpl implements BitDifferentService {
     @Value("${remove.bit.solfile}")
     private String removeFile;
 
-    @Value("${compile.bit.file.path}")
+    @Value("${analysis.bit.file.path}")
     private String compileFilePath;
 
-    @Value("${compile.bit.path}")
+    @Value("${analysis.bit.path}")
     private String compileResult;
 
-    @Value("${compile.script.bitDiff.name}")
+    @Value("${analysis.script.bitDiff.name}")
     private String compileName;
 
     @Override

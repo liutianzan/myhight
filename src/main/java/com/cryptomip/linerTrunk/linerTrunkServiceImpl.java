@@ -12,7 +12,7 @@ public class linerTrunkServiceImpl implements linerTrunkService {
     @Value("${liner.python.path}")
     private String pythonFilePath;
 
-    @Value("${run.linerTrunk.script}")
+    @Value("${compile.linerTrunk.script}")
     private String runScriptPath;
 
     @Value("${delete.linerTrunk.file.script}")
@@ -24,13 +24,13 @@ public class linerTrunkServiceImpl implements linerTrunkService {
     @Value("${remove.linerTrunk.solFile}")
     private String removeFile;
 
-    @Value("${compile.linerTrunk.fenxi.path}")
+    @Value("${analysis.linerTrunk.fenxi.path}")
     private String compileFilePath;
 
-    @Value("${compile.linerTrunl.result.path}")
+    @Value("${analysis.linerTrunl.result.path}")
     private String compileResult;
 
-    @Value("${compile.script.TrunkLinear.name}")
+    @Value("${analysis.script.TrunkLinear.name}")
     private String compileName;
 
     @Override

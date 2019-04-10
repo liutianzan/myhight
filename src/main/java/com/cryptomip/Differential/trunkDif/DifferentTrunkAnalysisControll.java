@@ -16,18 +16,15 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 @Scope("prototype")
-public class ComplieControll {
+public class DifferentTrunkAnalysisControll {
     @Autowired
-    private DifferentTrunkService testService;
-
-    @Autowired
-    private DifferentTrunkDirService dirService;
+    private DifferentTrunkAnalysisService testService;
 
     public static int finsishComplie = 0;
 
     @RequestMapping("/complie")
     @ResponseBody
-    public String compile(String subTxt, HttpServletRequest request) {
+    public String analysis(String subTxt, HttpServletRequest request) {
         PromoteActConsumer.ip = getIp(request);
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
@@ -37,8 +34,8 @@ public class ComplieControll {
         }
         if(html==null||(!subTxt.equals(html)&&
                 !html.toString().replace("\r","").equals(subTxt)))
-            DifferentTrunkController.isCompile = false;
-        if(DifferentTrunkController.isCompile==false)return "编译未成功";
+            DifferentTrunkCompileController.isCompile = false;
+        if(DifferentTrunkCompileController.isCompile==false)return "编译未成功";
         // TODO
         try {
         testService.complieProject();
@@ -51,7 +48,7 @@ public class ComplieControll {
 //                session.setAttribute(cookie.getName()+"com",result);
 //            }
 //            return result;
-            return "编译成功";
+            return "分析成功";
         } catch (Exception e) {
             e.printStackTrace();
             return "分析失败";
@@ -60,9 +57,9 @@ public class ComplieControll {
     }
     @RequestMapping("/getComplieStatus")
     @ResponseBody
-    public Message getComplieStatus(String compileRes, HttpServletRequest request, HttpServletResponse response){
+    public Message getAnalysisStatus(String compileRes, HttpServletRequest request, HttpServletResponse response){
 
-        String result = testService.getCompileContent();
+        String result = testService.getAnalysisContent();
         return Message.customize(finsishComplie+"",result);
     }
     public static String getIp(HttpServletRequest request){

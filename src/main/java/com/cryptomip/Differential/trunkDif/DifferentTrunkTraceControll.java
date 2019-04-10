@@ -23,7 +23,7 @@ public class DifferentTrunkTraceControll {
     @Autowired
     private DifferentTrunkDirService dirService;
 
-    @Value("${sol.file.path}")
+    @Value("${sol.trunkdif.file.path}")
     private String solFilePath;
 
     public static int traceInt = 0;

@@ -1,7 +1,7 @@
 package com.cryptomip.impossibleDifferent;
 
 import com.baseTool.pojo.Message;
-import com.cryptomip.Differential.trunkDif.ComplieControll;
+import com.cryptomip.Differential.trunkDif.DifferentTrunkAnalysisControll;
 import com.baseTool.util.CookieUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,7 +28,7 @@ public class ImpossibleDifControll {
         try {
             HttpSession session = request.getSession();
             Cookie cookie = CookieUtil.getToken(request);
-            ComplieControll.finsishComplie = 0;
+            DifferentTrunkAnalysisControll.finsishComplie = 0;
             String html = null;
             if (cookie != null)
                 html = session.getAttribute(cookie.getName())+"";

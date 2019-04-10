@@ -11,9 +11,9 @@ import java.util.*;
 @Service
 public class DifferentTrunkTraceServiceImpl implements DifferentTrunkTraceService {
 
-    @Value("${sol.file.path}")
+    @Value("${sol.trunkdif.file.path}")
     private String solFilePath;
-
+    //得到最后一个sol文件，生成差分迹表格，其中变量为1，标记为红色。
     @Override
     public HashMap<String,String> getTrace(List<String> fileNameList) {
         Collections.sort(fileNameList, new Comparator<String>() {

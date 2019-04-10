@@ -11,7 +11,7 @@ public class DivsionServiceImpl implements DivsionService {
     @Value("${div.python.path}")
     private String pythonFilePath;
 
-    @Value("${run.div.script}")
+    @Value("${compile.div.script}")
     private String runScriptPath;
 
     @Value("${delete.div.file.script}")
@@ -23,13 +23,13 @@ public class DivsionServiceImpl implements DivsionService {
     @Value("${remove.div.solFile}")
     private String removeFile;
 
-    @Value("${compile.div.fenxi.path}")
+    @Value("${analysis.div.fenxi.path}")
     private String compileFilePath;
 
-    @Value("${compile.div.result.path}")
+    @Value("${analysis.div.result.path}")
     private String compileResult;
 
-    @Value("${compile.script.divsion.name}")
+    @Value("${analysis.script.divsion.name}")
     private String compileName;
 
     @Override
