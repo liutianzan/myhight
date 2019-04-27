@@ -28,23 +28,24 @@ public class ImpossibleDifControll {
         try {
             HttpSession session = request.getSession();
             Cookie cookie = CookieUtil.getToken(request);
+            String userName = CookieUtil.getUserName(session);
             DifferentTrunkAnalysisControll.finsishComplie = 0;
             String html = null;
             if (cookie != null)
-                html = session.getAttribute(cookie.getName())+"";
+                html = session.getAttribute(userName+"DifId")+"";
             if(html!=null&&html.equals(subTxt)&&!html.equals("null")){
                 return "已编译";
             }
             if("".equals(subTxt))return "";
-            String s = impossibleDiffService.saveText(subTxt);
+            String s = impossibleDiffService.saveText(subTxt,userName);
             html = subTxt;
-            session.setAttribute(cookie.getName(),html);
-            model.addAttribute("html",subTxt);
+            session.setAttribute(userName+"DifId",html);
+            model.addAttribute("htmlId",subTxt);
 //            model.addAttribute("htmlCode",html);
-            if ("".equals(s)) {
-                isCompile = false;
-                return "编译失败";
-            }
+//            if ("".equals(s)) {
+//                isCompile = false;
+//                return "编译失败";
+//            }
             isCompile = true;
             return "编译成功";
         } catch (Exception e) {
@@ -60,24 +61,26 @@ public class ImpossibleDifControll {
     public String compile(String subTxt, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
+        String userName = CookieUtil.getUserName(session);
         Object html = null;
         if(cookie!=null){
-            html = session.getAttribute(cookie.getName());
+            html = session.getAttribute(userName+"DifId");
         }
         if(html==null||(!subTxt.equals(html)&&
                 !html.toString().replace("\r","").equals(subTxt)))
             isCompile = false;
         if(isCompile==false)return "编译未成功";
         try {
-            impossibleDiffService.removeSolFile();
-            finsishComplie = 1;
-            String result = impossibleDiffService.complieProject();
-            finsishComplie = 2;
-            if("".equals(result))return "分析失败";
-            if(cookie!=null){
-                session.setAttribute(cookie.getName()+"com",result);
-            }
-            return result;
+//            impossibleDiffService.removeSolFile(userName);
+//            finsishComplie = 1;
+            impossibleDiffService.complieProject(userName);
+//            finsishComplie = 2;
+//            if("".equals(result))return "分析失败";
+//            if(cookie!=null){
+//                session.setAttribute(cookie.getName()+"com",result);
+//            }
+//            return result;
+            return "编译成功";
         } catch (Exception e) {
             e.printStackTrace();
             return "分析失败";
@@ -86,8 +89,10 @@ public class ImpossibleDifControll {
     }
     @RequestMapping("/getIbComplieStatus")
     @ResponseBody
-    public Message getComplieStatus(){
-        String result = impossibleDiffService.getCompileContent();
+    public Message getComplieStatus(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        String userName = CookieUtil.getUserName(session);
+        String result = impossibleDiffService.getCompileContent(userName);
         return Message.customize(finsishComplie+"",result);
     }
 }

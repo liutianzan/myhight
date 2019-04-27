@@ -28,9 +28,10 @@ public class DifferentTrunkAnalysisControll {
         PromoteActConsumer.ip = getIp(request);
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
+        String userName = CookieUtil.getUserName(session);
         Object html = null;
         if(cookie!=null){
-            html = session.getAttribute(cookie.getName()+"trunkDiff");
+            html = session.getAttribute(userName+"trunkDiff");
         }
         if(html==null||(!subTxt.equals(html)&&
                 !html.toString().replace("\r","").equals(subTxt)))
@@ -38,7 +39,7 @@ public class DifferentTrunkAnalysisControll {
         if(DifferentTrunkCompileController.isCompile==false)return "编译未成功";
         // TODO
         try {
-        testService.complieProject();
+        testService.complieProject(userName);
 //            dirService.removeSolFile();
 //            finsishComplie = 1;
 //            String result = testService.complieProject();

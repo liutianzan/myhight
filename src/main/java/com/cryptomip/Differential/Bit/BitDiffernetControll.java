@@ -33,24 +33,25 @@ public class BitDiffernetControll {
             PromoteActConsumer.analysisType = "bitDif";
             HttpSession session = request.getSession();
             Cookie cookie = CookieUtil.getToken(request);
+            String userName = CookieUtil.getUserName(session);
             DifferentTrunkAnalysisControll.finsishComplie = 0;
             String html = null;
             if (cookie != null)
-                html = session.getAttribute(cookie.getName()+"DifBIt")+"";
+                html = session.getAttribute(userName+"DifBIt")+"";
             if(html!=null&&html.equals(subTxt)&&!html.equals("null")){
                 return "已编译";
             }
             if("".equals(subTxt))return "";
-            String s = bitDifferentService.saveText(subTxt);
+            String s = bitDifferentService.saveText(subTxt,userName);
             html = subTxt;
             if(cookie!=null)
-            session.setAttribute(cookie.getName()+"DifBIt",html);
+            session.setAttribute(userName+"DifBIt",html);
             model.addAttribute("html",subTxt);
 //            model.addAttribute("htmlCode",html);
-            if ("".equals(s)) {
-                isCompile = false;
-                return "编译失败";
-            }
+//            if ("".equals(s)) {
+//                isCompile = false;
+//                return "编译失败";
+//            }
             isCompile = true;
             return "编译成功";
         } catch (Exception e) {
@@ -70,9 +71,10 @@ public class BitDiffernetControll {
         PromoteActConsumer.ip = DifferentTrunkAnalysisControll.getIp(request);
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
+        String userName = CookieUtil.getUserName(session);
         Object html = null;
         if(cookie!=null){
-            html = session.getAttribute(cookie.getName()+"DifBIt");
+            html = session.getAttribute(userName+"DifBIt");
         }
         if(html==null||(!subTxt.equals(html)&&
                 !html.toString().replace("\r","").equals(subTxt)))
@@ -81,7 +83,7 @@ public class BitDiffernetControll {
         try {
 //            bitDifferentService.removeSolFile();
 //            finsishComplie = 1;
-            bitDifferentService.complieProject();
+            bitDifferentService.complieProject(userName);
 //            finsishComplie = 2;
 //            if("".equals(result))return "分析失败";
 //            if(cookie!=null){

@@ -33,18 +33,21 @@ public class BitTraceControll {
     public String differentTrace(String subTxt, String compileRes, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
+        String userName = CookieUtil.getUserName(session);
         if (subTxt != null && cookie != null)
-            session.setAttribute(cookie.getName()+"DifBIt", subTxt);
-        session.setAttribute(cookie.getName() + "ResDifBIt", compileRes);
-        if (cookie != null && session.getAttribute(cookie.getName()+"DifBIt") != null)
-            model.addAttribute("html", session.getAttribute(cookie.getName()+"DifBIt"));
+            session.setAttribute(userName+"DifBIt", subTxt);
+        session.setAttribute(userName + "ResDifBIt", compileRes);
+        if (cookie != null && session.getAttribute(userName+"DifBIt") != null)
+            model.addAttribute("html", session.getAttribute(userName+"DifBIt"));
         return "bitDifferentialTrace";
     }
 
     @RequestMapping("bitDiff/getTrace")
     @ResponseBody
-    public Message getTrace() {
-        List<String> fileList = bitDirService.getFileName(solFilePath);
+    public Message getTrace(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        String userName = CookieUtil.getUserName(session);
+        List<String> fileList = bitDirService.getFileName(solFilePath+userName+"/");
         if (fileList.size() == 0 && traceInt == 0) {
             traceInt = 1;
             return Message.fail("405");
@@ -53,7 +56,7 @@ public class BitTraceControll {
             return Message.fail("410");
         }
 
-        HashMap<String, String> trace = bitTraceService.getTrace(fileList, solFilePath);
+        HashMap<String, String> trace = bitTraceService.getTrace(fileList, solFilePath+userName+"/");
         if (trace == null) {
             return Message.fail("410");
         }

@@ -25,15 +25,24 @@ public class LinkIndex {
     public String middle(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
+        String userName = CookieUtil.getUserName(session);
         if (cookie != null)
-            model.addAttribute("html", session.getAttribute(cookie.getName()));
+            model.addAttribute("html", session.getAttribute(userName));
         return "middle";
     }
 
     @RequestMapping("choose")
-    public String choose(Model model, HttpServletResponse response, HttpServletRequest request) {
+    public String choose(String subTxt, String compileRes,String typeHtml,String typeRes,Model model, HttpServletResponse response, HttpServletRequest request) {
+
+        HttpSession session = request.getSession();
+        Cookie cookie = CookieUtil.getToken(request);
+        String userName = CookieUtil.getUserName(session);
+        if (subTxt != null && cookie != null){
+            session.setAttribute(userName+typeHtml, subTxt);
+            session.setAttribute(userName + typeRes, compileRes);
+        }
+
         String token = UUID.randomUUID().toString().replace("-", "");
-        Cookie cookie = new Cookie("token", token);
         cookie.setMaxAge(10000000); //存活期为100000秒
         response.addCookie(cookie);
 
@@ -48,6 +57,7 @@ public class LinkIndex {
     @RequestMapping("dif/Truncated")
     public String different(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
+        String userName = CookieUtil.getUserName(session);
         Cookie[] cookies = request.getCookies();
         Cookie cookie = null;
         for (int i = 0; i < cookies.length; i++) {
@@ -57,8 +67,8 @@ public class LinkIndex {
         }
         if (cookie != null) {
 
-            model.addAttribute("html", session.getAttribute(cookie.getName() + "trunkDiff"));
-            model.addAttribute("compileRes", session.getAttribute(cookie.getName() + "Res"));
+            model.addAttribute("html", session.getAttribute(userName + "trunkDiff"));
+            model.addAttribute("compileRes", session.getAttribute(userName + "Res"));
         }
         return "different";
     }
@@ -67,10 +77,11 @@ public class LinkIndex {
     public String bitDifferrnt(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
+        String userName = CookieUtil.getUserName(session);
         if (cookie != null) {
 
-            model.addAttribute("html", session.getAttribute(cookie.getName() + "DifBIt"));
-            model.addAttribute("compileResDifBIt", session.getAttribute(cookie.getName() + "ResDifBIt"));
+            model.addAttribute("html", session.getAttribute(userName + "DifBIt"));
+            model.addAttribute("compileResDifBIt", session.getAttribute(userName + "ResDifBIt"));
         }
         return "bitDifferent";
     }
@@ -79,8 +90,9 @@ public class LinkIndex {
     public String impossible(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
+        String userName = CookieUtil.getUserName(session);
         if (cookie != null)
-            model.addAttribute("html", session.getAttribute(cookie.getName()));
+            model.addAttribute("htmlId", session.getAttribute(userName+"DifId"));
         return "impossible";
     }
 
@@ -88,10 +100,11 @@ public class LinkIndex {
     public String liner(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
+        String userName = CookieUtil.getUserName(session);
         if (cookie != null){
 
-            model.addAttribute("html", session.getAttribute(cookie.getName()+"TrunkLinear"));
-            model.addAttribute("compileResTrunkLinear", session.getAttribute(cookie.getName() + "ResTrunkLinear"));
+            model.addAttribute("html", session.getAttribute(userName+"TrunkLinear"));
+            model.addAttribute("compileResTrunkLinear", session.getAttribute(userName + "ResTrunkLinear"));
         }
         return "liner";
     }
@@ -100,8 +113,9 @@ public class LinkIndex {
     public String base(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
+        String userName = CookieUtil.getUserName(session);
         if (cookie != null)
-            model.addAttribute("html", session.getAttribute(cookie.getName()));
+            model.addAttribute("html", session.getAttribute(userName+"divsion"));
         return "base";
     }
 
@@ -109,8 +123,9 @@ public class LinkIndex {
     public String zero(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
+        String userName = CookieUtil.getUserName(session);
         if (cookie != null)
-            model.addAttribute("html", session.getAttribute(cookie.getName()));
+            model.addAttribute("html", session.getAttribute(userName+"TrunkZero"));
         return "zero";
     }
 

@@ -1,7 +1,10 @@
 package com.baseTool.util;
 
+import com.cryptomip.configurer.ConStants;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 public class CookieUtil {
     public static Cookie getToken(HttpServletRequest request){
@@ -14,5 +17,10 @@ public class CookieUtil {
             }
         }
         return cookie;
+    }
+
+    public static String getUserName(HttpSession session){
+        String userName = (String) session.getAttribute(ConStants.USER_NAME);
+        return userName;
     }
 }

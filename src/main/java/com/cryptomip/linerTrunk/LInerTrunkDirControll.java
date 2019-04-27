@@ -28,8 +28,10 @@ public class LInerTrunkDirControll {
     @RequestMapping("/linerTrunkDir")
     @ResponseBody
     public String getDiffDir(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        String userName = CookieUtil.getUserName(session);
         String projectName = request.getContextPath();
-        String res = bitDirService.getDir(projectName);
+        String res = bitDirService.getDir(projectName,userName);
         return res;
     }
 
@@ -37,39 +39,42 @@ public class LInerTrunkDirControll {
     public String differentPath(String subTxt, String compileRes,Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
+        String userName = CookieUtil.getUserName(session);
         if(subTxt!=null&&cookie!=null){
 
-            session.setAttribute(cookie.getName()+"TrunkLinear", subTxt);
-            session.setAttribute(cookie.getName()+"ResTrunkLinear",compileRes);
+            session.setAttribute(userName+"TrunkLinear", subTxt);
+            session.setAttribute(userName+"ResTrunkLinear",compileRes);
         }
         if (cookie != null)
-            model.addAttribute("html", session.getAttribute(cookie.getName()+"TrunkLinear"));
+            model.addAttribute("html", session.getAttribute(userName+"TrunkLinear"));
         return "linerTrunkPath";
     }
 
     @RequestMapping("/getLinerTrunkFile/{fileName}")
     public String getContent(@PathVariable("fileName") String filename, ModelMap model, HttpServletRequest request) throws Exception {
-
-        String content = bitDirService.getContent(filename);
+        HttpSession session = request.getSession();
+        String userName = CookieUtil.getUserName(session);
+        Cookie cookie = CookieUtil.getToken(request);
+        String content = bitDirService.getContent(filename,userName);
         model.addAttribute("text", content);
         model.addAttribute("fileName", filename);
-        HttpSession session = request.getSession();
-        Cookie cookie = CookieUtil.getToken(request);
         if (cookie != null)
-            model.addAttribute("html", session.getAttribute(cookie.getName()+"TrunkLinear"));
+            model.addAttribute("html", session.getAttribute(userName+"TrunkLinear"));
         return "linerTrunkContent";
     }
 
     @RequestMapping("removeLinerTrunkSol")
     @ResponseBody
-    public String removeFile() {
+    public String removeFile(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        String userName = CookieUtil.getUserName(session);
         String res = null;
         try {
             List<String> fileList = bitDirService.getFileName(solFilePath);
             if (fileList.size() == 0) {
                 return "无可删除文件";
             }
-            bitDirService.removeSolFile();
+            bitDirService.removeSolFile(userName);
             return "文件删除成功";
         } catch (InterruptedException e) {
             e.printStackTrace();

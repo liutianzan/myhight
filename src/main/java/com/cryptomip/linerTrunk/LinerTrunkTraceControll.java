@@ -32,18 +32,21 @@ public class LinerTrunkTraceControll {
     public String differentTrace(String subTxt, String compileRes, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
+        String userName = CookieUtil.getUserName(session);
         if (subTxt != null && cookie != null)
-            session.setAttribute(cookie.getName()+"TrunkLinear", subTxt);
-        session.setAttribute(cookie.getName()+"ResTrunkLinear",compileRes);
-        if (cookie != null && session.getAttribute(cookie.getName()+"TrunkLinear") != null)
-            model.addAttribute("html", session.getAttribute(cookie.getName()+"TrunkLinear"));
+            session.setAttribute(userName+"TrunkLinear", subTxt);
+        session.setAttribute(userName+"ResTrunkLinear",compileRes);
+        if (cookie != null && session.getAttribute(userName+"TrunkLinear") != null)
+            model.addAttribute("html", session.getAttribute(userName+"TrunkLinear"));
         return "linerTrunkTrace";
     }
 
     @RequestMapping("linerTrace/getTrace")
     @ResponseBody
-    public Message getTrace() {
-        List<String> fileList = lInerTrunkDirService.getFileName(solFilePath);
+    public Message getTrace(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        String userName = CookieUtil.getUserName(session);
+        List<String> fileList = lInerTrunkDirService.getFileName(solFilePath+userName+"/");
         if (fileList.size() == 0 && traceInt == 0) {
             traceInt = 1;
             return Message.fail("405");
@@ -52,7 +55,7 @@ public class LinerTrunkTraceControll {
             return Message.fail("410");
         }
 
-        HashMap<String, String> trace = linerTrunkTraceService.getTrace(fileList,solFilePath);
+        HashMap<String, String> trace = linerTrunkTraceService.getTrace(fileList,solFilePath+userName+"/");
         if(trace==null){
             return Message.fail("410");
         }

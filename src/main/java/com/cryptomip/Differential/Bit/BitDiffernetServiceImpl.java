@@ -10,7 +10,7 @@ import java.util.Map;
 @Service
 public class BitDiffernetServiceImpl implements BitDifferentService {
 
-    @Value("${python.file.path}")
+    @Value("${python.file.path.bit}")
     private String pythonFilePath;
 
     @Value("${compile.bit.progrem.script}")
@@ -19,8 +19,11 @@ public class BitDiffernetServiceImpl implements BitDifferentService {
     @Value("${delete.bit.file.script}")
     private String deleteFileScript;
 
-    @Value("${tomporary.bit.file.path}")
+    @Value("${tomporary.file}")
     private String temporaryFilePath;
+
+    @Value("${tomporary.bit.file.path}")
+    private String temporaryFileName;
 
     @Value("${remove.bit.solfile}")
     private String removeFile;
@@ -35,16 +38,19 @@ public class BitDiffernetServiceImpl implements BitDifferentService {
     private String compileName;
 
     @Override
-    public String saveText(String subText) throws Exception {
+    public String saveText(String subText,String userName) throws Exception {
 
         if (subText == null || subText.equals("")) return null;
         FileWriter fw = null;
 
 
         String resStr = subText;
-        File f = new File(temporaryFilePath);
+        File f = new File(temporaryFilePath+userName+"/"+temporaryFileName);
         if (!resStr.equals("")) {
             try {
+                if (!f.getParentFile().exists()){
+                    f.getParentFile().mkdir();
+                }
                 if (!f.exists()) {
                     f.createNewFile();
                 }
@@ -58,12 +64,12 @@ public class BitDiffernetServiceImpl implements BitDifferentService {
         }
         Map<String, String> res = new HashMap<>();
         res.put("成功", resStr);
-        String result = savePython();
-        deletePython();
+        String result = savePython(userName);
+        deletePython(userName);
         return result;
     }
     @Override
-    public String savePython() throws InterruptedException, IOException {
+    public String savePython(String userName) throws InterruptedException, IOException {
         String pathName = runScriptPath;
 
         Process process = null;
@@ -72,9 +78,15 @@ public class BitDiffernetServiceImpl implements BitDifferentService {
         process = Runtime.getRuntime().exec(command1);
         process.waitFor();
 
-        String command2 = "/bin/sh " + pathName;
+        String command2 = "/bin/sh " + pathName +" "+userName;
         Runtime.getRuntime().exec(command2).waitFor();
-        File file = new File(pythonFilePath + "resultBit.txt");
+        File file = new File(pythonFilePath +userName+ "/result.txt");
+        if (!file.getParentFile().exists()){
+            file.getParentFile().mkdir();
+        }
+        if (!file.exists()) {
+            file.createNewFile();
+        }
         StringBuilder result = new StringBuilder();
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));//构造一个BufferedReader类来读取文件
@@ -91,7 +103,7 @@ public class BitDiffernetServiceImpl implements BitDifferentService {
     }
 
     @Override
-    public void deletePython() throws InterruptedException, IOException {
+    public void deletePython(String userName) throws InterruptedException, IOException {
         String pathName = deleteFileScript;
 
         Process process = null;
@@ -100,12 +112,12 @@ public class BitDiffernetServiceImpl implements BitDifferentService {
         process = Runtime.getRuntime().exec(command1);
         process.waitFor();
 
-        String command2 = "/bin/sh " + pathName;
+        String command2 = "/bin/sh " + pathName +" "+userName;
         Runtime.getRuntime().exec(command2).waitFor();
     }
 
     @Override
-    public void removeSolFile() throws InterruptedException, IOException {
+    public void removeSolFile(String userName) throws InterruptedException, IOException {
         String pathName = removeFile;
 
         Process process = null;
@@ -114,17 +126,17 @@ public class BitDiffernetServiceImpl implements BitDifferentService {
         process = Runtime.getRuntime().exec(command1);
         process.waitFor();
 
-        String command2 = "/bin/sh " + pathName;
+        String command2 = "/bin/sh " + pathName +" "+userName;
         Runtime.getRuntime().exec(command2).waitFor();
 
     }
     @Override
-    public void complieProject() throws Exception {
-        compilePython();
+    public void complieProject(String userName) throws Exception {
+        compilePython(userName);
     }
     @Override
-    public void compilePython() throws InterruptedException, IOException {
-        ProcessBuilder pb = new ProcessBuilder("./" + compileName);
+    public void compilePython(String userName) throws InterruptedException, IOException {
+        ProcessBuilder pb = new ProcessBuilder("./"+compileName,userName);
         pb.directory(new File(compileFilePath));
         int runningStatus = 0;
         String stt = null;

@@ -28,47 +28,55 @@ public class DivsionDirControll {
     @RequestMapping("/divsionDir")
     @ResponseBody
     public String getDiffDir(HttpServletRequest request) {
+
+        HttpSession session = request.getSession();
+        String userName = CookieUtil.getUserName(session);
         String projectName = request.getContextPath();
-        String res = divsionDirService.getDir(projectName);
+        String res = divsionDirService.getDir(projectName,userName);
         return res;
     }
 
     @RequestMapping("divsionPath")
-    public String differentPath(String subTxt, Model model, HttpServletRequest request) {
+    public String differentPath(String subTxt, String compileRes, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
+        String userName = CookieUtil.getUserName(session);
+
         if(subTxt!=null&&cookie!=null)
-            session.setAttribute(cookie.getName(), subTxt);
+            session.setAttribute(userName+"divsion", subTxt);
+        session.setAttribute(userName+"ResDifDiv",compileRes);
         if (cookie != null)
-            model.addAttribute("html", session.getAttribute(cookie.getName()));
+            model.addAttribute("html", session.getAttribute(userName+"divsion"));
         return "basePath";
     }
 
     @RequestMapping("/getDivsionFile/{fileName}")
     public String getContent(@PathVariable("fileName") String filename, ModelMap model, HttpServletRequest request) throws Exception {
-
-        String content = divsionDirService.getContent(filename);
+        HttpSession session = request.getSession();
+        String userName = CookieUtil.getUserName(session);
+        Cookie cookie = CookieUtil.getToken(request);
+        String content = divsionDirService.getContent(filename,userName);
         model.addAttribute("text", content);
         model.addAttribute("fileName", filename);
-        List<String> res = divsionDirService.getFileChoose("");
+        List<String> res = divsionDirService.getFileChoose("",userName);
         model.addAttribute("fileNameList",res);
-        HttpSession session = request.getSession();
-        Cookie cookie = CookieUtil.getToken(request);
         if (cookie != null)
-            model.addAttribute("html", session.getAttribute(cookie.getName()));
+            model.addAttribute("html", session.getAttribute(userName+"divsion"));
         return "baseContent";
     }
 
     @RequestMapping("removeDivsionSol")
     @ResponseBody
-    public String removeFile() {
+    public String removeFile(HttpServletRequest request) {
         String res = null;
+        HttpSession session = request.getSession();
+        String userName = CookieUtil.getUserName(session);
         try {
-            List<String> fileList = divsionDirService.getFileName(solFilePath);
+            List<String> fileList = divsionDirService.getFileName(solFilePath+userName+"/");
             if (fileList.size() == 0) {
                 return "无可删除文件";
             }
-            divsionDirService.removeSolFile();
+            divsionDirService.removeSolFile(userName);
             return "文件删除成功";
         } catch (InterruptedException e) {
             e.printStackTrace();

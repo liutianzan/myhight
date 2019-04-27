@@ -11,11 +11,10 @@ import java.util.*;
 @Service
 public class DifferentTrunkTraceServiceImpl implements DifferentTrunkTraceService {
 
-    @Value("${sol.trunkdif.file.path}")
-    private String solFilePath;
+
     //得到最后一个sol文件，生成差分迹表格，其中变量为1，标记为红色。
     @Override
-    public HashMap<String,String> getTrace(List<String> fileNameList) {
+    public HashMap<String,String> getTrace(List<String> fileNameList,String solFilePath) {
         Collections.sort(fileNameList, new Comparator<String>() {
             @Override
             public int compare(String o1, String o2) {
@@ -57,7 +56,7 @@ public class DifferentTrunkTraceServiceImpl implements DifferentTrunkTraceServic
         HashMap<String,String> hm = new HashMap<>();
         List<String> subLen = new ArrayList<>();
         for(String re:s){
-            if(re.startsWith("p_r0_")){
+            if(re.startsWith("p_r1_")){
                 subLen.add(re);
             }
         }
@@ -77,7 +76,7 @@ public class DifferentTrunkTraceServiceImpl implements DifferentTrunkTraceServic
             htmlTable+="<td width=\""+width+"\" style=\"border-style:none;\">"+i+"</td>";
         }
         htmlTable+="</tr>";
-        for(int i = 0;i<lunshu;i++){
+        for(int i = 1;i<=lunshu;i++){
             htmlTable+="<tr height=\""+height+"\">";
             htmlTable+="<td width=\""+width+"\" style=\"border-style:none;\">r"+i+"</td>";
 

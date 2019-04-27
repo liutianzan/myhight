@@ -28,8 +28,10 @@ public class BitDirControll {
     @RequestMapping("/bitDiffDir")
     @ResponseBody
     public String getDiffDir(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        String userName = CookieUtil.getUserName(session);
         String projectName = request.getContextPath();
-        String res = bitDirService.getDir(projectName);
+        String res = bitDirService.getDir(projectName,userName);
         return res;
     }
 
@@ -37,39 +39,43 @@ public class BitDirControll {
     public String differentPath(String subTxt, String compileRes,Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
+        String userName = CookieUtil.getUserName(session);
         if(subTxt!=null&&cookie!=null){
 
-            session.setAttribute(cookie.getName()+"DifBIt", subTxt);
-            session.setAttribute(cookie.getName()+"ResDifBIt",compileRes);
+            session.setAttribute(userName+"DifBIt", subTxt);
+            session.setAttribute(userName+"ResDifBIt",compileRes);
         }
         if (cookie != null)
-            model.addAttribute("html", session.getAttribute(cookie.getName()+"DifBIt"));
+            model.addAttribute("html", session.getAttribute(userName+"DifBIt"));
         return "BitDifferentDir";
     }
 
     @RequestMapping("/getBitFile/{fileName}")
     public String getContent(@PathVariable("fileName") String filename, ModelMap model, HttpServletRequest request) throws Exception {
-
-        String content = bitDirService.getContent(filename);
+        HttpSession session = request.getSession();
+        String userName = CookieUtil.getUserName(session);
+        String content = bitDirService.getContent(filename,userName);
         model.addAttribute("text", content);
         model.addAttribute("fileName", filename);
-        HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
         if (cookie != null)
-            model.addAttribute("html", session.getAttribute(cookie.getName()+"DifBIt"));
+            model.addAttribute("html", session.getAttribute(userName+"DifBIt"));
         return "dirBitContent";
     }
 
     @RequestMapping("removeBitSol")
     @ResponseBody
-    public String removeFile() {
+    public String removeFile(HttpServletRequest request) {
         String res = null;
+        HttpSession session = request.getSession();
+        String userName = CookieUtil.getUserName(session);
         try {
-            List<String> fileList = bitDirService.getFileName(solFilePath);
+
+            List<String> fileList = bitDirService.getFileName(solFilePath+userName+"/");
             if (fileList.size() == 0) {
                 return "无可删除文件";
             }
-            bitDirService.removeSolFile();
+            bitDirService.removeSolFile(userName);
             return "文件删除成功";
         } catch (InterruptedException e) {
             e.printStackTrace();

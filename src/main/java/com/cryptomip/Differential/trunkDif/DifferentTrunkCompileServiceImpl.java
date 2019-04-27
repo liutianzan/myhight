@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 @Service
 public class DifferentTrunkCompileServiceImpl implements DifferentTrunkCompileService {
 
-    @Value("${python.file.path}")
+    @Value("${python.file.path.trunk}")
     public String pythonFilePath;
 
     @Value("${test.path.name}")
@@ -23,17 +23,19 @@ public class DifferentTrunkCompileServiceImpl implements DifferentTrunkCompileSe
     @Value("${compile.program.trunkdif.script}")
     private String runScriptPath;
 
-    @Value("${tomporary.trunkdif.file.path}")
+    @Value("${tomporary.file}")
     private String temporaryFilePath;
+
+    @Value("${tomporary.trunkdif.file.path}")
+    private String temporaryFileName;
 
     @Value("${delete.file.trunkdif.script}")
     private String deleteFileScript;
 
 
-
     //存储提交的代码
     @Override
-    public String saveText(String subText) throws Exception {
+    public String saveText(String subText, String userName) throws Exception {
         if (subText == null || subText.equals("")) return null;
         FileWriter fw = null;
 
@@ -63,9 +65,12 @@ public class DifferentTrunkCompileServiceImpl implements DifferentTrunkCompileSe
         String resStr = subText;
 //        resStr = resStr.replace("&gt;",">");
 //        resStr = resStr.replace("&lt;","<");
-        File f = new File(temporaryFilePath);
+        File f = new File(temporaryFilePath + userName + "/" + temporaryFileName);
         if (!resStr.equals("")) {
             try {
+                if (!f.getParentFile().exists()){
+                    f.getParentFile().mkdir();
+                }
                 if (!f.exists()) {
                     f.createNewFile();
                 }
@@ -79,15 +84,15 @@ public class DifferentTrunkCompileServiceImpl implements DifferentTrunkCompileSe
         }
         Map<String, String> res = new HashMap<>();
         res.put("成功", resStr);
-        String result = savePython();
-        deletePython();
+        String result = savePython(userName);
+        deletePython(userName);
         return result;
     }
 
 
     //调用脚本，对提交对代码进行编译
     @Override
-    public String savePython() throws InterruptedException, IOException {
+    public String savePython(String userName) throws InterruptedException, IOException {
         String pathName = runScriptPath;
 
         Process process = null;
@@ -96,9 +101,15 @@ public class DifferentTrunkCompileServiceImpl implements DifferentTrunkCompileSe
         process = Runtime.getRuntime().exec(command1);
         process.waitFor();
 
-        String command2 = "/bin/sh " + pathName;
+        String command2 = "/bin/sh " + pathName + " " + userName;
         Runtime.getRuntime().exec(command2).waitFor();
-        File file = new File(pythonFilePath + "result.txt");
+        File file = new File(pythonFilePath +userName+ "/result.txt");
+        if (!file.getParentFile().exists()){
+            file.getParentFile().mkdir();
+        }
+        if (!file.exists()) {
+            file.createNewFile();
+        }
         StringBuilder result = new StringBuilder();
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));//构造一个BufferedReader类来读取文件
@@ -113,9 +124,10 @@ public class DifferentTrunkCompileServiceImpl implements DifferentTrunkCompileSe
         System.out.println(result.toString());
         return result.toString();
     }
+
     //删除编译结果文件
     @Override
-    public void deletePython() throws InterruptedException, IOException {
+    public void deletePython(String userName) throws InterruptedException, IOException {
         String pathName = deleteFileScript;
 
         Process process = null;
@@ -124,7 +136,7 @@ public class DifferentTrunkCompileServiceImpl implements DifferentTrunkCompileSe
         process = Runtime.getRuntime().exec(command1);
         process.waitFor();
 
-        String command2 = "/bin/sh " + pathName;
+        String command2 = "/bin/sh " + pathName + " " + userName;
         Runtime.getRuntime().exec(command2).waitFor();
     }
 

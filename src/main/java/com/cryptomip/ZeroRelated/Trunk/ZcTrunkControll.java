@@ -28,23 +28,24 @@ public class ZcTrunkControll {
         try {
             HttpSession session = request.getSession();
             Cookie cookie = CookieUtil.getToken(request);
+            String userName = CookieUtil.getUserName(session);
             DifferentTrunkAnalysisControll.finsishComplie = 0;
             String html = null;
             if (cookie != null)
-                html = session.getAttribute(cookie.getName())+"";
-            if(html!=null&&html.equals(subTxt)&&!html.equals("null")){
+                html = session.getAttribute(userName+"TrunkZero")+"";
+            if(html!=null&&html.equals(subTxt)&&!html.equals("null")&&isCompile==true){
                 return "已编译";
             }
             if("".equals(subTxt))return "";
-            String s = zcTrunkService.saveText(subTxt);
+            String s = zcTrunkService.saveText(subTxt,userName);
             html = subTxt;
-            session.setAttribute(cookie.getName(),html);
-            model.addAttribute("html",subTxt);
+            session.setAttribute(userName+"TrunkZero",html);
+            model.addAttribute("htmlZc",subTxt);
 //            model.addAttribute("htmlCode",html);
-            if ("".equals(s)) {
-                isCompile = false;
-                return "编译失败";
-            }
+//            if ("".equals(s)) {
+//                isCompile = false;
+//                return "编译失败";
+//            }
             isCompile = true;
             return "编译成功";
         } catch (Exception e) {
@@ -60,24 +61,26 @@ public class ZcTrunkControll {
     public String compile(String subTxt, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
+        String userName = CookieUtil.getUserName(session);
         Object html = null;
         if(cookie!=null){
-            html = session.getAttribute(cookie.getName());
+            html = session.getAttribute(userName+"TrunkZero");
         }
         if(html==null||(!subTxt.equals(html)&&
                 !html.toString().replace("\r","").equals(subTxt)))
             isCompile = false;
         if(isCompile==false)return "编译未成功";
         try {
-            zcTrunkService.removeSolFile();
-            finsishComplie = 1;
-            String result = zcTrunkService.complieProject();
-            finsishComplie = 2;
-            if("".equals(result))return "分析失败";
-            if(cookie!=null){
-                session.setAttribute(cookie.getName()+"com",result);
-            }
-            return result;
+//            zcTrunkService.removeSolFile(userName);
+//            finsishComplie = 1;
+            zcTrunkService.complieProject(userName);
+//            finsishComplie = 2;
+//            if("".equals(result))return "分析失败";
+//            if(cookie!=null){
+//                session.setAttribute(cookie.getName()+"com",result);
+//            }
+//            return result;
+            return "编译成功";
         } catch (Exception e) {
             e.printStackTrace();
             return "分析失败";
@@ -86,8 +89,10 @@ public class ZcTrunkControll {
     }
     @RequestMapping("/getZcTrunkCompileStatus")
     @ResponseBody
-    public Message getComplieStatus(){
-        String result = zcTrunkService.getCompileContent();
+    public Message getComplieStatus(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        String userName = CookieUtil.getUserName(session);
+        String result = zcTrunkService.getCompileContent(userName);
         return Message.customize(finsishComplie+"",result);
     }
 }

@@ -28,47 +28,53 @@ public class ImpossibleDifDirControll {
     @RequestMapping("/ibTrunkDir")
     @ResponseBody
     public String getDiffDir(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        String userName = CookieUtil.getUserName(session);
         String projectName = request.getContextPath();
-        String res = impossibleIbDirService.getDir(projectName);
+        String res = impossibleIbDirService.getDir(projectName, userName);
         return res;
     }
 
     @RequestMapping("ibTrunkPath")
-    public String differentPath(String subTxt, Model model, HttpServletRequest request) {
+    public String differentPath(String subTxt, String compileRes, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
-        if(subTxt!=null&&cookie!=null)
-            session.setAttribute(cookie.getName(), subTxt);
+        String userName = CookieUtil.getUserName(session);
+        if (subTxt != null && cookie != null)
+            session.setAttribute(userName+"DifId", subTxt);
+        session.setAttribute(userName + "ResDifId", compileRes);
         if (cookie != null)
-            model.addAttribute("html", session.getAttribute(cookie.getName()));
+            model.addAttribute("htmlId", session.getAttribute(userName+"DifId"));
         return "impossiblePath";
     }
 
     @RequestMapping("/getibTrunkFile/{fileName}")
     public String getContent(@PathVariable("fileName") String filename, ModelMap model, HttpServletRequest request) throws Exception {
-
-        String content = impossibleIbDirService.getContent(filename);
+        HttpSession session = request.getSession();
+        String userName = CookieUtil.getUserName(session);
+        Cookie cookie = CookieUtil.getToken(request);
+        String content = impossibleIbDirService.getContent(filename, userName);
         model.addAttribute("text", content);
         model.addAttribute("fileName", filename);
-        List<String> res = impossibleIbDirService.getFileChoose("");
-        model.addAttribute("fileNameList",res);
-        HttpSession session = request.getSession();
-        Cookie cookie = CookieUtil.getToken(request);
+        List<String> res = impossibleIbDirService.getFileChoose("", userName);
+        model.addAttribute("fileNameList", res);
         if (cookie != null)
-            model.addAttribute("html", session.getAttribute(cookie.getName()));
+            model.addAttribute("htmlId", session.getAttribute(userName+"DifId"));
         return "impossibleContent";
     }
 
     @RequestMapping("removeibTrunkSol")
     @ResponseBody
-    public String removeFile() {
+    public String removeFile(HttpServletRequest request) {
         String res = null;
+        HttpSession session = request.getSession();
+        String userName = CookieUtil.getUserName(session);
         try {
-            List<String> fileList = impossibleIbDirService.getFileName(solFilePath);
+            List<String> fileList = impossibleIbDirService.getFileName(solFilePath + userName + "/");
             if (fileList.size() == 0) {
                 return "无可删除文件";
             }
-            impossibleIbDirService.removeSolFile();
+            impossibleIbDirService.removeSolFile(userName);
             return "文件删除成功";
         } catch (InterruptedException e) {
             e.printStackTrace();

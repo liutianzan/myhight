@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ page import="java.net.URLDecoder" %>
+<%@ page import="com.baseTool.util.CookieUtil" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
@@ -34,8 +35,11 @@
 //    }
 //    System.out.println(html);
 //    System.out.println(request.getSession().getId());
-    String html = request.getAttribute("html") + "";
-
+    HttpSession session1 = request.getSession();
+    String userName = CookieUtil.getUserName(session1);
+    System.out.println(userName);
+    String html = request.getSession().getAttribute(userName+"TrunkLinear") + "";
+    System.out.println(html);
     if (html == null || html.equals("null") || html.equals("")) {
 %>
 <pre id="editor">function foo(items) {
@@ -103,7 +107,7 @@
                 showInfo( message.textContent);
             }
         };
-    var destination = "channel://<%=ip%>linearTrunk";
+    var destination = "channel://<%=userName%>wordLinear";
     amq.addListener(1,destination,myHandler.rcvMessage);
 </script>
 
@@ -202,7 +206,7 @@
     </div>
     <div id="subfanhui">
         <input id="sub" type="submit" name="sub" value="返回"
-               onclick='location.href=("${pageContext.request.contextPath}/choose")'/>
+               onclick="chooseFun()"/>
     </div>
 </div>
 <%
@@ -218,7 +222,7 @@
     if (cookie != null) {
         token = URLDecoder.decode(cookie.getValue(), "UTF-8");
     }
-    String complieRes = request.getSession().getAttribute("tokenResTrunkLinear")+"";
+    String complieRes = request.getSession().getAttribute(userName+"ResTrunkLinear")+"";
 
 
 %>
@@ -323,6 +327,24 @@
         document.write("<form action='${pageContext.request.contextPath}/linerTrunkPath' method=post name=manageDepForm style='display:none'>");
         document.write("<input type=hidden name='subTxt' value='" + txt + "'/>");//参数1
         document.write("<input type=hidden name='compileRes' value='" + compileRes + "'/>");//参数2
+        document.write("</form>");
+        document.manageDepForm.submit();
+    }
+
+    function chooseFun() {
+        ace.require("ace/ext/language_tools");
+        var editor = ace.edit("editor");
+        var a = document.getElementById("editor");//通过ByTagName,ByClassName,ById获取a元素
+        var b = document.getElementById("show");
+        txt = editor.getValue();
+        compileRes = b.innerHTML;
+        typeHtml = "TrunkLinear"
+        typeRes = "ResTrunkLinear"
+        document.write("<form action='${pageContext.request.contextPath}/choose' method=post name=manageDepForm style='display:none'>");
+        document.write("<input type=hidden name='subTxt' value='" + txt + "'/>");//参数1
+        document.write("<input type=hidden name='compileRes' value='" + compileRes + "'/>");//参数2
+        document.write("<input type=hidden name='typeHtml' value='" + typeHtml + "'/>");//参数2
+        document.write("<input type=hidden name='typeRes' value='" + typeRes + "'/>");//参数2
         document.write("</form>");
         document.manageDepForm.submit();
     }

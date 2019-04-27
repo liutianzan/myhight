@@ -20,8 +20,8 @@ public class ZcTrunkDirServiceImpl implements ZcTrunkDirService {
     private String removeFile;
 
     @Override
-    public String getDir(String projectName) {
-        List<String> filenameList =  getFileName(solFilePath);
+    public String getDir(String projectName,String userName) {
+        List<String> filenameList =  getFileName(solFilePath+ userName + "/");
 
         String res = "<table id =\"fileDirectory\" >";
         int count = 0;
@@ -58,8 +58,8 @@ public class ZcTrunkDirServiceImpl implements ZcTrunkDirService {
     }
 
     @Override
-    public String getContent(String fileName) throws Exception {
-        String filePath = solFilePath+fileName;
+    public String getContent(String fileName,String userName) throws Exception {
+        String filePath = solFilePath+ userName + "/" + fileName;
         String result = "";
         File file = new File(filePath);
         FileReader fr = new FileReader(file);
@@ -73,13 +73,13 @@ public class ZcTrunkDirServiceImpl implements ZcTrunkDirService {
         return result;
     }
     @Override
-    public List<String> getFileChoose(String projectName) {
-        List<String> filenameList = getFileName(solFilePath);
+    public List<String> getFileChoose(String projectName,String userName) {
+        List<String> filenameList = getFileName(solFilePath+ userName + "/");
         return filenameList;
     }
 
     @Override
-    public void removeSolFile() throws InterruptedException, IOException {
+    public void removeSolFile(String userName) throws InterruptedException, IOException {
         String pathName = removeFile;
 
         Process process = null;
@@ -88,7 +88,7 @@ public class ZcTrunkDirServiceImpl implements ZcTrunkDirService {
         process = Runtime.getRuntime().exec(command1);
         process.waitFor();
 
-        String command2 = "/bin/sh " + pathName;
+        String command2 = "/bin/sh " + pathName+ " " + userName;
         Runtime.getRuntime().exec(command2).waitFor();
 
     }

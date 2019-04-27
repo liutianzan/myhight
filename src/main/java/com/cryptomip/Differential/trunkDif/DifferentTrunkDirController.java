@@ -29,23 +29,25 @@ public class DifferentTrunkDirController {
     @RequestMapping("/diffDir")
     @ResponseBody
     public String getDiffDir(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        String userName = CookieUtil.getUserName(session);
         String projectName = request.getContextPath();
-        String res = dirServiceImp.getDir(projectName);
+        String res = dirServiceImp.getDir(projectName,userName);
         return res;
     }
 
     @RequestMapping("/getFile/{fileName}")
     public String getContent(@PathVariable("fileName") String filename, ModelMap model, HttpServletRequest request) throws Exception {
-
-        String content = dirServiceImp.getContent(filename);
+        HttpSession session = request.getSession();
+        String userName = CookieUtil.getUserName(session);
+        String content = dirServiceImp.getContent(filename,userName);
+        Cookie cookie = CookieUtil.getToken(request);
         model.addAttribute("text", content);
         model.addAttribute("fileName", filename);
-        List<String> res = dirServiceImp.getFileChoose("");
+        List<String> res = dirServiceImp.getFileChoose("",userName);
         model.addAttribute("fileNameList",res);
-        HttpSession session = request.getSession();
-        Cookie cookie = CookieUtil.getToken(request);
         if (cookie != null)
-            model.addAttribute("html", session.getAttribute(cookie.getName()+"trunkDiff"));
+            model.addAttribute("html", session.getAttribute(userName+"trunkDiff"));
         return "dirContent";
     }
 
@@ -53,8 +55,9 @@ public class DifferentTrunkDirController {
     public String getDiff(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
+        String userName = CookieUtil.getUserName(session);
         if (cookie != null)
-            model.addAttribute("html", session.getAttribute(cookie.getName()+"trunkDiff"));
+            model.addAttribute("html", session.getAttribute(userName+"trunkDiff"));
 
         return "dirContent";
     }
@@ -63,27 +66,30 @@ public class DifferentTrunkDirController {
     public String differentPath(String subTxt, String compileRes,Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
+        String userName = CookieUtil.getUserName(session);
         if(subTxt!=null&&cookie!=null){
 
-            session.setAttribute(cookie.getName()+"trunkDiff", subTxt);
-            session.setAttribute(cookie.getName()+"Res",compileRes);
+            session.setAttribute(userName+"trunkDiff", subTxt);
+            session.setAttribute(userName+"Res",compileRes);
         }
         if (cookie != null)
-            model.addAttribute("html", session.getAttribute(cookie.getName()+"trunkDiff"));
+            model.addAttribute("html", session.getAttribute(userName+"trunkDiff"));
         return "differentDir";
     }
 
 
     @RequestMapping("removeSol")
     @ResponseBody
-    public String removeFile() {
+    public String removeFile(HttpServletRequest request) {
         String res = null;
+        HttpSession session = request.getSession();
+        String userName = CookieUtil.getUserName(session);
         try {
-            List<String> fileList = dirServiceImp.getFileName(solFilePath);
+            List<String> fileList = dirServiceImp.getFileName(solFilePath+userName+"/");
             if (fileList.size() == 0) {
                 return "无可删除文件";
             }
-            dirServiceImp.removeSolFile();
+            dirServiceImp.removeSolFile(userName);
             return "文件删除成功";
         } catch (InterruptedException e) {
             e.printStackTrace();

@@ -41,8 +41,15 @@ public class PromoteActConsumer {
             res+=(char)Integer.parseInt(s[i]);
         }
         System.out.println(res);
-        Destination destination = new ActiveMQQueue(ip+analysisType);
-        this.jmsMessagingTemplate.convertAndSend(destination, res);
+        String [] splits = res.split("@");
+        Destination destination = null;
+        if (splits.length>2){
+
+            destination = new ActiveMQQueue(splits[1]+splits[2]);
+        }else {
+            destination = new ActiveMQQueue(splits[1]);
+        }
+        this.jmsMessagingTemplate.convertAndSend(destination, splits[0]);
 //        this.jmsMessagingTemplate.convertAndSend(this.queue, res);
     }
 

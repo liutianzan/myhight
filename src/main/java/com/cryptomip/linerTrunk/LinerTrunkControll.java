@@ -30,23 +30,24 @@ public class LinerTrunkControll {
             PromoteActConsumer.analysisType = "linearTrunk";
             HttpSession session = request.getSession();
             Cookie cookie = CookieUtil.getToken(request);
+            String userName = CookieUtil.getUserName(session);
             DifferentTrunkAnalysisControll.finsishComplie = 0;
             String html = null;
             if (cookie != null)
-                html = session.getAttribute(cookie.getName()+"TrunkLinear") + "";
+                html = session.getAttribute(userName+"TrunkLinear") + "";
             if (html != null && html.equals(subTxt) && !html.equals("null")&&isCompile==true) {
                 return "已编译";
             }
             if ("".equals(subTxt)) return "";
-            String s = linerTrunkService.saveText(subTxt);
+            String s = linerTrunkService.saveText(subTxt,userName);
             html = subTxt;
-            session.setAttribute(cookie.getName()+"TrunkLinear", html);
+            session.setAttribute(userName+"TrunkLinear", html);
             model.addAttribute("html", subTxt);
 //            model.addAttribute("htmlCode",html);
-            if ("".equals(s)) {
-                isCompile = false;
-                return "编译失败";
-            }
+//            if ("".equals(s)) {
+//                isCompile = false;
+//                return "编译失败";
+//            }
             isCompile = true;
             return "编译成功";
         } catch (Exception e) {
@@ -63,9 +64,10 @@ public class LinerTrunkControll {
         PromoteActConsumer.ip = DifferentTrunkAnalysisControll.getIp(request);
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
+        String userName = CookieUtil.getUserName(session);
         Object html = null;
         if (cookie != null) {
-            html = session.getAttribute(cookie.getName()+"TrunkLinear");
+            html = session.getAttribute(userName+"TrunkLinear");
         }
         if (html == null || (!subTxt.equals(html) &&
                 !html.toString().replace("\r", "").equals(subTxt)))
@@ -74,7 +76,7 @@ public class LinerTrunkControll {
         try {
 //            linerTrunkService.removeSolFile();
 //            finsishComplie = 1;
-            linerTrunkService.complieProject();
+            linerTrunkService.complieProject(userName);
 //            finsishComplie = 2;
 //            if("".equals(result))return "分析失败";
 //            if(cookie!=null){
@@ -90,8 +92,10 @@ public class LinerTrunkControll {
 
     @RequestMapping("/getLinerTrunkCompileStatus")
     @ResponseBody
-    public Message getComplieStatus() {
-        String result = linerTrunkService.getCompileContent();
+    public Message getComplieStatus(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        String userName = CookieUtil.getUserName(session);
+        String result = linerTrunkService.getCompileContent(userName);
         return Message.customize(finsishComplie + "", result);
     }
 }

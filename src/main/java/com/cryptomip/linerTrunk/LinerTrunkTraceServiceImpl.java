@@ -51,7 +51,7 @@ public class LinerTrunkTraceServiceImpl implements LinerTrunkTraceService {
         HashMap<String,String> hm = new HashMap<>();
         List<String> subLen = new ArrayList<>();
         for(String re:s){
-            if(re.startsWith("p_r0_")){
+            if(re.startsWith("p_r1_")){
                 subLen.add(re);
             }
         }
@@ -72,7 +72,7 @@ public class LinerTrunkTraceServiceImpl implements LinerTrunkTraceService {
             htmlTable+="<td width=\""+width+"\" style=\"border-style:none;\">"+i+"</td>";
         }
         htmlTable+="</tr>";
-        for(int i = 0;i<lunshu;i++){
+        for(int i = 1;i<=lunshu;i++){
             htmlTable+="<tr height=\""+height+"\">";
             htmlTable+="<td width=\""+width+"\" style=\"border-style:none;\">r"+i+"</td>";
 

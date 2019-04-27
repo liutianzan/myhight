@@ -28,23 +28,24 @@ public class divsionControll {
         try {
             HttpSession session = request.getSession();
             Cookie cookie = CookieUtil.getToken(request);
+            String userName = CookieUtil.getUserName(session);
             DifferentTrunkAnalysisControll.finsishComplie = 0;
             String html = null;
             if (cookie != null)
-                html = session.getAttribute(cookie.getName())+"";
+                html = session.getAttribute(userName+"divsion")+"";
             if(html!=null&&html.equals(subTxt)&&!html.equals("null")){
                 return "已编译";
             }
             if("".equals(subTxt))return "";
-            String s = divsionService.saveText(subTxt);
+            String s = divsionService.saveText(subTxt,userName);
             html = subTxt;
-            session.setAttribute(cookie.getName(),html);
+            session.setAttribute(userName+"divsion",html);
             model.addAttribute("html",subTxt);
 //            model.addAttribute("htmlCode",html);
-            if ("".equals(s)) {
-                isCompile = false;
-                return "编译失败";
-            }
+//            if ("".equals(s)) {
+//                isCompile = false;
+//                return "编译失败";
+//            }
             isCompile = true;
             return "编译成功";
         } catch (Exception e) {
@@ -60,24 +61,26 @@ public class divsionControll {
     public String compile(String subTxt, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
+        String userName = CookieUtil.getUserName(session);
         Object html = null;
         if(cookie!=null){
-            html = session.getAttribute(cookie.getName());
+            html = session.getAttribute(userName+"divsion");
         }
         if(html==null||(!subTxt.equals(html)&&
                 !html.toString().replace("\r","").equals(subTxt)))
             isCompile = false;
         if(isCompile==false)return "编译未成功";
         try {
-            divsionService.removeSolFile();
-            finsishComplie = 1;
-            String result = divsionService.complieProject();
-            finsishComplie = 2;
-            if("".equals(result))return "分析失败";
-            if(cookie!=null){
-                session.setAttribute(cookie.getName()+"com",result);
-            }
-            return result;
+//            divsionService.removeSolFile(userName);
+//            finsishComplie = 1;
+              divsionService.complieProject(userName);
+//            finsishComplie = 2;
+//            if("".equals(result))return "分析失败";
+//            if(cookie!=null){
+//                session.setAttribute(cookie.getName()+"com",result);
+//            }
+//            return result;
+            return "编译成功";
         } catch (Exception e) {
             e.printStackTrace();
             return "分析失败";
@@ -86,8 +89,10 @@ public class divsionControll {
     }
     @RequestMapping("/getDivTrunkCompileStatus")
     @ResponseBody
-    public Message getComplieStatus(){
-        String result = divsionService.getCompileContent();
+    public Message getComplieStatus(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        String userName = CookieUtil.getUserName(session);
+        String result = divsionService.getCompileContent(userName);
         return Message.customize(finsishComplie+"",result);
     }
 }

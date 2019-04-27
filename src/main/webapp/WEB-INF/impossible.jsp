@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ page import="java.net.URLDecoder" %>
+<%@ page import="com.baseTool.util.CookieUtil" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
@@ -15,14 +16,17 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/myJs/jquery-3.2.1.min.js"></script>
 <body>
 <%
-    //    Cookie[] cookies = request.getCookies();
-//    Cookie cookie = null;
-//    for(int i = 0;i<cookies.length;i++){
-//        if(cookies[i].getName().equals("token")){
-//            cookie = cookies[i];
-//            break;
-//        }
-//    }
+        Cookie[] cookies = request.getCookies();
+    Cookie cookie = null;
+    for(int i = 0;i<cookies.length;i++){
+        if(cookies[i].getName().equals("token")){
+            cookie = cookies[i];
+            break;
+        }
+    }
+    HttpSession session1 = request.getSession();
+    String userName = CookieUtil.getUserName(session1);
+    System.out.println(userName);
 //    String token = null;
 //    if(cookie != null) {
 //        token = URLDecoder.decode(cookie.getValue(), "UTF-8");
@@ -34,7 +38,7 @@
 //    }
 //    System.out.println(html);
 //    System.out.println(request.getSession().getId());
-    String html = request.getAttribute("html") + "";
+    String html = request.getSession().getAttribute(userName+"DifId") + "";
 
     if (html == null || html.equals("null") || html.equals("")) {
 %>
@@ -57,10 +61,85 @@
 </div>
 
 <div id="tex">
-    <textarea style="width:100%;height:100%;resize:none" id="buildout" rows="8" data-role="none" readonly="readonly"
-              class="area">(compiler output will display here)</textarea>
+    <%--<textarea style="width:100%;height:100%;resize:none" id="buildout" rows="8" data-role="none" readonly="readonly"--%>
+              <%--class="area">(compiler output will display here)</textarea>--%>
+        <div id="show" style="overflow:auto; width:100%;height:100%; border: 1px solid #797979;"></div>
 </div>
 
+
+<script type="text/javascript" src="${pageContext.request.contextPath}/myJs/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/myJs/amq_jquery_adapter.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/myJs/amq.js"></script>
+<%
+    String ip = request.getHeader("x-forwarded-for");
+    if(ip == null||ip.length()==0||"unknown".equalsIgnoreCase(ip)){
+        ip = request.getHeader("Proxy-Client-IP");
+    }
+    if(ip == null||ip.length()==0||"unknown".equalsIgnoreCase(ip)){
+        ip = request.getHeader("WL-Proxy-Client-IP");
+    }
+    if(ip == null||ip.length()==0||"unknown".equalsIgnoreCase(ip)){
+        ip = request.getRemoteAddr();
+    }
+
+%>
+<script>
+    function showInfo(str) {
+        var t = document.getElementById("show");
+
+        if(str=="exit"){
+            t.innerHTML +=  "<br>" +"程序分析工作完成"+ "<br>";
+            t.scrollTop = t.scrollHeight;
+        }else{
+            t.innerHTML +=  "<br>" + str + "<br>";
+            t.scrollTop = t.scrollHeight;
+        }
+    }
+    function clearShow() {
+        var t = document.getElementById("show");
+
+        t.innerHTML="";
+    }
+    <%
+    //    Cookie[] cookies = request.getCookies();
+//    Cookie cookie = null;
+//    for(int i = 0;i<cookies.length;i++){
+//        if(cookies[i].getName().equals("token")){
+//            cookie = cookies[i];
+//            break;
+//        }
+//    }
+//    String token = null;
+//    if(cookie != null) {
+//        token = URLDecoder.decode(cookie.getValue(), "UTF-8");
+//    }
+//    System.out.println(token);
+//    String html = null;
+//    if(token!=null){
+//        html=request.getSession().getAttribute(token)+"";
+//    }
+//    System.out.println(html);
+//    System.out.println(request.getSession().getId());
+
+%>
+    var amq = org.activemq.Amq;
+    amq.init({
+        uri: '${pageContext.request.contextPath}/amq',
+        logging: true,
+        timeout: 20
+    });
+    var myHandler =
+        {
+            rcvMessage: function(message)
+            {
+                console.log(message);
+                //chrome
+                showInfo( message.textContent);
+            }
+        };
+    var destination = "channel://<%=userName%>wordID";
+    amq.addListener(1,destination,myHandler.rcvMessage);
+</script>
 <div id="beijing">
 
     <table id="tabId">
@@ -136,29 +215,41 @@
         <input type="submit" value="编译" class="bianyi" onclick="copyText()" id="subbianyi">
     </div>
     <div id="sub7">
-        <input type="submit" value="分析" class="bianyi1" id="fenxi" onclick="clickFenxi()">
+        <input type="submit" value="分析" class="bianyi1" id="fenxi">
     </div>
     <div id="sub8">
 
         <input type="submit" value="工作空间" class="bianyi2" id="kongjian" onclick="getDir()">
 
     </div>
-    <div id="sub9">
+    <%--<div id="sub9">--%>
 
-        <input type="submit" value="差分迹" class="bianyi3" id="traceBut" onclick="getTrace()">
+        <%--<input type="submit" value="差分迹" class="bianyi3" id="traceBut" onclick="getTrace()">--%>
 
-    </div>
+    <%--</div>--%>
     <div id="subfanhui">
         <input id="sub" type="submit" name="sub" value="返回"
-               onclick='location.href=("${pageContext.request.contextPath}/choose")'/>
+               onclick="chooseFun()"/>
     </div>
 </div>
 
+<%
+
+    String token = null;
+    if (cookie != null) {
+        token = URLDecoder.decode(cookie.getValue(), "UTF-8");
+    }
+    String complieRes = request.getSession().getAttribute(userName+"ResDifId")+"";
+
+%>
+
+<input type="hidden" value="<%=complieRes%>" id="hidRes">
 <script type="text/javascript">
     $(function () {
 
 
         $("#subbianyi").click(function () {
+            clearShow();
             ace.require("ace/ext/language_tools");
             var editor = ace.edit("editor");
             var a = document.getElementById("editor");//通过ByTagName,ByClassName,ById获取a元素
@@ -170,7 +261,6 @@
                 } else {
                     swal("编译成功", " ", "success");
                 }
-                $('.area').html(result);
 
             });
         });
@@ -179,52 +269,29 @@
             var editor = ace.edit("editor");
             var a = document.getElementById("editor");//通过ByTagName,ByClassName,ById获取a元素
             txt = editor.getValue();
-            $('.area').html("正在分析请稍后");
+            clearShow();
             $.post("${pageContext.request.contextPath}/ibTrunk/complie", {subTxt: txt}, function (result) {
                 if (result == "编译未成功") {
 
                     swal("编译未成功", " ", "error");
-                    $('.area').html("程序发生改变，请先进行编译");
+                    showInfo("程序发生改变，请先进行编译")
                 } else {
-
-                    $('.area').html(result);
+                    showInfo("开始分析");
 
                 }
 
             });
         });
 
-        <%
-            Cookie[] cookies = request.getCookies();
-            Cookie cookie = null;
-            for (int i = 0; i < cookies.length; i++) {
-                if (cookies[i].getName().equals("token")) {
-                    cookie = cookies[i];
-                    break;
-                }
-            }
-            String token = null;
-            if (cookie != null) {
-                token = URLDecoder.decode(cookie.getValue(), "UTF-8");
-            }
-            String complieRes = request.getSession().getAttribute(token+"com")+"";
-
-        %>
-
         function reloadView() {
-            $.get("${pageContext.request.contextPath}/getIbComplieStatus", function (result) {
-                if (result.code == "0") {
-                    $('.area').html("(compiler output will display here)");
-                } else if(result.code =="1"){
-                    alert(result);
+            var a = document.getElementById("show");
+            var b = document.getElementById("hidRes");
+            if(b.value=="null"){
+                a.innerHTML = "(compiler output will display here)";
+            }else{
 
-                    $('.area').html("求解中");
-
-                }else{
-                    $('.area').html(result.date);
-                }
-
-            });
+                a.innerHTML = b.value;
+            }
 
         }
 
@@ -271,9 +338,30 @@
         ace.require("ace/ext/language_tools");
         var editor = ace.edit("editor");
         var a = document.getElementById("editor")//通过ByTagName,ByClassName,ById获取a元素
+        var b = document.getElementById("show");
         txt = editor.getValue();
+        compileRes = b.innerHTML;
         document.write("<form action='${pageContext.request.contextPath}/ibTrunkPath' method=post name=manageDepForm style='display:none'>");
         document.write("<input type=hidden name='subTxt' value='" + txt + "'/>");//参数1
+        document.write("<input type=hidden name='compileRes' value='" + compileRes + "'/>");//参数2
+        document.write("</form>");
+        document.manageDepForm.submit();
+    }
+
+    function chooseFun() {
+        ace.require("ace/ext/language_tools");
+        var editor = ace.edit("editor");
+        var a = document.getElementById("editor");//通过ByTagName,ByClassName,ById获取a元素
+        var b = document.getElementById("show");
+        txt = editor.getValue();
+        compileRes = b.innerHTML;
+        typeHtml = "DifId"
+        typeRes = "ResDifId"
+        document.write("<form action='${pageContext.request.contextPath}/choose' method=post name=manageDepForm style='display:none'>");
+        document.write("<input type=hidden name='subTxt' value='" + txt + "'/>");//参数1
+        document.write("<input type=hidden name='compileRes' value='" + compileRes + "'/>");//参数2
+        document.write("<input type=hidden name='typeHtml' value='" + typeHtml + "'/>");//参数2
+        document.write("<input type=hidden name='typeRes' value='" + typeRes + "'/>");//参数2
         document.write("</form>");
         document.manageDepForm.submit();
     }

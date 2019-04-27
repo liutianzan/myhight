@@ -18,16 +18,16 @@ public class DifferentTrunkAnalysisServiceImpl implements DifferentTrunkAnalysis
     private String compileResult;
 
     @Override
-    public void complieProject() throws Exception {
+    public void complieProject(String userName) throws Exception {
 //        String res = compilePython();
 //        return res;
-        compilePython();
+        compilePython(userName);
     }
     //分析代码
     @Override
-    public void compilePython() throws InterruptedException, IOException {
+    public void compilePython(String userName) throws InterruptedException, IOException {
 
-        ProcessBuilder pb = new ProcessBuilder("./" + compileName);
+        ProcessBuilder pb = new ProcessBuilder("./" + compileName,userName);
         pb.directory(new File(compileFilePath));
         int runningStatus = 0;
         String stt = null;

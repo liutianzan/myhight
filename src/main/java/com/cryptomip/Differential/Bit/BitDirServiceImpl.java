@@ -22,53 +22,53 @@ public class BitDirServiceImpl implements BitDirService {
     private String removeFile;
 
     @Override
-    public String getDir(String projectName) {
-        List<String> filenameList =  getFileName(solFilePath);
+    public String getDir(String projectName, String userName) {
+        List<String> filenameList = getFileName(solFilePath + userName + "/");
 
         String res = "<table id =\"fileDirectory\" >";
         int count = 0;
-        for(String filename:filenameList){
-            if(count%7==0){
-                res+="<tr style=\"height: 150px\">";
+        for (String filename : filenameList) {
+            if (count % 7 == 0) {
+                res += "<tr style=\"height: 150px\">";
             }
-            res+= "<td style=\"height: 110px;width: 130px\" align=\"center\" valign =\"middle\"><div id=\"pic\"><a href=\""+projectName+"/getBitFile/"+filename+"\"><img src=\"myPicture/fileImj.jpg\" id=\"filePic\"/></a>\n<div id=\"picLian\"><span>"+filename+"</span></div></div></td>";
-            if(count%7==6){
-                res+="</tr>";
+            res += "<td style=\"height: 110px;width: 130px\" align=\"center\" valign =\"middle\"><div id=\"pic\"><a href=\"" + projectName + "/getBitFile/" + filename + "\"><img src=\"myPicture/fileImj.jpg\" id=\"filePic\"/></a>\n<div id=\"picLian\"><span>" + filename + "</span></div></div></td>";
+            if (count % 7 == 6) {
+                res += "</tr>";
             }
             count++;
         }
-        if(count%7!=0){
-            res+="</tr>";
+        if (count % 7 != 0) {
+            res += "</tr>";
         }
-        res+="</table>";
+        res += "</table>";
         return res;
     }
+
     @Override
-    public List<String> getFileName(String path)
-    {
-        Pattern pat=Pattern.compile("\\S+\\.sol");
+    public List<String> getFileName(String path) {
+        Pattern pat = Pattern.compile("\\S+\\.sol");
         File file = new File(path);
         List<String> result = new ArrayList<String>();
-        String [] fileName = file.list();
+        String[] fileName = file.list();
 
-        for(String s:fileName){
-            Matcher mat=pat.matcher(s);
-            if(mat.matches())
+        for (String s : fileName) {
+            Matcher mat = pat.matcher(s);
+            if (mat.matches())
                 result.add(s);
         }
         return result;
     }
 
     @Override
-    public String getContent(String fileName) throws Exception {
-        String filePath = solFilePath+fileName;
+    public String getContent(String fileName, String userName) throws Exception {
+        String filePath = solFilePath + userName + "/" + fileName;
         String result = "";
         File file = new File(filePath);
         FileReader fr = new FileReader(file);
         BufferedReader br = new BufferedReader(new FileReader(file));//构造一个BufferedReader类来读取文件
         String s = null;
-        while((s = br.readLine())!=null){//使用readLine方法，一次读一行
-            result+=System.lineSeparator()+s;
+        while ((s = br.readLine()) != null) {//使用readLine方法，一次读一行
+            result += System.lineSeparator() + s;
 
         }
         br.close();
@@ -76,7 +76,7 @@ public class BitDirServiceImpl implements BitDirService {
     }
 
     @Override
-    public void removeSolFile() throws InterruptedException, IOException {
+    public void removeSolFile(String userName) throws InterruptedException, IOException {
         String pathName = removeFile;
 
         Process process = null;
@@ -85,7 +85,7 @@ public class BitDirServiceImpl implements BitDirService {
         process = Runtime.getRuntime().exec(command1);
         process.waitFor();
 
-        String command2 = "/bin/sh " + pathName;
+        String command2 = "/bin/sh " + pathName + " " + userName;
         Runtime.getRuntime().exec(command2).waitFor();
 
     }

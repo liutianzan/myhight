@@ -16,10 +16,11 @@ public class DifferentTrunkDirServiceImp implements DifferentTrunkDirService {
     private String solFilePath;
     @Value("${remove.trunkdif.sol.file}")
     private String removeFile;
+
     //得到文件夹中sol文件名称，并且相应对生成html
     @Override
-    public String getDir(String projectName) {
-        List<String> filenameList = getFileName(solFilePath);
+    public String getDir(String projectName, String userName) {
+        List<String> filenameList = getFileName(solFilePath + userName + "/");
 
         String res = "<table id =\"fileDirectory\" >";
         int count = 0;
@@ -39,10 +40,11 @@ public class DifferentTrunkDirServiceImp implements DifferentTrunkDirService {
         res += "</table>";
         return res;
     }
+
     //得到文件名称
     @Override
-    public List<String> getFileChoose(String projectName) {
-        List<String> filenameList = getFileName(solFilePath);
+    public List<String> getFileChoose(String projectName, String userName) {
+        List<String> filenameList = getFileName(solFilePath+ userName + "/");
         return filenameList;
 
 //        String res = "<table id =\"fileChoose\" >";
@@ -60,10 +62,11 @@ public class DifferentTrunkDirServiceImp implements DifferentTrunkDirService {
 //        res += "</table>";
 //        return res;
     }
+
     //得到sol文件内容
     @Override
-    public String getContent(String fileName) throws Exception {
-        String filePath = solFilePath + fileName;
+    public String getContent(String fileName, String userName) throws Exception {
+        String filePath = solFilePath + userName + "/" + fileName;
         String result = "";
         File file = new File(filePath);
         FileReader fr = new FileReader(file);
@@ -91,9 +94,10 @@ public class DifferentTrunkDirServiceImp implements DifferentTrunkDirService {
         }
         return result;
     }
+
     //调用删除文件脚本，将相应对sol文件进行删除
     @Override
-    public void removeSolFile() throws InterruptedException, IOException {
+    public void removeSolFile(String userName) throws InterruptedException, IOException {
         String pathName = removeFile;
 
         Process process = null;
@@ -102,7 +106,7 @@ public class DifferentTrunkDirServiceImp implements DifferentTrunkDirService {
         process = Runtime.getRuntime().exec(command1);
         process.waitFor();
 
-        String command2 = "/bin/sh " + pathName;
+        String command2 = "/bin/sh " + pathName+ " " + userName;
         Runtime.getRuntime().exec(command2).waitFor();
 
     }

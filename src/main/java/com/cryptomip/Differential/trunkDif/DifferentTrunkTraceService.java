@@ -4,5 +4,5 @@ import java.util.HashMap;
 import java.util.List;
 
 public interface DifferentTrunkTraceService {
-    public HashMap<String,String> getTrace(List<String> fileNameList);
+    public HashMap<String,String> getTrace(List<String> fileNameList,String solFilePath);
 }
