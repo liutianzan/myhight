@@ -44,7 +44,7 @@ public class LInerTrunkDirControll {
         }
         if (cookie != null)
             model.addAttribute("html", session.getAttribute(cookie.getName()+"TrunkLinear"));
-        return "LinearTrunk/linerTrunkPath";
+        return "linerTrunkPath";
     }
 
     @RequestMapping("/getLinerTrunkFile/{fileName}")
@@ -57,7 +57,7 @@ public class LInerTrunkDirControll {
         Cookie cookie = CookieUtil.getToken(request);
         if (cookie != null)
             model.addAttribute("html", session.getAttribute(cookie.getName()+"TrunkLinear"));
-        return "LinearTrunk/linerTrunkContent";
+        return "linerTrunkContent";
     }
 
     @RequestMapping("removeLinerTrunkSol")

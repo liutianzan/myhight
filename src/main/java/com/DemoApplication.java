@@ -1,12 +1,14 @@
 package com;
 
 import org.apache.activemq.command.ActiveMQQueue;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
+@MapperScan(basePackages = { "com.cryptomip.dao" }, sqlSessionFactoryRef = "sqlSessionFactory")
 public class DemoApplication {
     @Bean
     public ActiveMQQueue queue() {

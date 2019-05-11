@@ -3,14 +3,12 @@ package com.cryptomip.Differential.trunkDif;
 import com.baseTool.util.CookieUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -48,7 +46,7 @@ public class DifferentTrunkDirController {
         Cookie cookie = CookieUtil.getToken(request);
         if (cookie != null)
             model.addAttribute("html", session.getAttribute(cookie.getName()+"trunkDiff"));
-        return "differentTrunk/dirContent";
+        return "dirContent";
     }
 
     @RequestMapping("/getplain")
@@ -58,7 +56,7 @@ public class DifferentTrunkDirController {
         if (cookie != null)
             model.addAttribute("html", session.getAttribute(cookie.getName()+"trunkDiff"));
 
-        return "differentTrunk/dirContent";
+        return "dirContent";
     }
 
     @RequestMapping("differentPath")
@@ -72,7 +70,7 @@ public class DifferentTrunkDirController {
         }
         if (cookie != null)
             model.addAttribute("html", session.getAttribute(cookie.getName()+"trunkDiff"));
-        return "differentTrunk/differentDir";
+        return "differentDir";
     }
 
 
@@ -99,12 +97,6 @@ public class DifferentTrunkDirController {
         return "dirContent";
     }
 
-    @Bean
-    public InternalResourceViewResolver viewResolver() {
-        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-        viewResolver.setPrefix("/WEB-INF/");
-        viewResolver.setSuffix(".jsp");
-        return viewResolver;
-    }
+
 
 }

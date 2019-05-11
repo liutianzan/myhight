@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
-@Service
+
 public interface BitDifferentService {
     String saveText(String subText) throws Exception;
     String savePython() throws InterruptedException, IOException;

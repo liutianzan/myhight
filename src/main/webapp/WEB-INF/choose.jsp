@@ -20,8 +20,19 @@
         });
     });
     </script>
+    <script type="text/css">
+        a{ color:#999; /*无链接时颜色*/ }
+        a:hover{ color:#8D4294;/*鼠标经过链接时颜色*/}
+        a:active{ color:#30F; /*鼠标点击链接时颜色*/}
+    </script>
 </head>
 <body>
+<div id="userLoginName">
+    <div id="classUser">
+    <p style="color: white;">欢迎，<%=session.getAttribute("loginName")%></p>
+    <h4><a href="${pageContext.request.contextPath}/loginout">退出</a></h4>
+    </div>
+</div>
 <div id="cho">
 
 
@@ -38,7 +49,7 @@
 
     <input type="submit" onclick='location.href=("${pageContext.request.contextPath}/zero")' value="零相关线性分析" id="sub4">
 
-    <input type="submit" onclick='location.href=("${pageContext.request.contextPath}/base")' value="基于可分析的积分分析" id="sub5">
+    <input type="submit" onclick='location.href=("${pageContext.request.contextPath}/base")' value="基于可分性的积分分析" id="sub5">
     <input type="submit" onclick='location.href=("${pageContext.request.contextPath}/middle")' value="中间相遇分析" id="middle">
 </div>
 <!-- contact-form -->

@@ -41,7 +41,7 @@ public class DivsionDirControll {
             session.setAttribute(cookie.getName(), subTxt);
         if (cookie != null)
             model.addAttribute("html", session.getAttribute(cookie.getName()));
-        return "divsion/basePath";
+        return "basePath";
     }
 
     @RequestMapping("/getDivsionFile/{fileName}")
@@ -56,7 +56,7 @@ public class DivsionDirControll {
         Cookie cookie = CookieUtil.getToken(request);
         if (cookie != null)
             model.addAttribute("html", session.getAttribute(cookie.getName()));
-        return "divsion/baseContent";
+        return "baseContent";
     }
 
     @RequestMapping("removeDivsionSol")

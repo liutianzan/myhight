@@ -1,4 +1,4 @@
-package com.cryptomip.ActiveMq;
+package com.cryptomip.activeMq;
 
 import org.apache.activemq.web.AjaxServlet;
 import org.springframework.boot.web.servlet.ServletContextInitializer;

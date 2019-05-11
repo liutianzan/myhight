@@ -11,6 +11,31 @@
     <link href=${pageContext.request.contextPath}/css/style.css rel="stylesheet" type="text/css" media="all"/>
     <script src=${pageContext.request.contextPath}/myJs/sweetalert.min.js></script>
     <title>差分分析</title>
+    <style type="text/css" media="screen">
+        .btn { display: block; position: relative; background: #aaa; padding: 5px; float: left; color: #fff; text-decoration: none; cursor: pointer; }
+        .btn i { background-position: top left; position: absolute; margin-bottom: -5px;  top: 0; left: 0; width: 5px; height: 5px; }
+        * html .btn span,
+        * html .btn i { float: left; width: auto; background-image: none; cursor: pointer; }
+        .btn:hover { background-color: #a00; }
+        .btn:active { background-color: #444; }
+        * html .btn { border: 3px double #aaa; }
+        * html .btn:hover { border-color: #a00; }
+        p { clear: both; padding-bottom: 2em; }
+        #reset_btn{
+
+            width: 85px;
+            height: 25px;
+
+        }
+        #exitBut{
+            position: relative;
+            height: 20px;
+            width: 20px;
+            bottom:-24%;
+            left: 60%;
+
+        }
+    </style>
 </head>
 <script type="text/javascript" src="${pageContext.request.contextPath}/myJs/jquery-3.2.1.min.js"></script>
 <body>
@@ -250,7 +275,10 @@
     </div>
     <div id="subfanhui">
         <input id="sub" type="submit" name="sub" value="返回"
-               onclick='location.href=("${pageContext.request.contextPath}/choose")'/>
+        onclick='location.href=("${pageContext.request.contextPath}/choose")'/>
+    </div>
+    <div id="exitBut">
+    <p><input type="Button" id="reset_btn" value="退出" class="btn" onclick='location.href=("${pageContext.request.contextPath}/loginout")'/></p>
     </div>
 </div>
 <%

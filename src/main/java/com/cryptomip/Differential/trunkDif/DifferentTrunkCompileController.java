@@ -1,6 +1,6 @@
 package com.cryptomip.Differential.trunkDif;
 
-import com.cryptomip.ActiveMq.PromoteActConsumer;
+import com.cryptomip.activeMq.PromoteActConsumer;
 import com.baseTool.util.CookieUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

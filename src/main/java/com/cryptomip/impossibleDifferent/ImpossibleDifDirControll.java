@@ -41,7 +41,7 @@ public class ImpossibleDifDirControll {
             session.setAttribute(cookie.getName(), subTxt);
         if (cookie != null)
             model.addAttribute("html", session.getAttribute(cookie.getName()));
-        return "Impossible/impossiblePath";
+        return "impossiblePath";
     }
 
     @RequestMapping("/getibTrunkFile/{fileName}")
@@ -50,11 +50,13 @@ public class ImpossibleDifDirControll {
         String content = impossibleIbDirService.getContent(filename);
         model.addAttribute("text", content);
         model.addAttribute("fileName", filename);
+        List<String> res = impossibleIbDirService.getFileChoose("");
+        model.addAttribute("fileNameList",res);
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
         if (cookie != null)
             model.addAttribute("html", session.getAttribute(cookie.getName()));
-        return "Impossible/impossibleContent";
+        return "impossibleContent";
     }
 
     @RequestMapping("removeibTrunkSol")

@@ -397,10 +397,34 @@
             left: -30%;
         }
         #nameFile{
+            position: relative;
+            color: white;
+            left: 10%;
+            top: 5%;
+            width: 100px;
+        }
+        #chooseFile {
+            overflow: auto;
+            background-color: white;
             position: absolute;
-            left: 80%;
-            top: 2%;
-            width: 200px;
+            height: 900px;
+            width: 300px;
+            left: 79%;
+            top: 0%;
+        }
+        th > span, th > img {
+
+            vertical-align: middle;
+
+        }
+
+        th {
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        th:hover {
+            border: 1px solid greenyellow
         }
     </style>
 
@@ -410,6 +434,7 @@
 
 <div id="beijing">
     <h3><font size="7px" color="#ffffff">&nbsp;文本内容</font></h3>
+    <div id="nameFile">${fileName}</div>
     <div id="subfanhui1">
         <input id="sub" type="submit" name="sub" value="返回" onclick='location.href=("${pageContext.request.contextPath}/zcTrunkPath")'/>
     </div>
@@ -418,9 +443,19 @@
 <textarea rows="50" cols="100"  id="plain" class="plainText" readonly="readonly">
 
 </textarea>
-
 </div>
-<div id="nameFile">${fileName}</div>
+<div id="chooseFile">
+    <table id="table">
+        <c:forEach items="${fileNameList}" var="list">
+            <tr style="height: 30px">
+                <th style="height: 30px;width: 300px" align="center" valign="middle">
+                        ${list}
+                </th>
+            </tr>
+        </c:forEach>
+    </table>
+</div>
+
 <div id="dirPath">
     <pre id="textHuo" style="size: 1px">${text}</pre>
 </div>
@@ -441,5 +476,11 @@
     </script>
 </c:if>
 
+<script type="text/javascript">
+    $("#table").on("click", "th", function () {
+        var html = this.innerText;
+        window.location.href="${pageContext.request.contextPath}/getzcTrunkFile/"+html;
+    })
+</script>
 </body>
 </html>

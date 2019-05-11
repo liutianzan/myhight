@@ -45,6 +45,20 @@ body{
 	height: 50px;
 	width: 50px;
 }
+#userLoginName{
+	position: relative;
+	height: 150px;
+	width: 800px;
+	left: 40%;
+	top: 10%;
+	bottom: 60%;
+}
+#classUser{
+	position: relative;
+	top: 30%;
+	left: 70%;
+
+}
 #sub1{
 	position: relative;
 	left: 0%;

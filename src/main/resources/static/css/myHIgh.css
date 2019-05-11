@@ -14,7 +14,7 @@ body {
 #sub{
     margin: 1px;
     position: relative;
-    top: 20%;
+    top: 10%;
     bottom:60%;
     left: 65%;
     right: 30%;
@@ -78,29 +78,27 @@ body {
 }
 #subfanhui{
     position: relative;
-    left: 1%;
-    top: 30%;
-    height: 80px;
-    right: 20%;
-    bottom: 10%;
+    height: 20px;
+    width: 20px;
+    left: 55%;
+    bottom: -13%;
 }
 #subfanhui1{
     position: relative;
     left: 1%;
-    top: 48%;
+    top: 38%;
     height: 800px;
     right: 20%;
-    bottom: 10%;
+    bottom: 30%;
 
 }
 #subfanhui2{
-    border: 1px solid #000000;
     position: relative;
     left: 1%;
     top: 40%;
     height: 80px;
     right: 20%;
-    bottom: 10%;
+    bottom: 30%;
 }
 #beijing{
     position: absolute;

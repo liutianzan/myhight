@@ -44,7 +44,7 @@ public class BitDirControll {
         }
         if (cookie != null)
             model.addAttribute("html", session.getAttribute(cookie.getName()+"DifBIt"));
-        return "DifferentBit/BitDifferentDir";
+        return "BitDifferentDir";
     }
 
     @RequestMapping("/getBitFile/{fileName}")
@@ -57,7 +57,7 @@ public class BitDirControll {
         Cookie cookie = CookieUtil.getToken(request);
         if (cookie != null)
             model.addAttribute("html", session.getAttribute(cookie.getName()+"DifBIt"));
-        return "DifferentBit/dirBitContent";
+        return "dirBitContent";
     }
 
     @RequestMapping("removeBitSol")

@@ -41,7 +41,7 @@ public class ZcTrunkDirControll {
             session.setAttribute(cookie.getName(), subTxt);
         if (cookie != null)
             model.addAttribute("html", session.getAttribute(cookie.getName()));
-        return "ZC/zcTrunkDir";
+        return "zcTrunkDir";
     }
 
     @RequestMapping("/getzcTrunkFile/{fileName}")
@@ -50,11 +50,13 @@ public class ZcTrunkDirControll {
         String content = zcTrunkDirService.getContent(filename);
         model.addAttribute("text", content);
         model.addAttribute("fileName", filename);
+        List<String> res = zcTrunkDirService.getFileChoose("");
+        model.addAttribute("fileNameList",res);
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
         if (cookie != null)
             model.addAttribute("html", session.getAttribute(cookie.getName()));
-        return "ZC/zcTrunkContent";
+        return "zcTrunkContent";
     }
 
     @RequestMapping("removezcTrunkSol")

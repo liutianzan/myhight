@@ -1,9 +1,11 @@
 package com.cryptomip;
 
 import com.baseTool.util.CookieUtil;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +27,7 @@ public class LinkIndex {
         Cookie cookie = CookieUtil.getToken(request);
         if (cookie != null)
             model.addAttribute("html", session.getAttribute(cookie.getName()));
-        return "Middle/middle";
+        return "middle";
     }
 
     @RequestMapping("choose")
@@ -58,7 +60,7 @@ public class LinkIndex {
             model.addAttribute("html", session.getAttribute(cookie.getName() + "trunkDiff"));
             model.addAttribute("compileRes", session.getAttribute(cookie.getName() + "Res"));
         }
-        return "differentTrunk/different";
+        return "different";
     }
 
     @RequestMapping("dif/bit")
@@ -70,7 +72,7 @@ public class LinkIndex {
             model.addAttribute("html", session.getAttribute(cookie.getName() + "DifBIt"));
             model.addAttribute("compileResDifBIt", session.getAttribute(cookie.getName() + "ResDifBIt"));
         }
-        return "DifferentBit/bitDifferent";
+        return "bitDifferent";
     }
 
     @RequestMapping("impossible")
@@ -79,7 +81,7 @@ public class LinkIndex {
         Cookie cookie = CookieUtil.getToken(request);
         if (cookie != null)
             model.addAttribute("html", session.getAttribute(cookie.getName()));
-        return "Impossible/impossible";
+        return "impossible";
     }
 
     @RequestMapping("liner")
@@ -91,7 +93,7 @@ public class LinkIndex {
             model.addAttribute("html", session.getAttribute(cookie.getName()+"TrunkLinear"));
             model.addAttribute("compileResTrunkLinear", session.getAttribute(cookie.getName() + "ResTrunkLinear"));
         }
-        return "LinearTrunk/liner";
+        return "liner";
     }
 
     @RequestMapping("base")
@@ -100,7 +102,7 @@ public class LinkIndex {
         Cookie cookie = CookieUtil.getToken(request);
         if (cookie != null)
             model.addAttribute("html", session.getAttribute(cookie.getName()));
-        return "divsion/base";
+        return "base";
     }
 
     @RequestMapping("zero")
@@ -109,6 +111,14 @@ public class LinkIndex {
         Cookie cookie = CookieUtil.getToken(request);
         if (cookie != null)
             model.addAttribute("html", session.getAttribute(cookie.getName()));
-        return "ZC/zero";
+        return "zero";
+    }
+
+    @Bean
+    public InternalResourceViewResolver viewResolver() {
+        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+        viewResolver.setPrefix("/WEB-INF/");
+        viewResolver.setSuffix(".jsp");
+        return viewResolver;
     }
 }

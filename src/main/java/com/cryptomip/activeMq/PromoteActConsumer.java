@@ -1,4 +1,4 @@
-package com.cryptomip.ActiveMq;
+package com.cryptomip.activeMq;
 
 import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.beans.factory.annotation.Autowired;

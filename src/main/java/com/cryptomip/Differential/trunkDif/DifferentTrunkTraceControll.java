@@ -37,7 +37,7 @@ public class DifferentTrunkTraceControll {
         session.setAttribute(cookie.getName()+"Res",compileRes);
         if (cookie != null && session.getAttribute(cookie.getName()) != null)
             model.addAttribute("html", session.getAttribute(cookie.getName()+"trunkDiff"));
-        return "differentTrunk/differentialTrace";
+        return "differentialTrace";
     }
 
     @RequestMapping("different/getTrace")

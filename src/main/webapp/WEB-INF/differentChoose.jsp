@@ -22,6 +22,12 @@
     </script>
 </head>
 <body>
+<div id="userLoginName">
+    <div id="classUser">
+        <p style="color: white;">欢迎，<%=session.getAttribute("loginName")%></p>
+        <h4><a href="${pageContext.request.contextPath}/loginout">退出</a></h4>
+    </div>
+</div>
 <div id="cho">
 
 

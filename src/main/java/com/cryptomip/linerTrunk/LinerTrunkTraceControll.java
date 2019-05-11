@@ -37,7 +37,7 @@ public class LinerTrunkTraceControll {
         session.setAttribute(cookie.getName()+"ResTrunkLinear",compileRes);
         if (cookie != null && session.getAttribute(cookie.getName()+"TrunkLinear") != null)
             model.addAttribute("html", session.getAttribute(cookie.getName()+"TrunkLinear"));
-        return "LinearTrunk/linerTrunkTrace";
+        return "linerTrunkTrace";
     }
 
     @RequestMapping("linerTrace/getTrace")

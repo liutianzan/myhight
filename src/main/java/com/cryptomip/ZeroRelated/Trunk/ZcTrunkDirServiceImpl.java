@@ -26,16 +26,16 @@ public class ZcTrunkDirServiceImpl implements ZcTrunkDirService {
         String res = "<table id =\"fileDirectory\" >";
         int count = 0;
         for(String filename:filenameList){
-            if(count%5==0){
+            if(count%4==0){
                 res+="<tr style=\"height: 150px\">";
             }
             res+= "<td style=\"height: 110px;width: 130px\" align=\"center\" valign =\"middle\"><div id=\"pic\"><a href=\""+projectName+"/getzcTrunkFile/"+filename+"\"><img src=\"myPicture/fileImj.jpg\" id=\"filePic\"/></a>\n<div id=\"picLian\"><span>"+filename+"</span></div></div></td>";
-            if(count%5==4){
+            if(count%4==3){
                 res+="</tr>";
             }
             count++;
         }
-        if(count%5!=0){
+        if(count%4!=0){
             res+="</tr>";
         }
         res+="</table>";
@@ -71,6 +71,11 @@ public class ZcTrunkDirServiceImpl implements ZcTrunkDirService {
         }
         br.close();
         return result;
+    }
+    @Override
+    public List<String> getFileChoose(String projectName) {
+        List<String> filenameList = getFileName(solFilePath);
+        return filenameList;
     }
 
     @Override

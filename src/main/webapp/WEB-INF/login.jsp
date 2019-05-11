@@ -30,7 +30,7 @@
             <h1>登录</h1>
             <div class="alert-close"> </div>
         </div>
-        <form action="choose" method="get" onsubmit="return myFunction()">
+        <form action="${pageContext.request.contextPath}/isLogin" method="get" onsubmit="return myFunction()">
             <li>
                 <input id="username" name="username" type="text" class="text" value="Username" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Username';}"><a href="#" class=" icon user"></a>
             </li>
@@ -38,10 +38,15 @@
             <li>
                 <input id="password" name="password" type="password" value="Password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Password';}"> <a href="#" class="icon lock"></a>
             </li>
-            <div class="clear"> </div>
+            <div class="clear">
+            <c:if test="${mgs != null}">
+                <span id="loginError" style="color: red">${mgs}</span>
+            </c:if>
+            </div>
             <div class="submit">
                 <input type="submit"  value="Sign in" id="onLogin">
                 <h4><a href="#">Lost your Password ?</a></h4>
+                <h4><a href="${pageContext.request.contextPath}/register">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注册</a></h4>
                 <div class="clear">  </div>
             </div>
 
@@ -66,10 +71,12 @@
             return false;
         }
         else{
+
             return true;
         }
 
     }
+
 
 </script>
 </body>

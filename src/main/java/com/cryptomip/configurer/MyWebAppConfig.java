@@ -1,4 +1,4 @@
-package com;
+package com.cryptomip.configurer;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +23,7 @@ public class MyWebAppConfig extends WebMvcConfigurerAdapter {
                 .addResourceLocations("classpath:/META-INF/resources/")
                 .addResourceLocations("classpath:/resources/")
                 .addResourceLocations("classpath:/static/")
-                .addResourceLocations("classpath:/public/");
+                .addResourceLocations("classpath:/public/").addResourceLocations("");
         registry.addResourceHandler("/picture/**").addResourceLocations("file:/Users/yueliu/Desktop/test1/picture/");
         super.addResourceHandlers(registry);
     }

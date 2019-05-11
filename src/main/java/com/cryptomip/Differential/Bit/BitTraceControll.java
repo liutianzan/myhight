@@ -38,7 +38,7 @@ public class BitTraceControll {
         session.setAttribute(cookie.getName() + "ResDifBIt", compileRes);
         if (cookie != null && session.getAttribute(cookie.getName()+"DifBIt") != null)
             model.addAttribute("html", session.getAttribute(cookie.getName()+"DifBIt"));
-        return "DifferentBit/bitDifferentialTrace";
+        return "bitDifferentialTrace";
     }
 
     @RequestMapping("bitDiff/getTrace")

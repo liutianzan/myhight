@@ -1,4 +1,4 @@
-//package com.cryptomip.ActiveMq;
+//package com.cryptomip.activeMq;
 //
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.jms.core.JmsMessagingTemplate;

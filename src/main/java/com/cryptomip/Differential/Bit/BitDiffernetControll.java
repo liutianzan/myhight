@@ -1,7 +1,7 @@
 package com.cryptomip.Differential.Bit;
 
 import com.baseTool.pojo.Message;
-import com.cryptomip.ActiveMq.PromoteActConsumer;
+import com.cryptomip.activeMq.PromoteActConsumer;
 import com.cryptomip.Differential.trunkDif.DifferentTrunkAnalysisControll;
 import com.baseTool.util.CookieUtil;
 import org.springframework.beans.factory.annotation.Autowired;
