@@ -57,7 +57,7 @@ public class DifferentTrunkTraceServiceImpl implements DifferentTrunkTraceServic
         HashMap<String,String> hm = new HashMap<>();
         List<String> subLen = new ArrayList<>();
         for(String re:s){
-            if(re.startsWith("p_r0_")){
+            if(re.startsWith("p_r1_")){
                 subLen.add(re);
             }
         }
@@ -67,15 +67,16 @@ public class DifferentTrunkTraceServiceImpl implements DifferentTrunkTraceServic
         }
         int lunshu = s.length/subLen.size();
         int height = 20*4/lunshu;
-        int width = 15*32/subLen.size();
+//        int width = 15*32/subLen.size();
+        int width = 15;
         String htmlTable = "<table border=\"1\" id=\"htmlTrace\" frame=\"void\">";
-        htmlTable+="<tr height=\""+height+"\">";
-        htmlTable+="<td width=\""+width+"\" style=\"border-style:none;\"> </td>";
-        for(int i = 0;i<subLen.size();i++){
-            htmlTable+="<td width=\""+width+"\" style=\"border-style:none;\">"+i+"</td>";
-        }
+//        htmlTable+="<tr height=\""+height+"\">";
+//        htmlTable+="<td width=\""+width+"\" style=\"border-style:none;\"> </td>";
+//        for(int i = 0;i<subLen.size();i++){
+//            htmlTable+="<td width=\""+width+"\" style=\"border-style:none;\">"+i+"</td>";
+//        }
         htmlTable+="</tr>";
-        for(int i = 0;i<lunshu;i++){
+        for(int i = 1;i<lunshu;i++){
             htmlTable+="<tr height=\""+height+"\">";
             htmlTable+="<td width=\""+width+"\" style=\"border-style:none;\">r"+i+"</td>";
 

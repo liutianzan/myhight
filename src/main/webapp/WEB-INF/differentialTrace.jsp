@@ -8,7 +8,7 @@
     <%--<meta http-equiv="refresh" content="1">--%>
     <link type="text/css" href="${pageContext.request.contextPath}/css/myHIgh.css" rel="stylesheet">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/swalCss.css">
-    <title>工作空间</title>
+    <title>差分迹</title>
     <script type="text/javascript" src="${pageContext.request.contextPath}/myJs/jquery-3.2.1.min.js"></script>
     <script src="${pageContext.request.contextPath}/myJs/sweetalert.min.js"></script>
     <script type="text/css">
@@ -22,15 +22,37 @@
 <div id="beijing">
     <h3><font size="7px" color="#ffffff">&nbsp;差分迹</font></h3>
 
+    <div id="sub6">
+        <input id="subbianyi" class="bianyi" type="submit" name="sub" value="打印" onclick='printDiv()'/>
+
+    </div>
     <div id="subfanhui1">
         <input id="sub" type="submit" name="sub" value="返回" onclick='location.href=("${pageContext.request.contextPath}/dif/Truncated")'/>
     </div>
 </div>
 <div class="rightTrace">
 <div class="solver"></div>
-<div class="externalHtml3"></div>
+<div class="externalHtml3" style="" id="externalHtml"></div>
 </div>
 <script type="application/javascript">
+
+    function printDiv()
+    {
+
+        var divToPrint=document.getElementById('externalHtml');
+
+        var newWin=window.open('','Print-Window');
+
+        newWin.document.open();
+
+        newWin.document.write('<html><body onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
+
+        newWin.document.close();
+
+        setTimeout(function(){newWin.close();},10);
+
+    }
+
     function reloadView() {
 
         $.ajax({
@@ -53,7 +75,7 @@
         });
     }
 
-    setInterval(reloadView, 10);
+    setInterval(reloadView, 1000);
 
 </script>
 </body>

@@ -1,4 +1,4 @@
-package com.cryptomip.impossibleDifferent;
+package com.cryptomip.linerTrunk.bit;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -13,11 +13,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
-public class ImpossibleIbDirServiceImple implements ImpossibleIbDirService {
-    @Value("${trunkId.sol.file.path}")
+public class LinerBitDirServiceImpl implements LInerBitDirService {
+    @Value("${linerBit.sol.trunk.path}")
     private String solFilePath;
 
-    @Value("${remove.trunkId.solFile}")
+    @Value("${remove.linerBit.solFile}")
     private String removeFile;
 
     @Override
@@ -27,16 +27,16 @@ public class ImpossibleIbDirServiceImple implements ImpossibleIbDirService {
         String res = "<table id =\"fileDirectory\" >";
         int count = 0;
         for(String filename:filenameList){
-            if(count%5==0){
+            if(count%7==0){
                 res+="<tr style=\"height: 150px\">";
             }
-            res+= "<td style=\"height: 110px;width: 130px\" align=\"center\" valign =\"middle\"><div id=\"pic\"><a href=\""+projectName+"/getibTrunkFile/"+filename+"\"><img src=\"myPicture/fileImj.jpg\" id=\"filePic\"/></a>\n<div id=\"picLian\"><span>"+filename+"</span></div></div></td>";
-            if(count%5==4){
+            res+= "<td style=\"height: 110px;width: 130px\" align=\"center\" valign =\"middle\"><div id=\"pic\"><a href=\""+projectName+"/getLinerBitFile/"+filename+"\"><img src=\"myPicture/fileImj.jpg\" id=\"filePic\"/></a>\n<div id=\"picLian\"><span>"+filename+"</span></div></div></td>";
+            if(count%7==6){
                 res+="</tr>";
             }
             count++;
         }
-        if(count%5!=0){
+        if(count%7!=0){
             res+="</tr>";
         }
         res+="</table>";
@@ -45,7 +45,7 @@ public class ImpossibleIbDirServiceImple implements ImpossibleIbDirService {
     @Override
     public List<String> getFileName(String path)
     {
-        Pattern pat=Pattern.compile("\\S+\\.lp");
+        Pattern pat=Pattern.compile("\\S+\\.sol");
         File file = new File(path);
         List<String> result = new ArrayList<String>();
         String [] fileName = file.list();
@@ -56,12 +56,6 @@ public class ImpossibleIbDirServiceImple implements ImpossibleIbDirService {
                 result.add(s);
         }
         return result;
-    }
-
-    @Override
-    public List<String> getFileChoose(String projectName) {
-        List<String> filenameList = getFileName(solFilePath);
-        return filenameList;
     }
 
     @Override

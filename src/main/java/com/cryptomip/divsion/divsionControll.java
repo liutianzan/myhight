@@ -3,6 +3,7 @@ package com.cryptomip.divsion;
 import com.baseTool.pojo.Message;
 import com.cryptomip.Differential.trunkDif.DifferentTrunkAnalysisControll;
 import com.baseTool.util.CookieUtil;
+import com.cryptomip.activeMq.PromoteActConsumer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,20 +27,21 @@ public class divsionControll {
     @ResponseBody
     public String subText(String subTxt, Model model, HttpServletRequest request) throws Exception {
         try {
+            PromoteActConsumer.analysisType = "trunkBase";
             HttpSession session = request.getSession();
             Cookie cookie = CookieUtil.getToken(request);
             DifferentTrunkAnalysisControll.finsishComplie = 0;
             String html = null;
             if (cookie != null)
-                html = session.getAttribute(cookie.getName())+"";
+                html = session.getAttribute(cookie.getName()+"TrunkBase")+"";
             if(html!=null&&html.equals(subTxt)&&!html.equals("null")){
                 return "已编译";
             }
             if("".equals(subTxt))return "";
             String s = divsionService.saveText(subTxt);
             html = subTxt;
-            session.setAttribute(cookie.getName(),html);
-            model.addAttribute("html",subTxt);
+            session.setAttribute(cookie.getName()+"TrunkBase",html);
+            model.addAttribute("htmlBase",subTxt);
 //            model.addAttribute("htmlCode",html);
             if ("".equals(s)) {
                 isCompile = false;
@@ -58,26 +60,27 @@ public class divsionControll {
     @RequestMapping("divsion/complie")
     @ResponseBody
     public String compile(String subTxt, HttpServletRequest request) {
+        PromoteActConsumer.ip = DifferentTrunkAnalysisControll.getIp(request);
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
         Object html = null;
         if(cookie!=null){
-            html = session.getAttribute(cookie.getName());
+            html = session.getAttribute(cookie.getName()+"TrunkBase");
         }
         if(html==null||(!subTxt.equals(html)&&
                 !html.toString().replace("\r","").equals(subTxt)))
             isCompile = false;
         if(isCompile==false)return "编译未成功";
         try {
-            divsionService.removeSolFile();
-            finsishComplie = 1;
-            String result = divsionService.complieProject();
+//            divsionService.removeSolFile();
+//            finsishComplie = 1;
+            divsionService.complieProject();
             finsishComplie = 2;
-            if("".equals(result))return "分析失败";
-            if(cookie!=null){
-                session.setAttribute(cookie.getName()+"com",result);
-            }
-            return result;
+//            if("".equals(result))return "分析失败";
+//            if(cookie!=null){
+//                session.setAttribute(cookie.getName()+"com",result);
+//            }
+            return "编译成功";
         } catch (Exception e) {
             e.printStackTrace();
             return "分析失败";

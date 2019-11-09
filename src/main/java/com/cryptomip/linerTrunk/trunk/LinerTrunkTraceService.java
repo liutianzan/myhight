@@ -1,4 +1,4 @@
-package com.cryptomip.linerTrunk;
+package com.cryptomip.linerTrunk.trunk;
 
 import java.util.HashMap;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.cryptomip.impossibleDifferent;
+package com.cryptomip.ZeroRelated.Bit;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -6,30 +6,31 @@ import org.springframework.stereotype.Service;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
+
 @Service
-public class ImpossibleDifServiceImple implements ImpossibleDiffService {
-    @Value("${trunkId.python.path}")
+public class ZcBitServiceImpl implements ZcBitService {
+    @Value("${Bitzc.python.path}")
     private String pythonFilePath;
 
-    @Value("${compile.trunkId.script}")
+    @Value("${compile.Bitzc.script}")
     private String runScriptPath;
 
-    @Value("${delete.trunkId.file.path}")
+    @Value("${delete.Bitzc.file.script}")
     private String deleteFileScript;
 
-    @Value("${trmporary.trunkId.file.path}")
+    @Value("${temporary.Bitzc.file.path}")
     private String temporaryFilePath;
 
-    @Value("${remove.trunkId.solFile}")
+    @Value("${remove.Bitzc.solFile}")
     private String removeFile;
 
-    @Value("${analysis.trunkId.fenxi.path}")
+    @Value("${analysis.Bitzc.fenxi.path}")
     private String compileFilePath;
 
-    @Value("${analysis.trunkId.result.path}")
+    @Value("${analysis.Bitzc.result.path}")
     private String compileResult;
 
-    @Value("${analysis.script.impossibleDif.name}")
+    @Value("${analysis.script.BitZc.name}")
     private String compileName;
 
     @Override
@@ -60,6 +61,7 @@ public class ImpossibleDifServiceImple implements ImpossibleDiffService {
         deletePython();
         return result;
     }
+
     @Override
     public String savePython() throws InterruptedException, IOException {
         String pathName = runScriptPath;
@@ -72,7 +74,7 @@ public class ImpossibleDifServiceImple implements ImpossibleDiffService {
 
         String command2 = "/bin/sh " + pathName;
         Runtime.getRuntime().exec(command2).waitFor();
-        File file = new File(pythonFilePath + "resultTrunkId.txt");
+        File file = new File(pythonFilePath + "resultTrunckZc.txt");
         StringBuilder result = new StringBuilder();
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));//构造一个BufferedReader类来读取文件
@@ -116,13 +118,14 @@ public class ImpossibleDifServiceImple implements ImpossibleDiffService {
         Runtime.getRuntime().exec(command2).waitFor();
 
     }
+
     @Override
-    public String complieProject() throws Exception {
-        String res = compilePython();
-        return res;
+    public void complieProject() throws Exception {
+        compilePython();
     }
+
     @Override
-    public String compilePython() throws InterruptedException, IOException {
+    public void compilePython() throws InterruptedException, IOException {
         ProcessBuilder pb = new ProcessBuilder("./" + compileName);
         pb.directory(new File(compileFilePath));
         int runningStatus = 0;
@@ -147,11 +150,10 @@ public class ImpossibleDifServiceImple implements ImpossibleDiffService {
             System.out.println(e);
             e.printStackTrace();
         }
-        String result = getCompileContent();
-        return result;
     }
+
     @Override
-    public String getCompileContent(){
+    public String getCompileContent() {
         File file = new File(compileResult);
         StringBuilder result = new StringBuilder();
         try {
@@ -166,5 +168,4 @@ public class ImpossibleDifServiceImple implements ImpossibleDiffService {
         }
         return result.toString();
     }
-
 }

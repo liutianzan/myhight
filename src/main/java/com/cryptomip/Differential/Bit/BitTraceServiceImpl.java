@@ -63,7 +63,8 @@ public class BitTraceServiceImpl implements BitTraceService {
         }
         int lunshu = s.length / subLen.size();
         int height = 20 * 4 / lunshu;
-        int width = 15 * 32 / subLen.size();
+//        int width = 15 * 32 / subLen.size();
+        int width = 15;
         int blank = 0;
         if(subLen.size()==32){
             blank = 32;
@@ -73,7 +74,12 @@ public class BitTraceServiceImpl implements BitTraceService {
             blank = 0;
         }
         String htmlTable = "<table border=\"1\" id=\"htmlTraceBit\" frame=\"void\">";
-
+//        htmlTable += "<tr height=\"" + height + "\">";
+//        htmlTable += "<td width=\"" + width + "\" style=\"border-style:none;\"> </td>";
+//        for (int i = 0; i < subLen.size(); i++) {
+//            htmlTable += "<td width=\"" + width + "\" style=\"border-style:none;\">" + i + "</td>";
+//        }
+//        htmlTable += "</tr>";
         for (int i = 1; i <= lunshu; i++) {
             htmlTable += "<tr height=\"" + height + "\">";
             for(int k = 0;k<blank;k++){

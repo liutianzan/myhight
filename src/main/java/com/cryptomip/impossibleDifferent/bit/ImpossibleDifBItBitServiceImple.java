@@ -1,4 +1,4 @@
-package com.cryptomip.linerTrunk;
+package com.cryptomip.impossibleDifferent.bit;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -8,29 +8,29 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class linerTrunkServiceImpl implements linerTrunkService {
-    @Value("${liner.python.path}")
+public class ImpossibleDifBItBitServiceImple implements ImpossibleDiffBitService {
+    @Value("${BitId.python.path}")
     private String pythonFilePath;
 
-    @Value("${compile.linerTrunk.script}")
+    @Value("${compile.BitId.script}")
     private String runScriptPath;
 
-    @Value("${delete.linerTrunk.file.script}")
+    @Value("${delete.BitId.file.path}")
     private String deleteFileScript;
 
-    @Value("${temporary.linerTrank.file.path}")
+    @Value("${trmporary.BitId.file.path}")
     private String temporaryFilePath;
 
-    @Value("${remove.linerTrunk.solFile}")
+    @Value("${remove.BitId.solFile}")
     private String removeFile;
 
-    @Value("${analysis.linerTrunk.fenxi.path}")
+    @Value("${analysis.BitId.fenxi.path}")
     private String compileFilePath;
 
-    @Value("${analysis.linerTrunl.result.path}")
+    @Value("${analysis.BitId.result.path}")
     private String compileResult;
 
-    @Value("${analysis.script.TrunkLinear.name}")
+    @Value("${analysis.script.impossibleBitDif.name}")
     private String compileName;
 
     @Override
@@ -61,6 +61,7 @@ public class linerTrunkServiceImpl implements linerTrunkService {
         deletePython();
         return result;
     }
+
     @Override
     public String savePython() throws InterruptedException, IOException {
         String pathName = runScriptPath;
@@ -73,7 +74,7 @@ public class linerTrunkServiceImpl implements linerTrunkService {
 
         String command2 = "/bin/sh " + pathName;
         Runtime.getRuntime().exec(command2).waitFor();
-        File file = new File(pythonFilePath + "resultLinerTrunk.txt");
+        File file = new File(pythonFilePath + "resultBitId.txt");
         StringBuilder result = new StringBuilder();
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));//构造一个BufferedReader类来读取文件
@@ -117,11 +118,12 @@ public class linerTrunkServiceImpl implements linerTrunkService {
         Runtime.getRuntime().exec(command2).waitFor();
 
     }
+
     @Override
     public void complieProject() throws Exception {
         compilePython();
-//        return res;
     }
+
     @Override
     public void compilePython() throws InterruptedException, IOException {
         ProcessBuilder pb = new ProcessBuilder("./" + compileName);
@@ -149,8 +151,9 @@ public class linerTrunkServiceImpl implements linerTrunkService {
             e.printStackTrace();
         }
     }
+
     @Override
-    public String getCompileContent(){
+    public String getCompileContent() {
         File file = new File(compileResult);
         StringBuilder result = new StringBuilder();
         try {
@@ -165,4 +168,5 @@ public class linerTrunkServiceImpl implements linerTrunkService {
         }
         return result.toString();
     }
+
 }

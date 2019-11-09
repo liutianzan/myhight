@@ -1,6 +1,7 @@
-package com.cryptomip.impossibleDifferent;
+package com.cryptomip.linerTrunk.trunk;
 
 import com.baseTool.pojo.Message;
+import com.cryptomip.activeMq.PromoteActConsumer;
 import com.cryptomip.Differential.trunkDif.DifferentTrunkAnalysisControll;
 import com.baseTool.util.CookieUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,32 +15,33 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
-public class ImpossibleDifControll {
+public class LinerTrunkControll {
     @Autowired
-    private ImpossibleDiffService impossibleDiffService;
+    private linerTrunkService linerTrunkService;
 
     public static boolean isCompile;
 
     public static int finsishComplie;
 
-    @RequestMapping("ibTrunk/submit/text")
+    @RequestMapping("linerTrunk/submit/text")
     @ResponseBody
     public String subText(String subTxt, Model model, HttpServletRequest request) throws Exception {
         try {
+            PromoteActConsumer.analysisType = "linearTrunk";
             HttpSession session = request.getSession();
             Cookie cookie = CookieUtil.getToken(request);
             DifferentTrunkAnalysisControll.finsishComplie = 0;
             String html = null;
             if (cookie != null)
-                html = session.getAttribute(cookie.getName())+"";
-            if(html!=null&&html.equals(subTxt)&&!html.equals("null")){
+                html = session.getAttribute(cookie.getName()+"TrunkLinear") + "";
+            if (html != null && html.equals(subTxt) && !html.equals("null")&&isCompile==true) {
                 return "已编译";
             }
-            if("".equals(subTxt))return "";
-            String s = impossibleDiffService.saveText(subTxt);
+            if ("".equals(subTxt)) return "";
+            String s = linerTrunkService.saveText(subTxt);
             html = subTxt;
-            session.setAttribute(cookie.getName(),html);
-            model.addAttribute("html",subTxt);
+            session.setAttribute(cookie.getName()+"TrunkLinear", html);
+            model.addAttribute("html", subTxt);
 //            model.addAttribute("htmlCode",html);
             if ("".equals(s)) {
                 isCompile = false;
@@ -55,39 +57,41 @@ public class ImpossibleDifControll {
         return "错误";
     }
 
-    @RequestMapping("ibTrunk/complie")
+    @RequestMapping("linerTrunk/complie")
     @ResponseBody
     public String compile(String subTxt, HttpServletRequest request) {
+        PromoteActConsumer.ip = DifferentTrunkAnalysisControll.getIp(request);
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
         Object html = null;
-        if(cookie!=null){
-            html = session.getAttribute(cookie.getName());
+        if (cookie != null) {
+            html = session.getAttribute(cookie.getName()+"TrunkLinear");
         }
-        if(html==null||(!subTxt.equals(html)&&
-                !html.toString().replace("\r","").equals(subTxt)))
+        if (html == null || (!subTxt.equals(html) &&
+                !html.toString().replace("\r", "").equals(subTxt)))
             isCompile = false;
-        if(isCompile==false)return "编译未成功";
+        if (isCompile == false) return "编译未成功";
         try {
-            impossibleDiffService.removeSolFile();
-            finsishComplie = 1;
-            String result = impossibleDiffService.complieProject();
-            finsishComplie = 2;
-            if("".equals(result))return "分析失败";
-            if(cookie!=null){
-                session.setAttribute(cookie.getName()+"com",result);
-            }
-            return result;
+//            linerBitService.removeSolFile();
+//            finsishComplie = 1;
+            linerTrunkService.complieProject();
+//            finsishComplie = 2;
+//            if("".equals(result))return "分析失败";
+//            if(cookie!=null){
+//                session.setAttribute(cookie.getName()+"com",result);
+//            }
+            return "编译成功";
         } catch (Exception e) {
             e.printStackTrace();
             return "分析失败";
         }
 
     }
-    @RequestMapping("/getIbComplieStatus")
+
+    @RequestMapping("/getLinerTrunkCompileStatus")
     @ResponseBody
-    public Message getComplieStatus(){
-        String result = impossibleDiffService.getCompileContent();
-        return Message.customize(finsishComplie+"",result);
+    public Message getComplieStatus() {
+        String result = linerTrunkService.getCompileContent();
+        return Message.customize(finsishComplie + "", result);
     }
 }

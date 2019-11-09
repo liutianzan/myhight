@@ -34,7 +34,7 @@
 //    }
 //    System.out.println(html);
 //    System.out.println(request.getSession().getId());
-    String html = request.getAttribute("html") + "";
+    String html = request.getAttribute("htmlLinerBit") + "";
 
     if (html == null || html.equals("null") || html.equals("")) {
 %>
@@ -117,7 +117,7 @@
 
     <table id="tabId">
         <tr id="ziti">
-            <div id="wenzi"><font color="#fff" size="6px">&nbsp;线性分析</font></div>
+            <div id="wenzi"><font color="#fff" size="6px">截断型线性分析</font></div>
         </tr>
         <tr id="trd">
 
@@ -197,7 +197,7 @@
     </div>
     <div id="sub9">
 
-        <input type="submit" value="差分迹" class="bianyi3" id="traceBut" onclick="getTrace()">
+        <input type="submit" value="线性迹" class="bianyi3" id="traceBut" onclick="getTrace()">
 
     </div>
     <div id="subfanhui">

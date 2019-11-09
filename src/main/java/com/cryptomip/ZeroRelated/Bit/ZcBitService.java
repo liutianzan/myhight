@@ -1,8 +1,8 @@
-package com.cryptomip.linerTrunk;
+package com.cryptomip.ZeroRelated.Bit;
 
 import java.io.IOException;
 
-public interface linerTrunkService {
+public interface ZcBitService {
     String saveText(String subText) throws Exception;
     String savePython() throws InterruptedException, IOException;
     void deletePython() throws InterruptedException, IOException;

@@ -61,6 +61,7 @@ public class ZcTrunkServiceImpl implements ZcTrunkService {
         deletePython();
         return result;
     }
+
     @Override
     public String savePython() throws InterruptedException, IOException {
         String pathName = runScriptPath;
@@ -117,13 +118,14 @@ public class ZcTrunkServiceImpl implements ZcTrunkService {
         Runtime.getRuntime().exec(command2).waitFor();
 
     }
+
     @Override
-    public String complieProject() throws Exception {
-        String res = compilePython();
-        return res;
+    public void complieProject() throws Exception {
+        compilePython();
     }
+
     @Override
-    public String compilePython() throws InterruptedException, IOException {
+    public void compilePython() throws InterruptedException, IOException {
         ProcessBuilder pb = new ProcessBuilder("./" + compileName);
         pb.directory(new File(compileFilePath));
         int runningStatus = 0;
@@ -148,11 +150,10 @@ public class ZcTrunkServiceImpl implements ZcTrunkService {
             System.out.println(e);
             e.printStackTrace();
         }
-        String result = getCompileContent();
-        return result;
     }
+
     @Override
-    public String getCompileContent(){
+    public String getCompileContent() {
         File file = new File(compileResult);
         StringBuilder result = new StringBuilder();
         try {

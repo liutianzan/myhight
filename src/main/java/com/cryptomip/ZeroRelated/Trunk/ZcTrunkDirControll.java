@@ -34,13 +34,15 @@ public class ZcTrunkDirControll {
     }
 
     @RequestMapping("zcTrunkPath")
-    public String differentPath(String subTxt, Model model, HttpServletRequest request) {
+    public String differentPath(String subTxt, String compileRes,Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
-        if(subTxt!=null&&cookie!=null)
-            session.setAttribute(cookie.getName(), subTxt);
+        if (subTxt != null && cookie != null){
+            session.setAttribute(cookie.getName()+"TrunkZero", subTxt);
+            session.setAttribute(cookie.getName() + "ResTrunkZero", compileRes);
+        }
         if (cookie != null)
-            model.addAttribute("html", session.getAttribute(cookie.getName()));
+            model.addAttribute("htmlZero", session.getAttribute(cookie.getName()));
         return "zcTrunkDir";
     }
 
@@ -55,7 +57,7 @@ public class ZcTrunkDirControll {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
         if (cookie != null)
-            model.addAttribute("html", session.getAttribute(cookie.getName()));
+            model.addAttribute("htmlZero", session.getAttribute(cookie.getName()));
         return "zcTrunkContent";
     }
 

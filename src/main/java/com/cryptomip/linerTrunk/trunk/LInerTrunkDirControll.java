@@ -1,4 +1,4 @@
-package com.cryptomip.linerTrunk;
+package com.cryptomip.linerTrunk.trunk;
 
 import com.baseTool.util.CookieUtil;
 import org.springframework.beans.factory.annotation.Autowired;

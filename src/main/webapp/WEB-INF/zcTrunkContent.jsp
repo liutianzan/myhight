@@ -436,7 +436,7 @@
     <h3><font size="7px" color="#ffffff">&nbsp;文本内容</font></h3>
     <div id="nameFile">${fileName}</div>
     <div id="subfanhui1">
-        <input id="sub" type="submit" name="sub" value="返回" onclick='location.href=("${pageContext.request.contextPath}/zcTrunkPath")'/>
+        <input id="sub" type="submit" name="sub" value="返回" onclick='location.href=("${pageContext.request.contextPath}/zcBitPath")'/>
     </div>
 </div>
 <div class="externalHtml">
@@ -479,7 +479,7 @@
 <script type="text/javascript">
     $("#table").on("click", "th", function () {
         var html = this.innerText;
-        window.location.href="${pageContext.request.contextPath}/getzcTrunkFile/"+html;
+        window.location.href="${pageContext.request.contextPath}/getzcBitFile/"+html;
     })
 </script>
 </body>

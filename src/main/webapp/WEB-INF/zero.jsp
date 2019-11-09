@@ -10,7 +10,32 @@
     <link type="text/css" href=${pageContext.request.contextPath}/css/myHIgh.css rel="stylesheet">
     <link href=${pageContext.request.contextPath}/css/style.css rel="stylesheet" type="text/css" media="all"/>
     <script src=${pageContext.request.contextPath}/myJs/sweetalert.min.js></script>
-    <title>零相关线性分析</title>
+    <title>截断型零相关线性分析</title>
+    <style type="text/css" media="screen">
+        .btn { display: block; position: relative; background: #aaa; padding: 5px; float: left; color: #fff; text-decoration: none; cursor: pointer; }
+        .btn i { background-position: top left; position: absolute; margin-bottom: -5px;  top: 0; left: 0; width: 5px; height: 5px; }
+        * html .btn span,
+        * html .btn i { float: left; width: auto; background-image: none; cursor: pointer; }
+        .btn:hover { background-color: #a00; }
+        .btn:active { background-color: #444; }
+        * html .btn { border: 3px double #aaa; }
+        * html .btn:hover { border-color: #a00; }
+        p { clear: both; padding-bottom: 2em; }
+        #reset_btn{
+
+            width: 85px;
+            height: 25px;
+
+        }
+        #exitBut{
+            position: relative;
+            height: 20px;
+            width: 20px;
+            bottom:-24%;
+            left: 60%;
+
+        }
+    </style>
 </head>
 <script type="text/javascript" src="${pageContext.request.contextPath}/myJs/jquery-3.2.1.min.js"></script>
 <body>
@@ -34,7 +59,7 @@
 //    }
 //    System.out.println(html);
 //    System.out.println(request.getSession().getId());
-    String html = request.getAttribute("html") + "";
+    String html = request.getAttribute("htmlZero") + "";
 
     if (html == null || html.equals("null") || html.equals("")) {
 %>
@@ -53,19 +78,119 @@
 <%}%>
 
 <input id="subhid" type="hidden" name="subTxt">
-<div id="butInp">
+<div id="butInp" class="box">
 </div>
+<%--<script>--%>
+<%--var box = document.getElementsByClassName("box1")[0]; //获取元素--%>
+<%--var x, y; //存储div的坐标--%>
+<%--var isDrop = false; //移动状态的判断鼠标按下才能移动--%>
+<%--box.onmousedown = function(e) {--%>
+<%--var e = e || window.event; //要用event这个对象来获取鼠标的位置--%>
+<%--x = e.clientX - box.offsetLeft;--%>
+<%--y = e.clientY - box.offsetTop;--%>
+<%--isDrop = true; //设为true表示可以移动--%>
+<%--}--%>
 
+<%--document.onmousemove = function(e) {--%>
+<%--//是否为可移动状态                　　　　　　　　　　　 　　　　　　　--%>
+<%--if(isDrop) {--%>
+<%--var e = e || window.event;--%>
+<%--var moveX = e.clientX - x; //得到距离左边距离                    　　--%>
+<%--var moveY = e.clientY - y; //得到距离上边距离--%>
+
+<%--var maxX = document.documentElement.clientWidth - box.offsetWidth;--%>
+<%--var maxY = document.documentElement.clientHeight - box.offsetHeight;--%>
+
+<%--//范围限定  当移动的距离最小时取最大  移动的距离最大时取最小--%>
+<%--//范围限定一--%>
+<%--/*if(moveX < 0) {--%>
+<%--moveX = 0--%>
+<%--} else if(moveX > maxX) {--%>
+<%--moveX = maxX;--%>
+<%--}--%>
+
+<%--if(moveY < 0) {--%>
+<%--moveY = 0;--%>
+<%--} else if(moveY > maxY) {--%>
+<%--moveY = maxY;--%>
+<%--}　*/--%>
+<%--//范围限定二　--%>
+<%--moveX=Math.min(maxX, Math.max(0,moveX));--%>
+
+<%--moveY=Math.min(maxY, Math.max(0,moveY));--%>
+<%--box.style.left = moveX + "px";--%>
+<%--box.style.top = moveY + "px";--%>
+<%--} else {--%>
+<%--return;--%>
+<%--}--%>
+
+<%--}--%>
+
+<%--document.onmouseup = function() {--%>
+<%--isDrop = false; //设置为false不可移动--%>
+<%--}--%>
+<%--</script>--%>
 <div id="tex">
-    <textarea style="width:100%;height:100%;resize:none" id="buildout" rows="8" data-role="none" readonly="readonly"
-              class="area">(compiler output will display here)</textarea>
+    <%--<textarea style="width:100%;height:100%;resize:none" id="buildout" rows="8" data-role="none" readonly="readonly"--%>
+    <%--class="area">(compiler output will display here)</textarea>--%>
+    <div id="show" style="overflow:auto; width:100%;height:100%; border: 1px solid #797979;" class="box1"></div>
 </div>
+<script type="text/javascript" src="${pageContext.request.contextPath}/myJs/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/myJs/amq_jquery_adapter.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/myJs/amq.js"></script>
+<%
+    String ip = request.getHeader("x-forwarded-for");
+    if(ip == null||ip.length()==0||"unknown".equalsIgnoreCase(ip)){
+        ip = request.getHeader("Proxy-Client-IP");
+    }
+    if(ip == null||ip.length()==0||"unknown".equalsIgnoreCase(ip)){
+        ip = request.getHeader("WL-Proxy-Client-IP");
+    }
+    if(ip == null||ip.length()==0||"unknown".equalsIgnoreCase(ip)){
+        ip = request.getRemoteAddr();
+    }
+%>
+<script>
+    function showInfo(str) {
+        var t = document.getElementById("show");
+
+        if(str=="exit"){
+            t.innerHTML +=  "<br>" +"程序分析工作完成"+ "<br>";
+            t.scrollTop = t.scrollHeight;
+        }else{
+            t.innerHTML +=  "<br>" + str + "<br>";
+            t.scrollTop = t.scrollHeight;
+        }
+    }
+    function clearShow() {
+        var t = document.getElementById("show");
+
+        t.innerHTML="";
+    }
+    var amq = org.activemq.Amq;
+    amq.init({
+        uri: '${pageContext.request.contextPath}/amq',
+        logging: true,
+        timeout: 20
+    });
+    var myHandler =
+        {
+            rcvMessage: function(message)
+            {
+                console.log(message);
+                //chrome
+                showInfo( message.textContent);
+            }
+        };
+    var destination = "channel://<%=ip%>trunkZero";
+    amq.addListener(1,destination,myHandler.rcvMessage);
+</script>
 
 <div id="beijing">
 
     <table id="tabId">
         <tr id="ziti">
-            <div id="wenzi"><font color="#fff" size="6px">零相关线性分析</font></div>
+            <div id="wenzi"><font color="#fff" size="5px">截断型零相关线性分析</font></div>
         </tr>
         <tr id="trd">
 
@@ -136,41 +261,61 @@
         <input type="submit" value="编译" class="bianyi" onclick="copyText()" id="subbianyi">
     </div>
     <div id="sub7">
-        <input type="submit" value="分析" class="bianyi1" id="fenxi" onclick="clickFenxi()">
+        <input type="submit" value="分析" class="bianyi1" id="fenxi">
     </div>
     <div id="sub8">
 
         <input type="submit" value="工作空间" class="bianyi2" id="kongjian" onclick="getDir()">
 
     </div>
-    <div id="sub9">
+<%--    <div id="sub9">--%>
 
-        <input type="submit" value="线性迹" class="bianyi3" id="traceBut" onclick="getTrace()">
+<%--        <input type="submit" value="差分迹" class="bianyi3" id="traceBut" onclick="getTrace()">--%>
 
-    </div>
+<%--    </div>--%>
     <div id="subfanhui">
         <input id="sub" type="submit" name="sub" value="返回"
                onclick='location.href=("${pageContext.request.contextPath}/choose")'/>
     </div>
+    <div id="exitBut">
+        <p><input type="Button" id="reset_btn" value="退出" class="btn" onclick='location.href=("${pageContext.request.contextPath}/loginout")'/></p>
+    </div>
 </div>
+<%
+    Cookie[] cookies = request.getCookies();
+    Cookie cookie = null;
+    for (int i = 0; i < cookies.length; i++) {
+        if (cookies[i].getName().equals("token")) {
+            cookie = cookies[i];
+            break;
+        }
+    }
+    String token = null;
+    if (cookie != null) {
+        token = URLDecoder.decode(cookie.getValue(), "UTF-8");
+    }
+    String complieRes = request.getSession().getAttribute("tokenResTrunkZero")+"";
+    System.out.println(complieRes);
+
+%>
+<input type="hidden" value="<%=complieRes%>" id="hidRes">
 
 <script type="text/javascript">
     $(function () {
 
 
         $("#subbianyi").click(function () {
+            clearShow();
             ace.require("ace/ext/language_tools");
             var editor = ace.edit("editor");
             var a = document.getElementById("editor");//通过ByTagName,ByClassName,ById获取a元素
             txt = editor.getValue();
-
             $.post("${pageContext.request.contextPath}/zcTrunk/submit/text", {subTxt: txt}, function (result) {
                 if (result == "编译失败") {
                     swal("编译失败，请检查您提交的代码", " ", "error");
                 } else {
                     swal("编译成功", " ", "success");
                 }
-                $('.area').html(result);
 
             });
         });
@@ -179,52 +324,49 @@
             var editor = ace.edit("editor");
             var a = document.getElementById("editor");//通过ByTagName,ByClassName,ById获取a元素
             txt = editor.getValue();
-            $('.area').html("正在分析请稍后");
+            clearShow();
             $.post("${pageContext.request.contextPath}/zcTrunk/complie", {subTxt: txt}, function (result) {
+
                 if (result == "编译未成功") {
 
                     swal("编译未成功", " ", "error");
-                    $('.area').html("程序发生改变，请先进行编译");
+                    showInfo("程序发生改变，请先进行编译")
                 } else {
-
-                    $('.area').html(result);
+                    showInfo("开始分析");
 
                 }
 
             });
         });
 
-        <%
-            Cookie[] cookies = request.getCookies();
-            Cookie cookie = null;
-            for (int i = 0; i < cookies.length; i++) {
-                if (cookies[i].getName().equals("token")) {
-                    cookie = cookies[i];
-                    break;
-                }
-            }
-            String token = null;
-            if (cookie != null) {
-                token = URLDecoder.decode(cookie.getValue(), "UTF-8");
-            }
-            String complieRes = request.getSession().getAttribute(token+"com")+"";
 
-        %>
+
 
         function reloadView() {
-            $.get("${pageContext.request.contextPath}/getZcTrunkCompileStatus", function (result) {
-                if (result.code == "0") {
-                    $('.area').html("(compiler output will display here)");
-                } else if(result.code =="1"){
-                    alert(result);
+            <%--$.get("${pageContext.request.contextPath}/getComplieStatus", function (result) {--%>
+            <%--if (result.code == "0") {--%>
+            <%--$('#show').html("(compiler output will display here)");--%>
+            <%--} else if(result.code =="1"){--%>
+            <%--alert(result);--%>
 
-                    $('.area').html("求解中");
+            <%--$('#show').html("求解中");--%>
 
-                }else{
-                    $('.area').html(result.date);
-                }
+            <%--}else{--%>
+            <%--$('.area').html(result.date);--%>
+            <%--}--%>
 
-            });
+            <%--});--%>
+
+            var a = document.getElementById("show");
+            var b = document.getElementById("hidRes");
+            if(b.value=="null"){
+                a.innerHTML = "(compiler output will display here)";
+            }else{
+
+                a.innerHTML = b.value;
+            }
+
+
 
         }
 
@@ -270,10 +412,13 @@
     function getDir() {
         ace.require("ace/ext/language_tools");
         var editor = ace.edit("editor");
-        var a = document.getElementById("editor")//通过ByTagName,ByClassName,ById获取a元素
+        var a = document.getElementById("editor");//通过ByTagName,ByClassName,ById获取a元素
+        var b = document.getElementById("show");
         txt = editor.getValue();
+        compileRes = b.innerHTML;
         document.write("<form action='${pageContext.request.contextPath}/zcTrunkPath' method=post name=manageDepForm style='display:none'>");
         document.write("<input type=hidden name='subTxt' value='" + txt + "'/>");//参数1
+        document.write("<input type=hidden name='compileRes' value='" + compileRes + "'/>");//参数2
         document.write("</form>");
         document.manageDepForm.submit();
     }
@@ -282,9 +427,12 @@
         ace.require("ace/ext/language_tools");
         var editor = ace.edit("editor");
         var a = document.getElementById("editor")//通过ByTagName,ByClassName,ById获取a元素
+        var b = document.getElementById("show");
         txt = editor.getValue();
+        compileRes = b.innerHTML;
         document.write("<form action='${pageContext.request.contextPath}/different/differentTrace' method=post name=manageDepForm style='display:none'>");
         document.write("<input type=hidden name='subTxt' value='" + txt + "'/>");//参数1
+        document.write("<input type=hidden name='compileRes' value='" + compileRes + "'/>");
         document.write("</form>");
         document.manageDepForm.submit();
     }

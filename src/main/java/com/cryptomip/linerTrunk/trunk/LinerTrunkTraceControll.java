@@ -1,4 +1,4 @@
-package com.cryptomip.linerTrunk;
+package com.cryptomip.linerTrunk.trunk;
 
 import com.baseTool.pojo.Message;
 import com.baseTool.util.CookieUtil;

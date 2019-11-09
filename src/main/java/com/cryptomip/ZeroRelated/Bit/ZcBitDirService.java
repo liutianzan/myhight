@@ -1,9 +1,9 @@
-package com.cryptomip.impossibleDifferent;
+package com.cryptomip.ZeroRelated.Bit;
 
 import java.io.IOException;
 import java.util.List;
 
-public interface ImpossibleIbDirService {
+public interface ZcBitDirService {
     String getDir(String projectName);
     List<String> getFileName(String path);
     List<String> getFileChoose(String projectName);

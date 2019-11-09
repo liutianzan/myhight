@@ -409,12 +409,14 @@ input[type="submit"]:hover {
     width: 1200px;
     height: 700px;
     background-color: #f6f6f6;
+    overflow: scroll;
 }
 .rightTrace{
     position: relative;
     width: 1200px;
     height: 1000px;
     left: 20%;
+    overflow: scroll;
 }
 #dirPath{
     position: relative;
@@ -443,9 +445,11 @@ input[type="submit"]:hover {
     position: relative;
     top:10%;
     left: 20%;
+    width: max-content;
 }
 #htmlTraceBit{
     position: relative;
     top:10%;
     left: 1%;
+    width: max-content;
 }

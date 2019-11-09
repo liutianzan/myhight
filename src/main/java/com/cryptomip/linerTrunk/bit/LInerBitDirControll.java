@@ -1,4 +1,4 @@
-package com.cryptomip.impossibleDifferent;
+package com.cryptomip.linerTrunk.bit;
 
 import com.baseTool.util.CookieUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,58 +17,59 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
-public class ImpossibleDifDirControll {
+public class LInerBitDirControll {
     @Autowired
-    private ImpossibleIbDirService impossibleIbDirService;
+    private LInerBitDirService bitDirService;
 
-    @Value("${trunkId.sol.file.path}")
+    @Value("${linerBit.sol.trunk.path}")
     private String solFilePath;
 
 
-    @RequestMapping("/ibTrunkDir")
+    @RequestMapping("/linerBitDir")
     @ResponseBody
     public String getDiffDir(HttpServletRequest request) {
         String projectName = request.getContextPath();
-        String res = impossibleIbDirService.getDir(projectName);
+        String res = bitDirService.getDir(projectName);
         return res;
     }
 
-    @RequestMapping("ibTrunkPath")
-    public String differentPath(String subTxt, Model model, HttpServletRequest request) {
+    @RequestMapping("linerBitPath")
+    public String differentPath(String subTxt, String compileRes,Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
-        if(subTxt!=null&&cookie!=null)
-            session.setAttribute(cookie.getName(), subTxt);
+        if(subTxt!=null&&cookie!=null){
+
+            session.setAttribute(cookie.getName()+"BitLinear", subTxt);
+            session.setAttribute(cookie.getName()+"ResBitLinear",compileRes);
+        }
         if (cookie != null)
-            model.addAttribute("html", session.getAttribute(cookie.getName()));
-        return "impossiblePath";
+            model.addAttribute("html", session.getAttribute(cookie.getName()+"BitLinear"));
+        return "linerBitPath";
     }
 
-    @RequestMapping("/getibTrunkFile/{fileName}")
+    @RequestMapping("getLinerBitFile/{fileName}")
     public String getContent(@PathVariable("fileName") String filename, ModelMap model, HttpServletRequest request) throws Exception {
 
-        String content = impossibleIbDirService.getContent(filename);
+        String content = bitDirService.getContent(filename);
         model.addAttribute("text", content);
         model.addAttribute("fileName", filename);
-        List<String> res = impossibleIbDirService.getFileChoose("");
-        model.addAttribute("fileNameList",res);
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
         if (cookie != null)
-            model.addAttribute("html", session.getAttribute(cookie.getName()));
-        return "impossibleContent";
+            model.addAttribute("htmlLinerBit", session.getAttribute(cookie.getName()+"TrunkLinear"));
+        return "linerBitConent";
     }
 
-    @RequestMapping("removeibTrunkSol")
+    @RequestMapping("removeLinerBitSol")
     @ResponseBody
     public String removeFile() {
         String res = null;
         try {
-            List<String> fileList = impossibleIbDirService.getFileName(solFilePath);
+            List<String> fileList = bitDirService.getFileName(solFilePath);
             if (fileList.size() == 0) {
                 return "无可删除文件";
             }
-            impossibleIbDirService.removeSolFile();
+            bitDirService.removeSolFile();
             return "文件删除成功";
         } catch (InterruptedException e) {
             e.printStackTrace();

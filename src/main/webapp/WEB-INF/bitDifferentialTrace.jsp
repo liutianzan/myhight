@@ -22,16 +22,43 @@
 <div id="beijing">
     <h3><font size="7px" color="#ffffff">&nbsp;差分迹</font></h3>
 
+    <div id="sub6">
+        <input id="subbianyi" class="bianyi" type="submit" name="sub" value="打印" onclick='printDiv()'/>
+
+    </div>
+
     <div id="subfanhui1">
         <input id="sub" type="submit" name="sub" value="返回" onclick='location.href=("${pageContext.request.contextPath}/dif/bit")'/>
     </div>
 </div>
 <div class="rightTrace">
     <div class="solver"></div>
-    <div class="externalHtml3"></div>
+    <div class="externalHtml3" id="externalHtml"></div>
 </div>
 <script type="application/javascript">
+
+
+
+    function printDiv()
+    {
+
+        var divToPrint=document.getElementById('externalHtml');
+
+        var newWin=window.open('','Print-Window');
+
+        newWin.document.open();
+
+        newWin.document.write('<html><body onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
+
+        newWin.document.close();
+
+        setTimeout(function(){newWin.close();},10);
+
+    }
+
     function reloadView() {
+
+
 
         $.ajax({
             url: '${pageContext.request.contextPath}/bitDiff/getTrace',

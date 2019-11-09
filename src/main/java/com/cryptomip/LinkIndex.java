@@ -1,6 +1,8 @@
 package com.cryptomip;
 
 import com.baseTool.util.CookieUtil;
+import com.cryptomip.Differential.trunkDif.DifferentTrunkAnalysisControll;
+import com.cryptomip.activeMq.PromoteActConsumer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,6 +47,21 @@ public class LinkIndex {
         return "differentChoose";
     }
 
+    @RequestMapping("linerChoose")
+    public String linerChoose() {
+        return "linerChoose";
+    }
+
+    @RequestMapping("idChoose")
+    public String idChoose() {
+        return "idChoose";
+    }
+
+    @RequestMapping("zeroChoose")
+    public String zeroChoose() {
+        return "zeroChoose";
+    }
+
     @RequestMapping("dif/Truncated")
     public String different(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -77,15 +94,37 @@ public class LinkIndex {
 
     @RequestMapping("impossible")
     public String impossible(Model model, HttpServletRequest request) {
+        PromoteActConsumer.ip = DifferentTrunkAnalysisControll.getIp(request);
+        PromoteActConsumer.analysisType = "TrunkId";
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
-        if (cookie != null)
-            model.addAttribute("html", session.getAttribute(cookie.getName()));
+
+        if (cookie != null) {
+
+            model.addAttribute("htmlId", session.getAttribute(cookie.getName() + "TrunkId"));
+            model.addAttribute("compileTrunkId", session.getAttribute(cookie.getName() + "ResId"));
+        }
         return "impossible";
+    }
+
+    @RequestMapping("impossibleBit")
+    public String impossibleBit(Model model, HttpServletRequest request) {
+        PromoteActConsumer.ip = DifferentTrunkAnalysisControll.getIp(request);
+        PromoteActConsumer.analysisType = "BitId";
+        HttpSession session = request.getSession();
+        Cookie cookie = CookieUtil.getToken(request);
+
+        if (cookie != null) {
+
+            model.addAttribute("htmlBitId", session.getAttribute(cookie.getName() + "BitId"));
+            model.addAttribute("compileBitId", session.getAttribute(cookie.getName() + "ResBitId"));
+        }
+        return "impossibleBit";
     }
 
     @RequestMapping("liner")
     public String liner(Model model, HttpServletRequest request) {
+
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
         if (cookie != null){
@@ -96,12 +135,31 @@ public class LinkIndex {
         return "liner";
     }
 
+    @RequestMapping("linerBit")
+    public String linerBit(Model model, HttpServletRequest request) {
+        PromoteActConsumer.ip = DifferentTrunkAnalysisControll.getIp(request);
+        PromoteActConsumer.analysisType = "linearBit";
+        HttpSession session = request.getSession();
+        Cookie cookie = CookieUtil.getToken(request);
+        if (cookie != null){
+
+            model.addAttribute("html", session.getAttribute(cookie.getName()+"BitLinear"));
+            model.addAttribute("compileResBitLinear", session.getAttribute(cookie.getName() + "ResBitLinear"));
+        }
+        return "linerBit";
+    }
+
     @RequestMapping("base")
     public String base(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
-        if (cookie != null)
-            model.addAttribute("html", session.getAttribute(cookie.getName()));
+        PromoteActConsumer.ip = DifferentTrunkAnalysisControll.getIp(request);
+        PromoteActConsumer.analysisType = "trunkBase";
+        if (cookie != null){
+
+            model.addAttribute("htmlBase", session.getAttribute(cookie.getName()+"TrunkBase"));
+            model.addAttribute("compileResTrunkBase", session.getAttribute(cookie.getName() + "ResTrunkBase"));
+        }
         return "base";
     }
 
@@ -109,9 +167,28 @@ public class LinkIndex {
     public String zero(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
-        if (cookie != null)
-            model.addAttribute("html", session.getAttribute(cookie.getName()));
+        PromoteActConsumer.ip = DifferentTrunkAnalysisControll.getIp(request);
+        PromoteActConsumer.analysisType = "trunkZero";
+        if (cookie != null){
+
+            model.addAttribute("htmlZero", session.getAttribute(cookie.getName()+"TrunkZero"));
+            model.addAttribute("compileResTrunkZero", session.getAttribute(cookie.getName() + "ResTrunkZero"));
+        }
         return "zero";
+    }
+
+    @RequestMapping("zeroBit")
+    public String zeroBit(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Cookie cookie = CookieUtil.getToken(request);
+        PromoteActConsumer.ip = DifferentTrunkAnalysisControll.getIp(request);
+        PromoteActConsumer.analysisType = "bitZero";
+        if (cookie != null){
+
+            model.addAttribute("htmlZeroBit", session.getAttribute(cookie.getName()+"BitZero"));
+            model.addAttribute("compileResBitZero", session.getAttribute(cookie.getName() + "ResBitZero"));
+        }
+        return "zeroBit";
     }
 
     @Bean

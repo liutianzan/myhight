@@ -34,13 +34,15 @@ public class DivsionDirControll {
     }
 
     @RequestMapping("divsionPath")
-    public String differentPath(String subTxt, Model model, HttpServletRequest request) {
+    public String differentPath(String subTxt, String compileRes, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
-        if(subTxt!=null&&cookie!=null)
-            session.setAttribute(cookie.getName(), subTxt);
+        if (subTxt != null && cookie != null) {
+            session.setAttribute(cookie.getName() + "TrunkBase", subTxt);
+            session.setAttribute(cookie.getName() + "ResTrunkBase", compileRes);
+        }
         if (cookie != null)
-            model.addAttribute("html", session.getAttribute(cookie.getName()));
+            model.addAttribute("htmlBase", session.getAttribute(cookie.getName()));
         return "basePath";
     }
 
@@ -51,11 +53,11 @@ public class DivsionDirControll {
         model.addAttribute("text", content);
         model.addAttribute("fileName", filename);
         List<String> res = divsionDirService.getFileChoose("");
-        model.addAttribute("fileNameList",res);
+        model.addAttribute("fileNameList", res);
         HttpSession session = request.getSession();
         Cookie cookie = CookieUtil.getToken(request);
         if (cookie != null)
-            model.addAttribute("html", session.getAttribute(cookie.getName()));
+            model.addAttribute("htmlBase", session.getAttribute(cookie.getName()));
         return "baseContent";
     }
 

@@ -1,4 +1,4 @@
-package com.cryptomip.linerTrunk;
+package com.cryptomip.impossibleDifferent.trunk;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -13,11 +13,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
-public class LinerTrunkDirServiceImpl implements LInerTrunkDirService {
-    @Value("${liner.sol.trunk.path}")
+public class ImpossibleIbDirServiceImple implements ImpossibleIbDirService {
+    @Value("${trunkId.sol.file.path}")
     private String solFilePath;
 
-    @Value("${remove.linerTrunk.solFile}")
+    @Value("${remove.trunkId.solFile}")
     private String removeFile;
 
     @Override
@@ -27,16 +27,16 @@ public class LinerTrunkDirServiceImpl implements LInerTrunkDirService {
         String res = "<table id =\"fileDirectory\" >";
         int count = 0;
         for(String filename:filenameList){
-            if(count%7==0){
+            if(count%5==0){
                 res+="<tr style=\"height: 150px\">";
             }
-            res+= "<td style=\"height: 110px;width: 130px\" align=\"center\" valign =\"middle\"><div id=\"pic\"><a href=\""+projectName+"/getLinerTrunkFile/"+filename+"\"><img src=\"myPicture/fileImj.jpg\" id=\"filePic\"/></a>\n<div id=\"picLian\"><span>"+filename+"</span></div></div></td>";
-            if(count%7==6){
+            res+= "<td style=\"height: 110px;width: 130px\" align=\"center\" valign =\"middle\"><div id=\"pic\"><a href=\""+projectName+"/getibTrunkFile/"+filename+"\"><img src=\"myPicture/fileImj.jpg\" id=\"filePic\"/></a>\n<div id=\"picLian\"><span>"+filename+"</span></div></div></td>";
+            if(count%5==4){
                 res+="</tr>";
             }
             count++;
         }
-        if(count%7!=0){
+        if(count%5!=0){
             res+="</tr>";
         }
         res+="</table>";
@@ -45,7 +45,7 @@ public class LinerTrunkDirServiceImpl implements LInerTrunkDirService {
     @Override
     public List<String> getFileName(String path)
     {
-        Pattern pat=Pattern.compile("\\S+\\.sol");
+        Pattern pat=Pattern.compile("\\S+\\.lp");
         File file = new File(path);
         List<String> result = new ArrayList<String>();
         String [] fileName = file.list();
@@ -56,6 +56,12 @@ public class LinerTrunkDirServiceImpl implements LInerTrunkDirService {
                 result.add(s);
         }
         return result;
+    }
+
+    @Override
+    public List<String> getFileChoose(String projectName) {
+        List<String> filenameList = getFileName(solFilePath);
+        return filenameList;
     }
 
     @Override

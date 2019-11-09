@@ -1,9 +1,9 @@
-package com.cryptomip.linerTrunk;
+package com.cryptomip.impossibleDifferent.bit;
 
 import com.baseTool.pojo.Message;
-import com.cryptomip.activeMq.PromoteActConsumer;
-import com.cryptomip.Differential.trunkDif.DifferentTrunkAnalysisControll;
 import com.baseTool.util.CookieUtil;
+import com.cryptomip.Differential.trunkDif.DifferentTrunkAnalysisControll;
+import com.cryptomip.activeMq.PromoteActConsumer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,39 +15,40 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
-public class LinerTrunkControll {
+public class ImpossibleDifBitControll {
     @Autowired
-    private linerTrunkService linerTrunkService;
+    private ImpossibleDiffBitService impossibleDiffBitService;
 
-    public static boolean isCompile;
+    public static boolean isBitIdCompile;
 
     public static int finsishComplie;
 
-    @RequestMapping("linerTrunk/submit/text")
+    @RequestMapping("ibBit/submit/text")
     @ResponseBody
     public String subText(String subTxt, Model model, HttpServletRequest request) throws Exception {
         try {
-            PromoteActConsumer.analysisType = "linearTrunk";
+            PromoteActConsumer.analysisType = "BitId";
             HttpSession session = request.getSession();
             Cookie cookie = CookieUtil.getToken(request);
             DifferentTrunkAnalysisControll.finsishComplie = 0;
             String html = null;
             if (cookie != null)
-                html = session.getAttribute(cookie.getName()+"TrunkLinear") + "";
-            if (html != null && html.equals(subTxt) && !html.equals("null")&&isCompile==true) {
+                html = session.getAttribute(cookie.getName()+"BitId") + "";
+            if (html != null && html.equals(subTxt) && !html.equals("null")) {
                 return "已编译";
             }
             if ("".equals(subTxt)) return "";
-            String s = linerTrunkService.saveText(subTxt);
+            String s = impossibleDiffBitService.saveText(subTxt);
             html = subTxt;
-            session.setAttribute(cookie.getName()+"TrunkLinear", html);
-            model.addAttribute("html", subTxt);
+            if (cookie != null)
+                session.setAttribute(cookie.getName()+"BitId", html);
+            model.addAttribute("htmlBitId", subTxt);
 //            model.addAttribute("htmlCode",html);
             if ("".equals(s)) {
-                isCompile = false;
+                isBitIdCompile = false;
                 return "编译失败";
             }
-            isCompile = true;
+            isBitIdCompile = true;
             return "编译成功";
         } catch (Exception e) {
 
@@ -57,7 +58,7 @@ public class LinerTrunkControll {
         return "错误";
     }
 
-    @RequestMapping("linerTrunk/complie")
+    @RequestMapping("ibBit/complie")
     @ResponseBody
     public String compile(String subTxt, HttpServletRequest request) {
         PromoteActConsumer.ip = DifferentTrunkAnalysisControll.getIp(request);
@@ -65,21 +66,22 @@ public class LinerTrunkControll {
         Cookie cookie = CookieUtil.getToken(request);
         Object html = null;
         if (cookie != null) {
-            html = session.getAttribute(cookie.getName()+"TrunkLinear");
+            html = session.getAttribute(cookie.getName()+"BitId");
         }
         if (html == null || (!subTxt.equals(html) &&
                 !html.toString().replace("\r", "").equals(subTxt)))
-            isCompile = false;
-        if (isCompile == false) return "编译未成功";
+            isBitIdCompile = false;
+        if (isBitIdCompile == false) return "编译未成功";
         try {
-//            linerTrunkService.removeSolFile();
+//            impossibleDiffBitService.removeSolFile();
 //            finsishComplie = 1;
-            linerTrunkService.complieProject();
+            impossibleDiffBitService.complieProject();
 //            finsishComplie = 2;
 //            if("".equals(result))return "分析失败";
 //            if(cookie!=null){
 //                session.setAttribute(cookie.getName()+"com",result);
 //            }
+//            return result;
             return "编译成功";
         } catch (Exception e) {
             e.printStackTrace();
@@ -88,10 +90,10 @@ public class LinerTrunkControll {
 
     }
 
-    @RequestMapping("/getLinerTrunkCompileStatus")
+    @RequestMapping("/getIbBitComplieStatus")
     @ResponseBody
     public Message getComplieStatus() {
-        String result = linerTrunkService.getCompileContent();
+        String result = impossibleDiffBitService.getCompileContent();
         return Message.customize(finsishComplie + "", result);
     }
 }
