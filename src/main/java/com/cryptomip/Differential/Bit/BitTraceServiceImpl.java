@@ -12,17 +12,14 @@ public class BitTraceServiceImpl implements BitTraceService {
 
     @Override
     public HashMap<String, String> getTrace(List<String> fileNameList, String solFilePath) {
-        Collections.sort(fileNameList, new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                if (o1.charAt(4) < o2.charAt(4)) {
-                    return -1;
-                }
-                if (o1.charAt(4) > o2.charAt(4)) {
-                    return 1;
-                }
-                return 0;
+        Collections.sort(fileNameList, (o1, o2) -> {
+            if (o1.charAt(4) < o2.charAt(4)) {
+                return -1;
             }
+            if (o1.charAt(4) > o2.charAt(4)) {
+                return 1;
+            }
+            return 0;
         });
         if (fileNameList.size() == 0) {
             return null;

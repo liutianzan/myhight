@@ -19,6 +19,15 @@ public class LoginConfiguration implements WebMvcConfigurer {
         loginRegistry.addPathPatterns("/**/dif/Truncated");
         loginRegistry.addPathPatterns("/**/differentPath");
         loginRegistry.addPathPatterns("/**/different/differentTrace");
+        loginRegistry.addPathPatterns("/**/divsion*");
+        loginRegistry.addPathPatterns("/**/ibTrunk*");
+        loginRegistry.addPathPatterns("/**/linerTrunk*");
+        loginRegistry.addPathPatterns("/**/zcTrunk*");
+        loginRegistry.addPathPatterns("/**/bit*");
+        loginRegistry.addPathPatterns("/**/impossible*");
+        loginRegistry.addPathPatterns("/**/liner*");
+        loginRegistry.addPathPatterns("/**/base*");
+        loginRegistry.addPathPatterns("/**/zero*");
 
 
         // 排除路径
