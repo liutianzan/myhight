@@ -53,8 +53,8 @@
         });
     }
 
-    // setInterval(reloadView, 10);
-    reloadView();
+    setInterval(reloadView, 1000);
+    // reloadView();
 
 </script>
 </body>
