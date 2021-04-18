@@ -59,8 +59,10 @@ public class BitTraceServiceImpl implements BitTraceService {
             hm.put(arge[0], arge[1]);
         }
         int lunshu = s.length / subLen.size();
-        int height = 20 * 4 / lunshu;
-        int width = 15 * 32 / subLen.size();
+//        int height = 20 * 4 / lunshu;
+        int height = 20 ;
+//        int width = 15 * 32 / subLen.size();
+        int width = 15 ;
         int blank = 0;
         if(subLen.size()==32){
             blank = 32;

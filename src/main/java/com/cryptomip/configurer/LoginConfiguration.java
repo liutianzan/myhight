@@ -17,6 +17,7 @@ public class LoginConfiguration implements WebMvcConfigurer {
         loginRegistry.addPathPatterns("/**/choose");
         loginRegistry.addPathPatterns("/**/differentChoose");
         loginRegistry.addPathPatterns("/**/dif/Truncated");
+        loginRegistry.addPathPatterns("/**/dif*");
         loginRegistry.addPathPatterns("/**/differentPath");
         loginRegistry.addPathPatterns("/**/different/differentTrace");
         loginRegistry.addPathPatterns("/**/divsion*");
@@ -24,6 +25,7 @@ public class LoginConfiguration implements WebMvcConfigurer {
         loginRegistry.addPathPatterns("/**/linerTrunk*");
         loginRegistry.addPathPatterns("/**/zcTrunk*");
         loginRegistry.addPathPatterns("/**/bit*");
+        loginRegistry.addPathPatterns("/**/bit*/**");
         loginRegistry.addPathPatterns("/**/impossible*");
         loginRegistry.addPathPatterns("/**/liner*");
         loginRegistry.addPathPatterns("/**/base*");

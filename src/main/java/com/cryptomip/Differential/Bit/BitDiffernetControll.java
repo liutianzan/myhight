@@ -23,6 +23,9 @@ public class BitDiffernetControll {
 
     public static int finsishComplie = 0;
 
+    /**
+     * 编译
+     * */
     @RequestMapping("bit/submit/text")
     @ResponseBody
     public String subText(String subTxt, Model model, HttpServletRequest request) throws Exception {
@@ -58,6 +61,9 @@ public class BitDiffernetControll {
         return "错误";
     }
 
+    /**
+     * 分析
+     * */
     @RequestMapping("bit/complie")
     @ResponseBody
     public String compile(String subTxt, HttpServletRequest request) {
