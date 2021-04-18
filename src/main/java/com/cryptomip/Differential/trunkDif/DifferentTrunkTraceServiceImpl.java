@@ -66,8 +66,10 @@ public class DifferentTrunkTraceServiceImpl implements DifferentTrunkTraceServic
             hm.put(arge[0],arge[1]);
         }
         int lunshu = s.length/subLen.size();
-        int height = 20*4/lunshu;
-        int width = 15*32/subLen.size();
+//        int height = 20*4/lunshu;
+//        int width = 15*32/subLen.size();
+        int height = 20;
+        int width = 15;
         String htmlTable = "<table border=\"1\" id=\"htmlTrace\" frame=\"void\">";
         htmlTable+="<tr height=\""+height+"\">";
         htmlTable+="<td width=\""+width+"\" style=\"border-style:none;\"> </td>";
