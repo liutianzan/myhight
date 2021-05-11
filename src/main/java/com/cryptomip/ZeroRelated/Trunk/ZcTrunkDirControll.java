@@ -38,13 +38,11 @@ public class ZcTrunkDirControll {
     @RequestMapping("zcTrunkPath")
     public String differentPath(String subTxt, String compileRes, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        Cookie cookie = CookieUtil.getToken(request);
         String userName = CookieUtil.getUserName(session);
-        if (subTxt != null && cookie != null)
-            session.setAttribute(userName+"TrunkZero", subTxt);
-            session.setAttribute(userName + "ResDifZC", compileRes);
-        if (cookie != null)
-            model.addAttribute("html", session.getAttribute(userName+"TrunkZero"));
+        if (subTxt != null)
+            session.setAttribute(userName + "TrunkZero", subTxt);
+        session.setAttribute(userName + "ResDifZC", compileRes);
+        model.addAttribute("html", session.getAttribute(userName + "TrunkZero"));
 
         return "zcTrunkDir";
     }
@@ -53,14 +51,12 @@ public class ZcTrunkDirControll {
     public String getContent(@PathVariable("fileName") String filename, ModelMap model, HttpServletRequest request) throws Exception {
         HttpSession session = request.getSession();
         String userName = CookieUtil.getUserName(session);
-        Cookie cookie = CookieUtil.getToken(request);
         String content = zcTrunkDirService.getContent(filename, userName);
         model.addAttribute("text", content);
         model.addAttribute("fileName", filename);
         List<String> res = zcTrunkDirService.getFileChoose("", userName);
         model.addAttribute("fileNameList", res);
-        if (cookie != null)
-            model.addAttribute("html", session.getAttribute(userName+"TrunkZero"));
+        model.addAttribute("html", session.getAttribute(userName + "TrunkZero"));
         return "zcTrunkContent";
     }
 

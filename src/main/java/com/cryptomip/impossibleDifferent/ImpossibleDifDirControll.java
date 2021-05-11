@@ -38,12 +38,10 @@ public class ImpossibleDifDirControll {
     @RequestMapping("ibTrunkPath")
     public String differentPath(String subTxt, String compileRes, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        Cookie cookie = CookieUtil.getToken(request);
         String userName = CookieUtil.getUserName(session);
-        if (subTxt != null && cookie != null)
+        if (subTxt != null )
             session.setAttribute(userName+"DifId", subTxt);
         session.setAttribute(userName + "ResDifId", compileRes);
-        if (cookie != null)
             model.addAttribute("htmlId", session.getAttribute(userName+"DifId"));
         return "impossiblePath";
     }
@@ -52,13 +50,11 @@ public class ImpossibleDifDirControll {
     public String getContent(@PathVariable("fileName") String filename, ModelMap model, HttpServletRequest request) throws Exception {
         HttpSession session = request.getSession();
         String userName = CookieUtil.getUserName(session);
-        Cookie cookie = CookieUtil.getToken(request);
         String content = impossibleIbDirService.getContent(filename, userName);
         model.addAttribute("text", content);
         model.addAttribute("fileName", filename);
         List<String> res = impossibleIbDirService.getFileChoose("", userName);
         model.addAttribute("fileNameList", res);
-        if (cookie != null)
             model.addAttribute("htmlId", session.getAttribute(userName+"DifId"));
         return "impossibleContent";
     }

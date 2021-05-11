@@ -27,12 +27,9 @@ public class DifferentTrunkAnalysisControll {
     public String analysis(String subTxt, HttpServletRequest request) {
         PromoteActConsumer.ip = getIp(request);
         HttpSession session = request.getSession();
-        Cookie cookie = CookieUtil.getToken(request);
         String userName = CookieUtil.getUserName(session);
         Object html = null;
-        if(cookie!=null){
             html = session.getAttribute(userName+"trunkDiff");
-        }
         if(html==null||(!subTxt.equals(html)&&
                 !html.toString().replace("\r","").equals(subTxt)))
             DifferentTrunkCompileController.isCompile = false;

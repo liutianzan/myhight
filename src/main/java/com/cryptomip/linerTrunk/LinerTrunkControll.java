@@ -29,11 +29,9 @@ public class LinerTrunkControll {
         try {
             PromoteActConsumer.analysisType = "linearTrunk";
             HttpSession session = request.getSession();
-            Cookie cookie = CookieUtil.getToken(request);
             String userName = CookieUtil.getUserName(session);
             DifferentTrunkAnalysisControll.finsishComplie = 0;
             String html = null;
-            if (cookie != null)
                 html = session.getAttribute(userName+"TrunkLinear") + "";
             if (html != null && html.equals(subTxt) && !html.equals("null")&&isCompile==true) {
                 return "已编译";
@@ -63,12 +61,9 @@ public class LinerTrunkControll {
     public String compile(String subTxt, HttpServletRequest request) {
         PromoteActConsumer.ip = DifferentTrunkAnalysisControll.getIp(request);
         HttpSession session = request.getSession();
-        Cookie cookie = CookieUtil.getToken(request);
         String userName = CookieUtil.getUserName(session);
         Object html = null;
-        if (cookie != null) {
             html = session.getAttribute(userName+"TrunkLinear");
-        }
         if (html == null || (!subTxt.equals(html) &&
                 !html.toString().replace("\r", "").equals(subTxt)))
             isCompile = false;

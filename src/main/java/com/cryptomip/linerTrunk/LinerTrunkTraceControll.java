@@ -31,12 +31,11 @@ public class LinerTrunkTraceControll {
     @RequestMapping("linerTrunk/trace")
     public String differentTrace(String subTxt, String compileRes, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        Cookie cookie = CookieUtil.getToken(request);
         String userName = CookieUtil.getUserName(session);
-        if (subTxt != null && cookie != null)
+        if (subTxt != null )
             session.setAttribute(userName+"TrunkLinear", subTxt);
         session.setAttribute(userName+"ResTrunkLinear",compileRes);
-        if (cookie != null && session.getAttribute(userName+"TrunkLinear") != null)
+        if ( session.getAttribute(userName+"TrunkLinear") != null)
             model.addAttribute("html", session.getAttribute(userName+"TrunkLinear"));
         return "linerTrunkTrace";
     }

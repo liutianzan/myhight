@@ -25,28 +25,25 @@ public class BitDiffernetControll {
 
     /**
      * 编译
-     * */
+     */
     @RequestMapping("bit/submit/text")
     @ResponseBody
     public String subText(String subTxt, Model model, HttpServletRequest request) throws Exception {
         try {
             PromoteActConsumer.analysisType = "bitDif";
             HttpSession session = request.getSession();
-            Cookie cookie = CookieUtil.getToken(request);
             String userName = CookieUtil.getUserName(session);
             DifferentTrunkAnalysisControll.finsishComplie = 0;
             String html = null;
-            if (cookie != null)
-                html = session.getAttribute(userName+"DifBIt")+"";
-            if(html!=null&&html.equals(subTxt)&&!html.equals("null")){
+            html = session.getAttribute(userName + "DifBIt") + "";
+            if (html != null && html.equals(subTxt) && !html.equals("null")) {
                 return "已编译";
             }
-            if("".equals(subTxt))return "";
-            String s = bitDifferentService.saveText(subTxt,userName);
+            if ("".equals(subTxt)) return "";
+            String s = bitDifferentService.saveText(subTxt, userName);
             html = subTxt;
-            if(cookie!=null)
-            session.setAttribute(userName+"DifBIt",html);
-            model.addAttribute("html",subTxt);
+            session.setAttribute(userName + "DifBIt", html);
+            model.addAttribute("html", subTxt);
 //            model.addAttribute("htmlCode",html);
 //            if ("".equals(s)) {
 //                isCompile = false;
@@ -64,22 +61,19 @@ public class BitDiffernetControll {
 
     /**
      * 分析
-     * */
+     */
     @RequestMapping("bit/complie")
     @ResponseBody
     public String compile(String subTxt, HttpServletRequest request) {
         PromoteActConsumer.ip = DifferentTrunkAnalysisControll.getIp(request);
         HttpSession session = request.getSession();
-        Cookie cookie = CookieUtil.getToken(request);
         String userName = CookieUtil.getUserName(session);
         Object html = null;
-        if(cookie!=null){
-            html = session.getAttribute(userName+"DifBIt");
-        }
-        if(html==null||(!subTxt.equals(html)&&
-                !html.toString().replace("\r","").equals(subTxt)))
+        html = session.getAttribute(userName + "DifBIt");
+        if (html == null || (!subTxt.equals(html) &&
+                !html.toString().replace("\r", "").equals(subTxt)))
             isCompile = false;
-        if(isCompile==false)return "编译未成功";
+        if (isCompile == false) return "编译未成功";
         try {
 //            bitDifferentService.removeSolFile();
 //            finsishComplie = 1;
@@ -96,10 +90,11 @@ public class BitDiffernetControll {
         }
 
     }
+
     @RequestMapping("/getBiteDifferentCompileStatus")
     @ResponseBody
-    public Message getComplieStatus(){
+    public Message getComplieStatus() {
         String result = bitDifferentService.getCompileContent();
-        return Message.customize(finsishComplie+"",result);
+        return Message.customize(finsishComplie + "", result);
     }
 }

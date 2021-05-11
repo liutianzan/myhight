@@ -24,27 +24,22 @@ public class LinkIndex {
     @RequestMapping("middle")
     public String middle(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        Cookie cookie = CookieUtil.getToken(request);
         String userName = CookieUtil.getUserName(session);
-        if (cookie != null)
-            model.addAttribute("html", session.getAttribute(userName));
+        model.addAttribute("html", session.getAttribute(userName));
         return "middle";
     }
 
     @RequestMapping("choose")
-    public String choose(String subTxt, String compileRes,String typeHtml,String typeRes,Model model, HttpServletResponse response, HttpServletRequest request) {
+    public String choose(String subTxt, String compileRes, String typeHtml, String typeRes, Model model, HttpServletResponse response, HttpServletRequest request) {
 
         HttpSession session = request.getSession();
-        Cookie cookie = CookieUtil.getToken(request);
         String userName = CookieUtil.getUserName(session);
-        if (subTxt != null && cookie != null){
-            session.setAttribute(userName+typeHtml, subTxt);
+        if (subTxt != null) {
+            session.setAttribute(userName + typeHtml, subTxt);
             session.setAttribute(userName + typeRes, compileRes);
         }
 
         String token = UUID.randomUUID().toString().replace("-", "");
-        cookie.setMaxAge(10000000); //存活期为100000秒
-        response.addCookie(cookie);
 
         return "choose";
     }
@@ -58,74 +53,54 @@ public class LinkIndex {
     public String different(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         String userName = CookieUtil.getUserName(session);
-        Cookie[] cookies = request.getCookies();
-        Cookie cookie = null;
-        for (int i = 0; i < cookies.length; i++) {
-            if (cookies[i].getName().equals("token")) {
-                cookie = cookies[i];
-            }
-        }
-        if (cookie != null) {
 
-            model.addAttribute("html", session.getAttribute(userName + "trunkDiff"));
-            model.addAttribute("compileRes", session.getAttribute(userName + "Res"));
-        }
+
+        model.addAttribute("html", session.getAttribute(userName + "trunkDiff"));
+        model.addAttribute("compileRes", session.getAttribute(userName + "Res"));
         return "different";
     }
 
     @RequestMapping("dif/bit")
     public String bitDifferrnt(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        Cookie cookie = CookieUtil.getToken(request);
         String userName = CookieUtil.getUserName(session);
-        if (cookie != null) {
 
-            model.addAttribute("html", session.getAttribute(userName + "DifBIt"));
-            model.addAttribute("compileResDifBIt", session.getAttribute(userName + "ResDifBIt"));
-        }
+        model.addAttribute("html", session.getAttribute(userName + "DifBIt"));
+        model.addAttribute("compileResDifBIt", session.getAttribute(userName + "ResDifBIt"));
         return "bitDifferent";
     }
 
     @RequestMapping("impossible")
     public String impossible(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        Cookie cookie = CookieUtil.getToken(request);
         String userName = CookieUtil.getUserName(session);
-        if (cookie != null)
-            model.addAttribute("htmlId", session.getAttribute(userName+"DifId"));
+        model.addAttribute("htmlId", session.getAttribute(userName + "DifId"));
         return "impossible";
     }
 
     @RequestMapping("liner")
     public String liner(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        Cookie cookie = CookieUtil.getToken(request);
         String userName = CookieUtil.getUserName(session);
-        if (cookie != null){
 
-            model.addAttribute("html", session.getAttribute(userName+"TrunkLinear"));
-            model.addAttribute("compileResTrunkLinear", session.getAttribute(userName + "ResTrunkLinear"));
-        }
+        model.addAttribute("html", session.getAttribute(userName + "TrunkLinear"));
+        model.addAttribute("compileResTrunkLinear", session.getAttribute(userName + "ResTrunkLinear"));
         return "liner";
     }
 
     @RequestMapping("base")
     public String base(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        Cookie cookie = CookieUtil.getToken(request);
         String userName = CookieUtil.getUserName(session);
-        if (cookie != null)
-            model.addAttribute("html", session.getAttribute(userName+"divsion"));
+        model.addAttribute("html", session.getAttribute(userName + "divsion"));
         return "base";
     }
 
     @RequestMapping("zero")
     public String zero(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        Cookie cookie = CookieUtil.getToken(request);
         String userName = CookieUtil.getUserName(session);
-        if (cookie != null)
-            model.addAttribute("html", session.getAttribute(userName+"TrunkZero"));
+        model.addAttribute("html", session.getAttribute(userName + "TrunkZero"));
         return "zero";
     }
 

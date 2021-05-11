@@ -19,7 +19,6 @@ public class DifferentTrunkCompileController {
     private DifferentTrunkCompileService testService;
 
 
-
     public static boolean isCompile = false;
 
 
@@ -29,20 +28,17 @@ public class DifferentTrunkCompileController {
         try {
             PromoteActConsumer.analysisType = "trunkDif";
             HttpSession session = request.getSession();
-            Cookie cookie = CookieUtil.getToken(request);
             String userName = CookieUtil.getUserName(session);
             DifferentTrunkAnalysisControll.finsishComplie = 0;
             String html = null;
-            if (cookie != null)
-                html = session.getAttribute(userName + "trunkDiff") + "";
-            if (html != null && html.equals(subTxt) && !html.equals("null")&&isCompile==true) {
+            html = session.getAttribute(userName + "trunkDiff") + "";
+            if (html != null && html.equals(subTxt) && !html.equals("null") && isCompile == true) {
                 return "已编译";
             }
             if ("".equals(subTxt)) return "";
-            String s = testService.saveText(subTxt,userName);
+            String s = testService.saveText(subTxt, userName);
             html = subTxt;
-            if (cookie != null)
-                session.setAttribute(userName + "trunkDiff", html);
+            session.setAttribute(userName + "trunkDiff", html);
             model.addAttribute("html", subTxt);
 //            model.addAttribute("htmlCode",html);
 //            if ("".equals(s)) {

@@ -31,15 +31,14 @@ public class DifferentTrunkTraceControll {
     @RequestMapping("different/differentTrace")
     public String differentTrace(String subTxt, String compileRes, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        Cookie cookie = CookieUtil.getToken(request);
         String userName = CookieUtil.getUserName(session);
-        if (subTxt != null && cookie != null){
-            session.setAttribute(userName+"trunkDiff", subTxt);
-            session.setAttribute(userName+"Res",compileRes);
+        if (subTxt != null) {
+            session.setAttribute(userName + "trunkDiff", subTxt);
+            session.setAttribute(userName + "Res", compileRes);
         }
 
-        if (cookie != null && session.getAttribute(userName+"trunkDiff") != null)
-            model.addAttribute("html", session.getAttribute(userName+"trunkDiff"));
+        if (session.getAttribute(userName + "trunkDiff") != null)
+            model.addAttribute("html", session.getAttribute(userName + "trunkDiff"));
         return "differentialTrace";
     }
 
@@ -48,7 +47,7 @@ public class DifferentTrunkTraceControll {
     public Message getTrace(HttpServletRequest request) {
         HttpSession session = request.getSession();
         String userName = CookieUtil.getUserName(session);
-        List<String> fileList = dirService.getFileName(solFilePath+userName+"/");
+        List<String> fileList = dirService.getFileName(solFilePath + userName + "/");
         if (fileList.size() == 0 && traceInt == 0) {
             traceInt = 1;
             return Message.fail("405");
@@ -57,7 +56,7 @@ public class DifferentTrunkTraceControll {
             return Message.fail("410");
         }
 
-        HashMap<String, String> trace = traceService.getTrace(fileList,solFilePath+userName+"/");
+        HashMap<String, String> trace = traceService.getTrace(fileList, solFilePath + userName + "/");
         if (trace == null) {
             return Message.fail("410");
         }

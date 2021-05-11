@@ -32,12 +32,11 @@ public class BitTraceControll {
     @RequestMapping("bitDiff/differentTrace")
     public String differentTrace(String subTxt, String compileRes, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        Cookie cookie = CookieUtil.getToken(request);
         String userName = CookieUtil.getUserName(session);
-        if (subTxt != null && cookie != null)
+        if (subTxt != null )
             session.setAttribute(userName+"DifBIt", subTxt);
         session.setAttribute(userName + "ResDifBIt", compileRes);
-        if (cookie != null && session.getAttribute(userName+"DifBIt") != null)
+        if ( session.getAttribute(userName+"DifBIt") != null)
             model.addAttribute("html", session.getAttribute(userName+"DifBIt"));
         return "bitDifferentialTrace";
     }

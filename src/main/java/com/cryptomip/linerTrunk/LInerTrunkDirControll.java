@@ -31,22 +31,20 @@ public class LInerTrunkDirControll {
         HttpSession session = request.getSession();
         String userName = CookieUtil.getUserName(session);
         String projectName = request.getContextPath();
-        String res = bitDirService.getDir(projectName,userName);
+        String res = bitDirService.getDir(projectName, userName);
         return res;
     }
 
     @RequestMapping("linerTrunkPath")
-    public String differentPath(String subTxt, String compileRes,Model model, HttpServletRequest request) {
+    public String differentPath(String subTxt, String compileRes, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        Cookie cookie = CookieUtil.getToken(request);
         String userName = CookieUtil.getUserName(session);
-        if(subTxt!=null&&cookie!=null){
+        if (subTxt != null) {
 
-            session.setAttribute(userName+"TrunkLinear", subTxt);
-            session.setAttribute(userName+"ResTrunkLinear",compileRes);
+            session.setAttribute(userName + "TrunkLinear", subTxt);
+            session.setAttribute(userName + "ResTrunkLinear", compileRes);
         }
-        if (cookie != null)
-            model.addAttribute("html", session.getAttribute(userName+"TrunkLinear"));
+        model.addAttribute("html", session.getAttribute(userName + "TrunkLinear"));
         return "linerTrunkPath";
     }
 
@@ -54,12 +52,10 @@ public class LInerTrunkDirControll {
     public String getContent(@PathVariable("fileName") String filename, ModelMap model, HttpServletRequest request) throws Exception {
         HttpSession session = request.getSession();
         String userName = CookieUtil.getUserName(session);
-        Cookie cookie = CookieUtil.getToken(request);
-        String content = bitDirService.getContent(filename,userName);
+        String content = bitDirService.getContent(filename, userName);
         model.addAttribute("text", content);
         model.addAttribute("fileName", filename);
-        if (cookie != null)
-            model.addAttribute("html", session.getAttribute(userName+"TrunkLinear"));
+        model.addAttribute("html", session.getAttribute(userName + "TrunkLinear"));
         return "linerTrunkContent";
     }
 

@@ -20,7 +20,7 @@ public class LoginControll {
             return "login";
         }
         request.getSession().setAttribute("loginName",username);
-        return "redirect:/choose";
+        return "redirect:"+request.getContextPath()+"/choose";
     }
     @RequestMapping("loginout")
     public String loginout(HttpServletRequest request){

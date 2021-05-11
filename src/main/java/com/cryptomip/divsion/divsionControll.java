@@ -27,11 +27,9 @@ public class divsionControll {
     public String subText(String subTxt, Model model, HttpServletRequest request) throws Exception {
         try {
             HttpSession session = request.getSession();
-            Cookie cookie = CookieUtil.getToken(request);
             String userName = CookieUtil.getUserName(session);
             DifferentTrunkAnalysisControll.finsishComplie = 0;
             String html = null;
-            if (cookie != null)
                 html = session.getAttribute(userName+"divsion")+"";
             if(html!=null&&html.equals(subTxt)&&!html.equals("null")){
                 return "已编译";
@@ -60,12 +58,9 @@ public class divsionControll {
     @ResponseBody
     public String compile(String subTxt, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        Cookie cookie = CookieUtil.getToken(request);
         String userName = CookieUtil.getUserName(session);
         Object html = null;
-        if(cookie!=null){
             html = session.getAttribute(userName+"divsion");
-        }
         if(html==null||(!subTxt.equals(html)&&
                 !html.toString().replace("\r","").equals(subTxt)))
             isCompile = false;

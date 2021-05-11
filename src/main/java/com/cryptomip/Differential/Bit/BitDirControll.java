@@ -38,14 +38,12 @@ public class BitDirControll {
     @RequestMapping("bitDifferentPath")
     public String differentPath(String subTxt, String compileRes,Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        Cookie cookie = CookieUtil.getToken(request);
         String userName = CookieUtil.getUserName(session);
-        if(subTxt!=null&&cookie!=null){
+        if(subTxt!=null){
 
             session.setAttribute(userName+"DifBIt", subTxt);
             session.setAttribute(userName+"ResDifBIt",compileRes);
         }
-        if (cookie != null)
             model.addAttribute("html", session.getAttribute(userName+"DifBIt"));
         return "BitDifferentDir";
     }
@@ -57,8 +55,6 @@ public class BitDirControll {
         String content = bitDirService.getContent(filename,userName);
         model.addAttribute("text", content);
         model.addAttribute("fileName", filename);
-        Cookie cookie = CookieUtil.getToken(request);
-        if (cookie != null)
             model.addAttribute("html", session.getAttribute(userName+"DifBIt"));
         return "dirBitContent";
     }
