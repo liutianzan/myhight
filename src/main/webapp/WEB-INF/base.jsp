@@ -112,6 +112,7 @@
     amq.addListener(1, destination, myHandler.rcvMessage);
 </script>
 
+
 <div id="tex">
     <%--<textarea style="width:100%;height:100%;resize:none" id="buildout" rows="8" data-role="none" readonly="readonly"--%>
     <%--class="area">(compiler output will display here)</textarea>--%>
