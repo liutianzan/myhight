@@ -35,20 +35,20 @@ public class BitDiffernetControll {
             String userName = CookieUtil.getUserName(session);
             DifferentTrunkAnalysisControll.finsishComplie = 0;
             String html = null;
-            html = session.getAttribute(userName + "DifBIt") + "";
-            if (html != null && html.equals(subTxt) && !html.equals("null")) {
-                return "已编译";
-            }
+//            html = session.getAttribute(userName + "DifBIt") + "";
+//            if (html != null && html.equals(subTxt) && !html.equals("null")) {
+//                return "已编译";
+//            }
             if ("".equals(subTxt)) return "";
             String s = bitDifferentService.saveText(subTxt, userName);
             html = subTxt;
             session.setAttribute(userName + "DifBIt", html);
             model.addAttribute("html", subTxt);
 //            model.addAttribute("htmlCode",html);
-//            if ("".equals(s)) {
-//                isCompile = false;
-//                return "编译失败";
-//            }
+            if ("".equals(s)) {
+                isCompile = false;
+                return "编译失败";
+            }
             isCompile = true;
             return "编译成功";
         } catch (Exception e) {

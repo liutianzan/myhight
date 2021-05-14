@@ -70,6 +70,7 @@ public class BitDiffernetServiceImpl implements BitDifferentService {
     }
     @Override
     public String savePython(String userName) throws InterruptedException, IOException {
+        deletePython(userName);
         String pathName = runScriptPath;
 
         Process process = null;
